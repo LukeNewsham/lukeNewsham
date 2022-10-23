@@ -1,34 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-    <link rel="stylesheet" type="text/css" href="index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
-     integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
-     crossorigin=""/>
-     <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
-     integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
-     crossorigin=""></script>
-    <!-- <link rel="stylesheet" href="./leaflet/leaflet.css" />
-    <script src="./leaflet/leaflet.js"></script>  -->
-    
-    <title>Project 1</title>
-  </head>
-  <body>
-        <div id="'container">
-            <div id="sidePanel"> 
-                <h1> GeoSearch </h1>
-            </div>
-            <div id="map"></div>
-        </div>
-        
-        
 
-    <script src='./script.js'> </script>
-    
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="index.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+    integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+    integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+  <!-- <link rel="stylesheet" href="./leaflet/leaflet.css" />
+    <script src="./leaflet/leaflet.js"></script>  -->
+
+  <title>Project 1</title>
+</head>
+
+<body>
+  <h1 id="title"> GeoSearch </h1>
+  <div id="'container">
+    <div id="sidePanel">
+      <div class="sidePanelContents">
+        <div class="container">
+          <h1> API GeoName Services Task </h1>
+
+          <p>Get Ocean Data</p>
+          <p>
+            Latitude: <input type="text" id="selectLat" placeholder='e.g. 40'><br />
+            Longitude: <input type="text" id="selectLng" placeholder='e.g. -42'>
+          </p>
+          <p>
+            <button id="apiOneSubmit">
+              Submit
+            </button>
+          </p>
+          <p class='results'>
+            Ocean: <span id="apiOneResultName"> </span>
+          </p>
+
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+    <div id="map"></div>
+  </div>
+
+
+  <script type="application/javascript" src="js/jquery-2.2.3.min.js"></script>
+  <script src='js/cities.js'> </script>
+  <script src='js/script.js'> </script>
+
+</body>
+
 </html>
