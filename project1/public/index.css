@@ -12,7 +12,56 @@ h1 {
 
 /* Classes */
 
+
+.infoIcon,
+.astroIcon {
+    background-color: white;
+    padding: 0.3rem 0.5rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    font-weight: bolder;
+    color: black;
+    box-shadow: 0.2rem 0.2rem 1rem gray;
+    width: auto !important;
+    height: auto !important;
+}
+
+.infoIcon:hover {
+    background-color: blue;
+}
+
+.option {
+    font-size: 1rem;
+    padding: 0.5rem;
+    color: black;
+}
+
+.markerButton {
+    cursor: pointer;
+    width: 40%;
+    padding: 0.8rem;
+    margin: 0.5rem;
+    background-color: rgb(235, 235, 235);
+    border: 0;
+    border-radius: 0.3rem;
+}
+
+.markerButton:hover {
+    background-color: lightblue;
+
+}
+
 /* Ids */
+
+#loading {
+    position: absolute;
+    text-align: center;
+    padding: 1rem;
+    left: 0;
+    right: 0;
+    bottom: 10rem;
+    display: none;
+}
 
 #title {
     position: absolute;
@@ -27,7 +76,7 @@ h1 {
     height: 100vh;
     width: 100vw;
     text-align: center;
-} 
+}
 
 #map {
     position: absolute;
@@ -37,22 +86,33 @@ h1 {
     z-index: -1;
 }
 
-#sidePanel {
+.center {
     position: absolute;
-    top: 10vh;
-    left: 5vw;
-    width: 20rem;
-    height: 80vh;
-    background-color: white;
-    opacity: 50%;
-    border-radius: 1rem;
-    text-align: center;
+    display: flex;
+    bottom: 5rem;
+    left: 0;
+    right: 0;
+    justify-content: left;
+
+
 }
 
-#sidePanel:hover {
+#optionsPanel {
+    position: absolute;
+    display: Flex;
+    flex-wrap: wrap;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    width: 15rem;
+    padding: 0.4rem;
+    background-color: white;
+    box-shadow: 0 0 1rem gray;
+    border-radius: 0.7rem;
+    justify-content: center;
+}
+
+#optionsPanel:hover {
     opacity: 100%;
-    box-shadow: 0 0 1rem  gray;
+    box-shadow: 0 0 1rem gray;
     transition: 0.5s ease-in-out;
 }
-
-

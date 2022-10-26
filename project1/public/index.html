@@ -9,42 +9,39 @@
     integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
     integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
-  <!-- <link rel="stylesheet" href="./leaflet/leaflet.css" />
-    <script src="./leaflet/leaflet.js"></script>  -->
+  <link rel="stylesheet" href="./leaflet/leaflet.css" />
+  <script src="./leaflet/leaflet.js"></script>
 
   <title>Project 1</title>
 </head>
 
 <body>
-  <h1 id="title"> GeoSearch </h1>
-  <div id="'container">
-    <div id="sidePanel">
-      <div class="sidePanelContents">
-        <div class="container">
-          <h1> API GeoName Services Task </h1>
-
-          <p>Get Ocean Data</p>
-          <p>
-            Latitude: <input type="text" id="selectLat" placeholder='e.g. 40'><br />
-            Longitude: <input type="text" id="selectLng" placeholder='e.g. -42'>
-          </p>
-          <p>
-            <button id="apiOneSubmit">
-              Submit
-            </button>
-          </p>
-          <p class='results'>
-            Ocean: <span id="apiOneResultName"> </span>
-          </p>
-
-
-
-
-
-
-        </div>
-      </div>
+  <h1 id="loading"> Loading... </h1>
+  <h1 id="title">  </h1>
+  <div>
+    <div id="optionsPanel">
+      <button class='markerButton' onclick='changeMarkerOptions(cityAstroMarker, `sunset`)'>
+        Sunset
+      </button> <br />
+      <button class='markerButton' onclick='changeMarkerOptions(cityAstroMarker, `sunrise`)'>
+        Sunset
+      </button>  <br />
+      <button class='markerButton' onclick='changeMarkerOptions(cityAstroMarker, `day_length`)'>
+        Day Length
+      </button>  <br />
+      <button class='markerButton' onclick='changeMarkerOptions(cityAstroMarker, `sun_altitude`)'>
+        Sun Altitude
+      </button>  <br />
+      <button class='markerButton' onclick='changeMarkerOptions(cityAstroMarker, `moonrise`)'>
+        Moon Rise
+      </button>  <br />
+      <button class='markerButton' onclick='changeMarkerOptions(cityAstroMarker, `moonset`)'>
+        Moon Set
+      </button>
     </div>
+    <div class="collapsedOptionsIcon"> </div>
+  </div>
+  <div id="'container">    
     <div id="map"></div>
   </div>
 
