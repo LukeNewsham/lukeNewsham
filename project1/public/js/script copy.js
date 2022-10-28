@@ -56,9 +56,6 @@ let issIcon = L.icon({
 });
 
 const markerIss = L.marker([0, 0], { icon: issIcon }).addTo(map);
-const userLocation = L.marker([0, 0]).addTo(map);
-
-
 
 
 let overlayMaps = {
@@ -67,7 +64,7 @@ let overlayMaps = {
 };
 
 
-let layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);
+let layerControl = L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
 
 //Json Layer Group
 let geoJsonLayerGroup = L.geoJson().addTo(map);
@@ -89,11 +86,7 @@ function getBorders(countries) {
     url: "js/countryBorders.geo.json",
     success: function (borders) {
 
-      // borders.eachLayer(layer =>
-      //   console.log(layer))
-
       $(borders.features).each(function (key, border) {
-
 
 
         //if there is a border for the current country, remove it
@@ -108,13 +101,9 @@ function getBorders(countries) {
 
         //if there is a list of countries, add those country borders
         if (countries) {
-          allBordersToggle = true;
-
 
           countries.forEach(country => {
             if (country === border.properties.name) {
-              // console.log(border.geometry)
-              // map.fitBounds(border.geometry.getBounds());
               myFeaturesMap[key] = newBorder;
               geoJsonLayerGroup.addLayer(newBorder);
             }
@@ -122,12 +111,6 @@ function getBorders(countries) {
         } else {
           myFeaturesMap[key] = newBorder;
           geoJsonLayerGroup.addLayer(newBorder);
-          // geoJsonLayerGroup.eachLayer(layer => {
-          //   if (layer.contains([GLOBAL_positionLat, GLOBAL_positionLng])) {
-          //     console.log(layer)
-          //   }
-          // }
-          // )
         }
       });
     }
@@ -140,7 +123,7 @@ function getBorders(countries) {
 
 
 
-function loadMapMarkers() {
+function loadMapMarkers() {     
 
   if (cityMarkerOption && !countryChosen) {
     console.log('Loading map markers')
@@ -158,14 +141,15 @@ function loadMapMarkers() {
       let west = map.getBounds()._southWest.lng
       //cycle through list of cities within view boundary to add marker to map
       for (city of cities) {
-        console.log(city.capital)
         if (city.lat < north && city.lat > south && city.lng < east && city.lng > west && map.getZoom() > 7 && city.capital !== 'minor') {
           marker = cityMarkerOption(city, dataOption)
           allCityMarkers.addLayer(marker)
+          reload = true;
         };
-        if (city.lat < north && city.lat > south && city.lng < east && city.lng > west && map.getZoom() <= 7 && city.capital === 'primary') {
+        if (map.getZoom() <= 7 && city.capital === 'primary' && reload === true) {
           marker = cityMarkerOption(city, dataOption)
           capitalCityMarkers.addLayer(marker)
+          reload = false;
         }
       }
       document.getElementById("loading").style.display = "none";
@@ -177,54 +161,26 @@ function loadMapMarkers() {
 
 //Function to load country map markers
 function loadCountryMarkers() {
-  if (cityMarkerOption && countryChosen) {
-    document.getElementById("loading").style.display = "block"
-    function run() {
-
-      console.log('Loading country markers')
-      allCityMarkers.clearLayers()
-      capitalCityMarkers.clearLayers()
-
-      citiesInCountry = cities.filter(city => city.country === countryChosen && city.capital !== 'minor')
-      console.log(citiesInCountry)
-
-      for (city of citiesInCountry) {
-        marker = cityMarkerOption(city, dataOption)
-        allCityMarkers.addLayer(marker)
-      }
-
-      document.getElementById("loading").style.display = "none";
-    }
-    setTimeout(run, 1000)
-  }
-}
-
-function findLocation() {
   document.getElementById("loading").style.display = "block"
   function run() {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(position => {
-        GLOBAL_positionLat = position.coords.latitude
-        GLOBAL_positionLng = position.coords.longitude
-        console.log(GLOBAL_positionLng, GLOBAL_positionLat)
-        map.setView([GLOBAL_positionLat, GLOBAL_positionLng], 5)
-        userLocation.setLatLng([GLOBAL_positionLat, GLOBAL_positionLng])
-        getBorders(['United Kingdom'])
-        document.getElementById("loading").style.display = "none";
-      })
-    } else {
-      console.log('Geolocation not available')
-      document.getElementById("loading").style.display = "none";
+    
+    console.log('Loading country markers')
+    allCityMarkers.clearLayers()
+    capitalCityMarkers.clearLayers()
+
+    citiesInCountry = cities.filter(city => city.country === countryChosen && city.capital !== 'minor')
+    console.log(citiesInCountry)
+
+    for (city of citiesInCountry) {
+      marker = cityMarkerOption(city, dataOption)
+      allCityMarkers.addLayer(marker)
     }
+
+    document.getElementById("loading").style.display = "none";
   }
-
   setTimeout(run, 1000)
-
-
-
-
-
 }
+
 
 
 
@@ -235,7 +191,20 @@ function findLocation() {
 
 // --------------------- LEAFLET DURING USE ---------------------
 
-findLocation()
+
+
+
+
+
+//First load SET UP -----------
+
+
+//GLOBAL VARIABLES 
+let cityMarkerOption = false;
+let dataOption = 'city';
+let reload = true;
+let allBordersToggle = true;
+
 
 loadMapMarkers()
 

@@ -20,23 +20,40 @@
   <h1 id="title">  </h1>
   <div>
     <div id="optionsPanel">
-      <button class='markerButton' onclick='changeMarkerOptions(cityAstroMarker, `sunset`)'>
+      <button class='markerButton' onclick='changeCityMarkers(astrologyData, `sunset`)'>
         Sunset
       </button> <br />
-      <button class='markerButton' onclick='changeMarkerOptions(cityAstroMarker, `sunrise`)'>
+      <button class='markerButton' onclick='changeCityMarkers(astrologyData, `sunrise`)'>
         Sunset
       </button>  <br />
-      <button class='markerButton' onclick='changeMarkerOptions(cityAstroMarker, `day_length`)'>
+      <button class='markerButton' onclick='changeCityMarkers(astrologyData, `day_length`)'>
         Day Length
       </button>  <br />
-      <button class='markerButton' onclick='changeMarkerOptions(cityAstroMarker, `sun_altitude`)'>
+      <button class='markerButton' onclick='changeCityMarkers(astrologyData, `sun_altitude`)'>
         Sun Altitude
       </button>  <br />
-      <button class='markerButton' onclick='changeMarkerOptions(cityAstroMarker, `moonrise`)'>
+      <button class='markerButton' onclick='changeCityMarkers(astrologyData, `moonrise`)'>
         Moon Rise
       </button>  <br />
-      <button class='markerButton' onclick='changeMarkerOptions(cityAstroMarker, `moonset`)'>
+      <button class='markerButton' onclick='changeCityMarkers(astrologyData, `moonset`)'>
         Moon Set
+      </button>
+      <button class='markerButton' onclick='allBorders()'>
+        Toggle All Borders
+      </button>
+
+      <!-- <input id="selectCountry" />  -->
+      <input id="selectCountry" list='countriesList'/> 
+
+      <datalist id="countriesList">
+      </datalist >
+
+      <button id='selectCountryButton'>
+        Country Border
+      </button>
+
+      <button id='getISS'>
+        Get ISS
       </button>
     </div>
     <div class="collapsedOptionsIcon"> </div>
@@ -47,7 +64,12 @@
 
 
   <script type="application/javascript" src="js/jquery-2.2.3.min.js"></script>
+  <script src='js/globalVariables.js'> </script>
   <script src='js/cities.js'> </script>
+  <script src='js/htmlScripts.js'> </script>
+  <script src='js/cityDataFunctions.js'> </script>
+  <script src='js/globalDataFunctions.js'> </script>
+  <script src='js/userFunctions.js'> </script>  
   <script src='js/script.js'> </script>
 
 </body>
