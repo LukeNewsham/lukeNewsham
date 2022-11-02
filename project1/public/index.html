@@ -17,24 +17,35 @@
 
 <body>
   <h1 id="loading"> Loading... </h1>
-  <h1 id="title">  </h1>
-  <div>
-    <div id="optionsPanel">
+  <h1 id="title"> </h1>
+
+
+  <div id='countryMode'>
+    <input id="selectCountry" list='countriesList' placeholder="Search Country" />
+    <datalist id="countriesList">
+    </datalist>
+    <button id='selectCountryButton' class='search'>
+      Search
+    </button>
+
+    <div class="buttons">
+
+
       <button class='markerButton' onclick='changeCityMarkers(astrologyData, `sunset`)'>
         Sunset
       </button> <br />
       <button class='markerButton' onclick='changeCityMarkers(astrologyData, `sunrise`)'>
         Sunset
-      </button>  <br />
+      </button> <br />
       <button class='markerButton' onclick='changeCityMarkers(astrologyData, `day_length`)'>
         Day Length
-      </button>  <br />
+      </button> <br />
       <button class='markerButton' onclick='changeCityMarkers(astrologyData, `sun_altitude`)'>
         Sun Altitude
-      </button>  <br />
+      </button> <br />
       <button class='markerButton' onclick='changeCityMarkers(astrologyData, `moonrise`)'>
         Moon Rise
-      </button>  <br />
+      </button> <br />
       <button class='markerButton' onclick='changeCityMarkers(astrologyData, `moonset`)'>
         Moon Set
       </button>
@@ -42,34 +53,47 @@
         Toggle All Borders
       </button>
 
-      <!-- <input id="selectCountry" />  -->
-      <input id="selectCountry" list='countriesList'/> 
+    </div>
+    <div id="countryData">
 
-      <datalist id="countriesList">
-      </datalist >
+    </div>
 
-      <button id='selectCountryButton'>
-        Country Border
-      </button>
 
+
+
+  </div>
+
+  <div id="centerTop">
+    <div id="astrologyMode">
       <button id='getISS'>
         Get ISS
       </button>
     </div>
-    <div class="collapsedOptionsIcon"> </div>
   </div>
-  <div id="'container">    
+
+
+  <div id="weatherMode">
+
+  </div>
+  <div id="centerBottom">
+    <div id="countryModeButton" class="modeButton"></div>
+    <div id="astrologyModeButton" class="modeButton"></div>
+    <div id="weatherModeButton" class="modeButton"></div>
+  </div>
+
+  <div>
     <div id="map"></div>
   </div>
 
 
   <script type="application/javascript" src="js/jquery-2.2.3.min.js"></script>
+  <script src='js/userFunctions.js'> </script>
   <script src='js/globalVariables.js'> </script>
   <script src='js/cities.js'> </script>
   <script src='js/htmlScripts.js'> </script>
   <script src='js/cityDataFunctions.js'> </script>
   <script src='js/globalDataFunctions.js'> </script>
-  <script src='js/userFunctions.js'> </script>  
+  <script src='js/userFunctions.js'> </script>
   <script src='js/script.js'> </script>
 
 </body>

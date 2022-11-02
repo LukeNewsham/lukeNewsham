@@ -65,34 +65,42 @@ let oceanData = (point) => {
 
 //Function to get ISS live data 
 
+let issData = () => {
 
-let firstTime = true;
-let issData = (relocate) => {  
+  let firstTime = true;
 
-  if (relocate) {
-    firstTime = true
-  }
-  
-  $.ajax({
-    url: "php/getISS.php",
-    type: 'GET',
-    async: false,
-    dataType: 'json',
-    success: function (result) {
-      if (result.status.name == "ok") {
-        markerIss.setLatLng([result.data.latitude, result.data.longitude])
+  function run(relocate) {
 
-        if (firstTime) {
-          map.setView([result.data.latitude, result.data.longitude], 4);
-          firstTime = false;
-        }
-      }
-
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      // your error code
+    if (relocate) {
+      const markerIss = L.marker([0, 0], { icon: issIcon }).addTo(map);
+      firstTime = true
     }
-  })
+
+    $.ajax({
+      url: "php/getISS.php",
+      type: 'GET',
+      async: false,
+      dataType: 'json',
+      success: function (result) {
+        if (result.status.name == "ok") {
+          markerIss.setLatLng([result.data.latitude, result.data.longitude])
+
+          if (firstTime) {
+            map.setView([result.data.latitude, result.data.longitude], 4);
+            firstTime = false;
+          }
+        }
+
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        // your error code
+      }
+    })
+  }
+
+  setInterval(run, 1000)
+
+
 }
 
 

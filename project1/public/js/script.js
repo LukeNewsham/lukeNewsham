@@ -33,7 +33,7 @@ tiles = {
     })
 }
 
-tiles.outdoors.addTo(map);
+tiles.alidade_smooth.addTo(map);
 
 let baseMaps = {
   "<span class='option'> Alidade Smooth </span>": tiles.alidade_smooth,
@@ -55,7 +55,7 @@ let issIcon = L.icon({
   iconAnchor: [22, 94]
 });
 
-const markerIss = L.marker([0, 0], { icon: issIcon }).addTo(map);
+
 const userLocation = L.marker([0, 0]).addTo(map);
 
 
@@ -237,6 +237,9 @@ function findLocation() {
 
 findLocation()
 
+// issData();
+// setInterval(issData, 1000)
+
 loadMapMarkers()
 
 //Sets default country border settings
@@ -256,6 +259,3 @@ map.on('moveend', async function () {
 
 //Interval Updates 
 
-issData();
-
-setInterval(issData, 1000)
