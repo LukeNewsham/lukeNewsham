@@ -1,10 +1,23 @@
-//Function to astrology data marker 
+//Function to add city info marker 
+let cityData = (city, data) => {
+  text = `Rank: ${city.capital}`
+  let infoIcon = L.divIcon({
+    className: 'infoIcon',
+    iconAnchor: [0, 0],
+    html: `${city[data]}`
+  });
+  marker = L.marker([city.lat, city.lng], { icon: infoIcon }).addTo(map);
+  marker.bindPopup(text)
+  return marker
+}
 
+
+//Function to astrology data marker 
 let astrologyData = (point, dataOption) => {
   // let countries = []
 
   $.ajax({
-    url: "php/getAstroInfo.php",
+    url: "php/getAstroData.php",
     type: 'POST',
     dataType: 'json',
     async: false,
@@ -18,7 +31,7 @@ let astrologyData = (point, dataOption) => {
         text = `Sunrise: ${result['data'][`sunrise`]} <br />
         Sunset: ${result['data']['sunset']} <br />
         Moonrise: ${result['data']['moonrise']} <br />
-        Moonset: ${result['data']['moonrise']}`
+        Moonset: ${result['data']['moonset']}`
         let astroIcon = L.divIcon({
           className: 'astroIcon',
           iconAnchor: [40, 40],
@@ -37,42 +50,15 @@ let astrologyData = (point, dataOption) => {
 }
 
 
-//Function to add ocean marker 
-
-let oceanData = (point) => {
-  $.ajax({
-    url: "php/getOceanInfo.php",
-    type: 'POST',
-    dataType: 'json',
-    data: {
-      lat: point.lat,
-      lng: point.lat
-    },
-    success: function (result) {
-      if (result.status.name == "ok") {
-        text = `ocean: ${result['data']['name']}`
-        marker = L.marker([lat, lng]).addTo(map);
-        marker.bindPopup(text)
-        oceanMarkers.addLayer(marker)
-        $('#apiOneResultName').html(result['data']['name']);
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      // your error code
-    }
-  })
-}
 
 //Function to get ISS live data 
-
 let issData = () => {
 
   let firstTime = true;
 
   function run(relocate) {
 
-    if (relocate) {
-      const markerIss = L.marker([0, 0], { icon: issIcon }).addTo(map);
+    if (relocate) {      
       firstTime = true
     }
 

@@ -21,16 +21,47 @@
 
 
   <div id='countryMode'>
+    <h1 id="chosenCountry"> Select Country </h1>
+
     <input id="selectCountry" list='countriesList' placeholder="Search Country" />
     <datalist id="countriesList">
     </datalist>
+
     <button id='selectCountryButton' class='search'>
-      Search
+      Search Country
     </button>
 
-    <div class="buttons">
+    <input id="selectCity" list='countryCitiesList' placeholder="Search City" />
+    <datalist id="countryCitiesList">
+    </datalist>
+
+    <button id='selectCityButton' class='search'>
+      Search City
+    </button>
 
 
+
+    <button id='clearCountryButton' class='search'>
+      Clear
+    </button>
+
+    <p> Data for city: <span id="chosenCity"> </span> </p>
+    <br />
+    <p class="countryModeData"> Sunset: <span id="sunset"> </span> </p>
+    <p class="countryModeData"> Sunrise: <span id="sunrise"> </span> </p>
+    <p class="countryModeData"> Moonrise: <span id="moonrise"> </span> </p>
+    <p class="countryModeData"> Moonset: <span id="moonset"> </span> </p>
+    <br />
+    <p class="countryModeData"> Station: <span id="stationName"> </span> </p>
+    <p class="countryModeData"> Dew point: <span id="dewPoint"> </span> </p>
+    <p class="countryModeData"> Humidity: <span id="humidity"> </span> </p>
+    <p class="countryModeData"> Temperature: <span id="temperature"> </span> </p>
+    <p class="countryModeData"> Weather Condition: <span id="weatherCondition"> </span> </p>
+    <p class="countryModeData"> Wind Direction: <span id="windDirection"> </span> </p>
+    <p class="countryModeData"> Wind Speed: <span id="windSpeed"> </span> </p>
+
+
+    <!-- <div class="buttons">
       <button class='markerButton' onclick='changeCityMarkers(astrologyData, `sunset`)'>
         Sunset
       </button> <br />
@@ -53,7 +84,7 @@
         Toggle All Borders
       </button>
 
-    </div>
+    </div> -->
     <div id="countryData">
 
     </div>
@@ -87,12 +118,13 @@
 
 
   <script type="application/javascript" src="js/jquery-2.2.3.min.js"></script>
+  <script src='js/animations.js'> </script>
   <script src='js/userFunctions.js'> </script>
+  <script src='js/getCityData.js'> </script>
   <script src='js/globalVariables.js'> </script>
   <script src='js/cities.js'> </script>
   <script src='js/htmlScripts.js'> </script>
-  <script src='js/cityDataFunctions.js'> </script>
-  <script src='js/globalDataFunctions.js'> </script>
+  <script src='js/dataMarkers.js'> </script>
   <script src='js/userFunctions.js'> </script>
   <script src='js/script.js'> </script>
 

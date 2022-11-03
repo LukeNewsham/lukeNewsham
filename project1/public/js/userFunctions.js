@@ -1,63 +1,4 @@
-let countryShown = false;
-let astrologyShown = false;
-let weatherShown = false;
-
-function countryModeClose() { countryShown = false; return $("#countryMode").animate({ left: '-20rem', }); }
-function weatherModeClose() { weatherShown = false; return $("#weatherMode").animate({ right: '-20rem', }); }
-function astrologyModeClose() { astrologyShown = false; return $("#astrologyMode").animate({ top: '-20rem', }); }
-
-function countryModeOpen() { countryShown = true; return $("#countryMode").animate({ left: '2rem', }); }
-function weatherModeOpen() { weatherShown = true; return $("#weatherMode").animate({ right: '2rem', }); }
-function astrologyModeOpen() { astrologyShown = true; return $("#astrologyMode").animate({ top: '0rem', }); }
-
-
-
-$("#countryModeButton").click(function () {
-  map.removeLayer(tiles.outdoors)
-  map.removeLayer(tiles.Stadia_AlidadeSmoothDark)
-  tiles.alidade_smooth.addTo(map);
-  if (!countryShown) {
-    countryModeOpen()
-    weatherModeClose()
-    astrologyModeClose()
-  } else {
-    countryModeClose()
-  }
-});
-
-
-$("#weatherModeButton").click(function () {
-  map.removeLayer(tiles.alidade_smooth)
-  map.removeLayer(tiles.Stadia_AlidadeSmoothDark)
-  tiles.outdoors.addTo(map);
-
-  if (!weatherShown) {
-    weatherModeOpen()
-    countryModeClose()
-    astrologyModeClose()
-  } else {
-    weatherModeClose()
-  }
-});
-
-
-$("#astrologyModeButton").click(function () {
-  map.removeLayer(tiles.outdoors)
-  map.removeLayer(tiles.alidade_smooth)
-  tiles.Stadia_AlidadeSmoothDark.addTo(map);
-
-  if (!astrologyShown) {
-    astrologyModeOpen()
-    countryModeClose()
-    weatherModeClose()
-  } else {
-    astrologyModeClose()
-  }
-});
-
-
-
-//Function to change marker data
+//Function to change marker data -----------------------
 
 function changeCityMarkers(marker, data) {
   cityMarkerOption = marker;
@@ -67,7 +8,10 @@ function changeCityMarkers(marker, data) {
 }
 
 
-//Function to toggle all borders
+
+
+
+//Function to toggle all borders -----------------------
 
 function allBorders() {
   if (allBordersToggle) {
@@ -80,12 +24,19 @@ function allBorders() {
 
 
 
-//Function to create an ocean marker
+
+
+
+//Function to create an ocean marker -----------------------
 $('#getISS').click(function () {
   issData(true)
 });
 
-//Function to create an ocean marker
+
+
+
+
+//Function to create an ocean marker -----------------------
 $('#ocean').click(function () {
   oceanData({
     lat: $('#selectLat').val(),
@@ -97,44 +48,67 @@ $('#ocean').click(function () {
 
 
 
-//Function to show current location with country infomation
-$('#selectCountryButton').click(function () {
-  console.log($('#selectCountry').val())
+//Function to clear fields -----------------------
+$('#clearCountryButton').click(function () {
+  $('#selectCountry').val('')
+  $('#selectCity').val('')
+});
 
-  // allBordersToggle = true;
+
+
+
+
+//Function to get country city data -----------------------
+$('#selectCityButton').click(function () {
+  countryCity = cities.filter(city => city.city === $('#selectCity').val())[0]
+  chosenCountryCityMarker.clearLayers()
+  map.setView([countryCity.lat, countryCity.lng], 5)
+  marker = cityData(countryCity, 'city')
+  chosenCountryCityMarker.addLayer(marker)
+  getCityAstroData(countryCity);
+  getCityWeatherData(countryCity)
+});
+
+
+
+
+
+//Function to show current location with country information -----------------------
+$('#selectCountryButton').click(function () {
 
   countryChosen = $('#selectCountry').val();
+  loadCountryCityList(countryChosen)
+  let capitalCity = ''
 
-  // lat = 51.5072
-  // lng = -0.1275
-
-  //Run through geoJson data to find current country 
-
+  //Run through geoJson data to find current country and add markers
   citiesInCountry = cities.filter(city => city.country === $('#selectCountry').val())
-  console.log(citiesInCountry)
 
   allCityMarkers.clearLayers()
   capitalCityMarkers.clearLayers()
 
+
   citiesInCountry.forEach(city => {
-
-    if (city.capital !== 'minor') {
-      marker = cityData(city, 'city')
-      allCityMarkers.addLayer(marker)
-    }
-
     if (city.capital === 'primary') {
+      chosenCountryCityMarker.clearLayers()
       map.setView([city.lat, city.lng], 5)
+      marker = cityData(city, 'city')
+      chosenCountryCityMarker.addLayer(marker)
+      capitalCity = city
     }
-
   });
+  console.log(capitalCity)
 
-  // country = false
-  // 
-  //Get data for city co ords
-
-  //clear all other boundrys
-
+  //Add border for chosen country
   getBorders([$('#selectCountry').val()])
 
+  $('#chosenCountry').html($('#selectCountry').val());
+
+  $('#chosenCity').html(capitalCity.city);
+  //Add astrology data for capital city by default to country mode div
+  getCityAstroData(capitalCity)
+
+  getCityWeatherData(capitalCity)
 });
+
+
+

@@ -13,6 +13,8 @@ function astrologyModeOpen() { astrologyShown = true; return $("#astrologyMode")
 
 
 $("#countryModeButton").click(function () {
+  map.removeLayer(tiles.outdoors)
+  map.removeLayer(tiles.Stadia_AlidadeSmoothDark)
   tiles.alidade_smooth.addTo(map);
   if (!countryShown) {
     countryModeOpen()
@@ -25,6 +27,8 @@ $("#countryModeButton").click(function () {
 
 
 $("#weatherModeButton").click(function () {
+  map.removeLayer(tiles.alidade_smooth)
+  map.removeLayer(tiles.Stadia_AlidadeSmoothDark)
   tiles.outdoors.addTo(map);
 
   if (!weatherShown) {
@@ -38,6 +42,8 @@ $("#weatherModeButton").click(function () {
 
 
 $("#astrologyModeButton").click(function () {
+  map.removeLayer(tiles.outdoors)
+  map.removeLayer(tiles.alidade_smooth)
   tiles.Stadia_AlidadeSmoothDark.addTo(map);
 
   if (!astrologyShown) {

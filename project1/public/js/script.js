@@ -48,6 +48,8 @@ let capitalCityMarkers = new L.FeatureGroup();
 map.addLayer(capitalCityMarkers);
 let allCityMarkers = new L.FeatureGroup();
 map.addLayer(allCityMarkers);
+let chosenCountryCityMarker = new L.FeatureGroup();
+map.addLayer(chosenCountryCityMarker);
 
 let issIcon = L.icon({
   iconUrl: './images/internationalSpaceStation.png',
@@ -56,7 +58,9 @@ let issIcon = L.icon({
 });
 
 
-const userLocation = L.marker([0, 0]).addTo(map);
+let userLocation = L.marker([0, 0]).addTo(map);
+let markerIss = L.marker([0, 0], { icon: issIcon }).addTo(map);
+// let chosenCountryCityMarker = L.marker([0, 0]).addTo(map);
 
 
 
@@ -220,10 +224,6 @@ function findLocation() {
 
   setTimeout(run, 1000)
 
-
-
-
-
 }
 
 
@@ -256,6 +256,4 @@ map.on('moveend', async function () {
   loadMapMarkers()
 });
 
-
-//Interval Updates 
 
