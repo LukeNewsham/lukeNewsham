@@ -4,14 +4,30 @@
     margin: 0;
     padding: 0;
     font-family: 'Calibri';
+
 }
 
 body {
     overflow: hidden;
+    font-size: 14px;
 }
 
+
 h1 {
-    margin: 2rem;
+}
+
+
+button {
+    cursor: pointer;
+    padding: 0.4rem;
+    background-color: rgb(222, 222, 222);
+    border: none;
+    border-radius: 0.4rem;
+    height: 2rem;
+}
+
+button:hover {
+    background-color: rgb(204, 228, 237);
 }
 
 /* Classes */
@@ -20,9 +36,9 @@ h1 {
 .infoIcon,
 .astroIcon {
     background-color: white;
-    padding: 0.3rem 0.5rem;
+    padding: 0.3rem 0.3rem;
     font-size: 1rem;
-    border-radius: 0.5rem;
+    border-radius: 0 0.5rem 0.5rem 0.5rem ;
     font-weight: bolder;
     color: black;
     box-shadow: 0.2rem 0.2rem 1rem gray;
@@ -31,7 +47,6 @@ h1 {
 }
 
 .infoIcon:hover {
-    background-color: blue;
 }
 
 .option {
@@ -57,29 +72,58 @@ h1 {
 }
 
 .modeButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
     margin: 0 0.5rem;
     height: 4rem;
     width: 4rem;
     background-color: white;
-    box-shadow: 0 0 1rem gray;
-    border-radius: 2rem;
+}
+
+.searchDiv {
+    margin: 1rem 0;
 }
 
 
-.modeButtonActive {
-    cursor: pointer;
-    margin: 0 1em;
-    height: 4rem;
-    width: 4rem;
-    background-color: blue;
-    box-shadow: 0 0 1rem gray;
-    border-radius: 2rem;
-
+.icon {
+    opacity: 100%;
+    width: 60%;
+    height: 60%;
 }
 
+
+
+.buttons {
+    display: Flex;
+    flex-wrap: wrap;
+    justify-content: stretch;
+}
+
+.datasetInput {
+    width: 60%;
+    height: 1rem;
+    /* margin: 1rem 0 0 0; */
+    text-align: left;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid gray;
+    border-radius: 0.2rem;
+}
 
 /* Ids */
+
+#chosenCountry {
+    text-align: left;
+    width: 60%;
+}
+
+#searchContainer {
+    background-color: rgb(236, 236, 236);
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
 
 #loading {
     position: absolute;
@@ -98,14 +142,7 @@ h1 {
     text-align: center;
 }
 
-#selectCountry {
-    width: 90%;
-    height: 1.5rem;
-    margin: 1rem 0;
-    text-align: left;
-    padding: 0.2rem;
-    font-size: 1rem;
-}
+
 
 
 #container {
@@ -125,30 +162,78 @@ h1 {
 }
 
 
-#countryMode {
+#countryMode {    
     position: absolute;
     padding: 1rem;
-    bottom: 3rem;
-    left: -20rem;
+    bottom: 2rem;
+    left: -18rem;
     width: 15rem;
-    height: 30rem;
+    height: auto;
     background-color: white;
     box-shadow: 0 0 1rem gray;
     border-radius: 0.7rem;
-    justify-content: center;
+    text-align: center;
+
 }
 
-.buttons {
-    display: Flex;
+#countryData {
+    display: flex;
     flex-wrap: wrap;
-    justify-content: stretch;
+    flex-direction: row;
+    justify-content: space-around;
+    padding:  0 1rem;
 }
+
+
+
+#countryMode p {
+    padding-top: 1rem;
+    width: 100%;
+}
+
+#countryData p {
+    padding-top: 1rem;
+    width: 50%;
+}
+
+#countryMode span {
+    font-size: 1.1rem;
+    font-weight: bolder;
+    color: rgb(78, 138, 181);
+}
+
+#countryModeData {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 20rem;
+    margin: 1rem 0;
+    text-align: center;
+    background-color: rgb(240, 240, 240);
+    border: none;
+    border-radius: 0.4rem;
+}
+
+#countryModeButton,
+#astrologyModeButton,
+#weatherModeButton {
+    opacity: 35%;
+}
+
+
+
+#countryModeButton:hover > .icon,
+#astrologyModeButton:hover > .icon,
+#weatherModeButton:hover > .icon {
+    opacity: 65%;
+}
+
+
 
 
 #weatherMode {
     position: absolute;
     padding: 1rem;
-    bottom: 3rem;
+    bottom: 2rem;
     right: -20rem;
     width: 15rem;
     height: 30rem;
@@ -179,6 +264,17 @@ h1 {
     justify-content: center;
 }
 
+#buttonPanel {
+    display: flex;
+    background-color: white;
+    position: relative;
+    padding: 0.4rem;
+    background-color: white;
+    box-shadow: 0 0 1rem gray;
+    border-radius: 0.7rem;
+
+}
+
 #centerTop {
     height: 1rem;
     position: absolute;
@@ -188,3 +284,42 @@ h1 {
     right: 0;
     justify-content: center;
 }
+
+#selectCity,
+#selectCityButton {
+    display: none;
+}
+
+#flag {
+    width: 30%;
+    height: 30%;
+    margin-top: 1rem;
+}
+
+
+
+@media only screen and (max-width: 1000px) {
+
+    #countryMode {    
+        bottom: 0rem;
+        top: 0;
+        left: -20rem;
+        height: auto;
+    
+    }
+
+    #countryModeData {
+        height: 30rem;
+    }
+  
+  }
+
+
+  @media only screen and (max-width: 700px) {
+
+    #countryMode {    
+    width: 100%;
+    padding: 0;
+    }
+  
+  }

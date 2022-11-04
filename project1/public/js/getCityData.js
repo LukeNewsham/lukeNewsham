@@ -25,6 +25,7 @@ function getCityAstroData(city) {
 
 //Get city weather data -----------------------
 function getCityWeatherData(city) {
+    
     $.ajax({
         url: "php/getWeatherData.php",
         type: 'POST',

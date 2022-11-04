@@ -2,13 +2,13 @@ let countryShown = false;
 let astrologyShown = false;
 let weatherShown = false;
 
-function countryModeClose() { countryShown = false; return $("#countryMode").animate({ left: '-20rem', }); }
-function weatherModeClose() { weatherShown = false; return $("#weatherMode").animate({ right: '-20rem', }); }
-function astrologyModeClose() { astrologyShown = false; return $("#astrologyMode").animate({ top: '-20rem', }); }
+function countryModeClose() { countryShown = false; $("#countryMode").animate({ left: '-=20rem' }); $("#countryModeButton").css('opacity', '50%') }
+function weatherModeClose() { weatherShown = false; $("#weatherMode").animate({ right: '-20rem' }); $("#weatherModeButton").css('opacity', '50%') }
+function astrologyModeClose() { astrologyShown = false; $("#astrologyMode").animate({ top: '-20rem' }); $("#astrologyModeButton").css('opacity', '50%')}
 
-function countryModeOpen() { countryShown = true; return $("#countryMode").animate({ left: '2rem', }); }
-function weatherModeOpen() { weatherShown = true; return $("#weatherMode").animate({ right: '2rem', }); }
-function astrologyModeOpen() { astrologyShown = true; return $("#astrologyMode").animate({ top: '0rem', }); }
+function countryModeOpen() { countryShown = true; $("#countryMode").animate({ left: '+=20rem', }); $("#countryModeButton").css('opacity', '100%') }
+function weatherModeOpen() { weatherShown = true; $("#weatherMode").animate({ right: '+2rem', });$("#weatherModeButton").css('opacity', '100%') }
+function astrologyModeOpen() { astrologyShown = true; $("#astrologyMode").animate({ top: '0rem', });$("#astrologyModeButton").css('opacity', '100%') }
 
 
 
@@ -23,6 +23,7 @@ $("#countryModeButton").click(function () {
   } else {
     countryModeClose()
   }
+
 });
 
 

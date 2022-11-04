@@ -213,7 +213,10 @@ function findLocation() {
         console.log(GLOBAL_positionLng, GLOBAL_positionLat)
         map.setView([GLOBAL_positionLat, GLOBAL_positionLng], 5)
         userLocation.setLatLng([GLOBAL_positionLat, GLOBAL_positionLng])
-        getBorders(['United Kingdom'])
+
+        countryChosen ='United Kingdom'
+        showCountryData(countryChosen);
+        
         document.getElementById("loading").style.display = "none";
       })
     } else {
@@ -255,5 +258,7 @@ map.on('zoomend', async function () {
 map.on('moveend', async function () {
   loadMapMarkers()
 });
+
+countryModeOpen()
 
 

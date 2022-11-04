@@ -4,7 +4,7 @@ let cityData = (city, data) => {
   let infoIcon = L.divIcon({
     className: 'infoIcon',
     iconAnchor: [0, 0],
-    html: `${city[data]}`
+    // html: `${city[data]}`
   });
   marker = L.marker([city.lat, city.lng], { icon: infoIcon }).addTo(map);
   marker.bindPopup(text)

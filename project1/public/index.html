@@ -21,44 +21,98 @@
 
 
   <div id='countryMode'>
-    <h1 id="chosenCountry"> Select Country </h1>
 
-    <input id="selectCountry" list='countriesList' placeholder="Search Country" />
-    <datalist id="countriesList">
-    </datalist>
+    <div id="countryData">
 
-    <button id='selectCountryButton' class='search'>
-      Search Country
-    </button>
+      <!-- <button id='findLocation' class='search'>
+      Find Location
+    </button> -->
 
-    <input id="selectCity" list='countryCitiesList' placeholder="Search City" />
-    <datalist id="countryCitiesList">
-    </datalist>
+      <div class="searchDiv">
 
-    <button id='selectCityButton' class='search'>
-      Search City
-    </button>
+        <input id="selectCountry" class="datasetInput" list='countriesList' placeholder="Search Country" />
+        <datalist id="countriesList">
+        </datalist>
 
+        <button id='selectCountryButton' class='search'>
+          Search
+        </button>
 
 
-    <button id='clearCountryButton' class='search'>
-      Clear
-    </button>
+      </div>
 
-    <p> Data for city: <span id="chosenCity"> </span> </p>
-    <br />
-    <p class="countryModeData"> Sunset: <span id="sunset"> </span> </p>
-    <p class="countryModeData"> Sunrise: <span id="sunrise"> </span> </p>
-    <p class="countryModeData"> Moonrise: <span id="moonrise"> </span> </p>
-    <p class="countryModeData"> Moonset: <span id="moonset"> </span> </p>
-    <br />
-    <p class="countryModeData"> Station: <span id="stationName"> </span> </p>
-    <p class="countryModeData"> Dew point: <span id="dewPoint"> </span> </p>
-    <p class="countryModeData"> Humidity: <span id="humidity"> </span> </p>
-    <p class="countryModeData"> Temperature: <span id="temperature"> </span> </p>
-    <p class="countryModeData"> Weather Condition: <span id="weatherCondition"> </span> </p>
-    <p class="countryModeData"> Wind Direction: <span id="windDirection"> </span> </p>
-    <p class="countryModeData"> Wind Speed: <span id="windSpeed"> </span> </p>
+
+
+
+
+      <!-- <button id='clearCountryButton' class='search'>
+        Clear
+      </button> -->
+
+      <br />
+
+      <h1 id="chosenCountry"> Select Country </h1>
+
+      <img src="" alt="Flag Icon" id="flag">
+
+      <p class="countryModeData">Subregion <br /> <span id="subregion"> </span> </p>
+
+      <p class="countryModeData"> Language <br /><span id="language"> </span> </p>
+
+
+      <p class="countryModeData"> Population <br /><span id="population"> </span> <span> m </span></p>
+      <p class="countryModeData"> Currency <br /><span id="currency"> </span> </p>
+
+    </div>
+
+
+
+    <div id="countryModeData">
+
+      <h1 id="chosenCity"> </h1>
+
+      <div class="searchDiv">
+        <input id="selectCity" class="datasetInput" list='countryCitiesList' placeholder="Search City" />
+        <datalist id="countryCitiesList">
+        </datalist>
+        <button id='selectCityButton' class='search'>
+          Search
+        </button>
+
+        <!-- <button id='clearCityButton' class='search'>
+          Clear
+        </button> -->
+
+
+      </div>
+
+
+
+
+
+      <br />
+      <br />
+      <h2> Weather Data</h2>
+      <p class="countryModeData"> from station <br /><span id="stationName"> </span> </p>
+      <p class="countryModeData"> Temperature<br /> <span id="temperature"> </span> <span> &deg C</span> </p>
+      <p class="countryModeData"> Humidity<br /> <span id="humidity"> </span> </p>
+      <!-- <p class="countryModeData"> Weather Condition <br /><span id="weatherCondition"> </span> </p> -->
+      <p class="countryModeData"> Wind Speed <br /><span id="windSpeed"> </span> <span> Km/h</span> </p>
+      <p class="countryModeData"> Dew point <br /><span id="dewPoint"> </span> </p>
+      <br />
+      <br />
+      <h2> Astrology Data</h2>
+      <p class="countryModeData"> Sunset <br /> <span id="sunset"> </span> </p>
+      <p class="countryModeData"> Sunrise <br /><span id="sunrise"> </span> </p>
+      <p class="countryModeData"> Moonrise <br /><span id="moonrise"> </span> </p>
+      <p class="countryModeData"> Moonset <br /><span id="moonset"> </span> </p>
+      <br />
+
+    </div>
+
+
+
+
 
 
     <!-- <div class="buttons">
@@ -107,9 +161,19 @@
 
   </div>
   <div id="centerBottom">
-    <div id="countryModeButton" class="modeButton"></div>
-    <div id="astrologyModeButton" class="modeButton"></div>
-    <div id="weatherModeButton" class="modeButton"></div>
+    <div id="buttonPanel">
+      <div id="countryModeButton" class="modeButton">
+        <img src="./images/Country Icon Black.png" alt="Country Mode Icon" class="icon">
+      </div>
+      <div id="astrologyModeButton" class="modeButton">
+        <img src="./images/internationalSpaceStation.png" alt="Astrology Mode Icon" class="icon">
+      </div>
+      <div id="weatherModeButton" class="modeButton">
+        <img src="./images/Weather Icon Black.png" alt="Weather Mode Icon" class="icon">
+      </div>
+
+    </div>
+
   </div>
 
   <div>
@@ -117,9 +181,10 @@
   </div>
 
 
-  <script type="application/javascript" src="js/jquery-2.2.3.min.js"></script>
+  <script type="application/javascript" src="js/jquery-2.2.3.min.js" class="'icon"></script>
   <script src='js/animations.js'> </script>
   <script src='js/userFunctions.js'> </script>
+  <script src='js/getCountryData.js'> </script>
   <script src='js/getCityData.js'> </script>
   <script src='js/globalVariables.js'> </script>
   <script src='js/cities.js'> </script>
