@@ -10,6 +10,10 @@
   <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
     integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
   <link rel="stylesheet" href="./leaflet/leaflet.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+
   <script src="./leaflet/leaflet.js"></script>
 
   <title>Project 1</title>
@@ -17,52 +21,51 @@
 
 <body>
   <h1 id="loading"> Loading... </h1>
-  <h1 id="title"> </h1>
+  <h1 id="title"> explore.com </h1>
 
+
+
+  <button id='findLocation' class='search'>
+    Find Location
+  </button>
+  <button class='markerButton' onclick='allBorders()'>
+    Toggle All Borders
+  </button>
+
+
+
+  <!-- COUNTRY MODE PANEL ------------------------------------------- -->
 
   <div id='countryMode'>
-
     <div id="countryData">
 
-      <!-- <button id='findLocation' class='search'>
-      Find Location
-    </button> -->
 
-      <div class="searchDiv">
 
+      <div class="searchDiv" id="countrySearchNoneFixed">
         <input id="selectCountry" class="datasetInput" list='countriesList' placeholder="Search Country" />
         <datalist id="countriesList">
         </datalist>
-
         <button id='selectCountryButton' class='search'>
           Search
         </button>
-
-
       </div>
 
-
-
-
-
       <!-- <button id='clearCountryButton' class='search'>
-        Clear
-      </button> -->
+          Clear
+        </button> -->
+
+      <!-- <button id='allCountryMarkers' class='search'>
+          All Country Markers
+        </button> -->
 
       <br />
 
       <h1 id="chosenCountry"> Select Country </h1>
-
       <img src="" alt="Flag Icon" id="flag">
-
       <p class="countryModeData">Subregion <br /> <span id="subregion"> </span> </p>
-
       <p class="countryModeData"> Language <br /><span id="language"> </span> </p>
-
-
       <p class="countryModeData"> Population <br /><span id="population"> </span> <span> m </span></p>
       <p class="countryModeData"> Currency <br /><span id="currency"> </span> </p>
-
     </div>
 
 
@@ -71,27 +74,22 @@
 
       <h1 id="chosenCity"> </h1>
 
-      <div class="searchDiv">
+
+      <div class="searchDiv" id="citySearch">
         <input id="selectCity" class="datasetInput" list='countryCitiesList' placeholder="Search City" />
         <datalist id="countryCitiesList">
         </datalist>
         <button id='selectCityButton' class='search'>
           Search
         </button>
-
         <!-- <button id='clearCityButton' class='search'>
-          Clear
-        </button> -->
-
-
+            Clear
+          </button> -->
       </div>
 
-
-
-
-
       <br />
       <br />
+
       <h2> Weather Data</h2>
       <p class="countryModeData"> from station <br /><span id="stationName"> </span> </p>
       <p class="countryModeData"> Temperature<br /> <span id="temperature"> </span> <span> &deg C</span> </p>
@@ -107,26 +105,45 @@
       <p class="countryModeData"> Moonrise <br /><span id="moonrise"> </span> </p>
       <p class="countryModeData"> Moonset <br /><span id="moonset"> </span> </p>
       <br />
+    </div>
+  </div>
 
+
+
+
+  <!-- WEATHER MODE PANEL ------------------------------------------- -->
+
+  <div id="weatherMode">
+
+    <h1> Global Search </h1>
+
+    <h2> Weather </h2> <br />
+    <div class="buttons">
+      <button class='markerButton' onclick='changeCityMarkers(weatherData, `temperature`)'>
+        Temperature
+      </button> <br />
+      <button class='markerButton' onclick='changeCityMarkers(weatherData, `humidity`)'>
+        Humidity
+      </button> <br />
+      <button class='markerButton' onclick='changeCityMarkers(weatherData, `windSpeed`)'>
+        Wind Speed
+      </button> <br />
+      <button class='markerButton' onclick='changeCityMarkers(weatherData, `dewPoint`)'>
+        Dew Point
+      </button>
     </div>
 
+    <br />
+    <br />
 
 
-
-
-
-    <!-- <div class="buttons">
+    <h2> Astrology </h2> <br />
+    <div class="buttons">
       <button class='markerButton' onclick='changeCityMarkers(astrologyData, `sunset`)'>
         Sunset
       </button> <br />
       <button class='markerButton' onclick='changeCityMarkers(astrologyData, `sunrise`)'>
         Sunset
-      </button> <br />
-      <button class='markerButton' onclick='changeCityMarkers(astrologyData, `day_length`)'>
-        Day Length
-      </button> <br />
-      <button class='markerButton' onclick='changeCityMarkers(astrologyData, `sun_altitude`)'>
-        Sun Altitude
       </button> <br />
       <button class='markerButton' onclick='changeCityMarkers(astrologyData, `moonrise`)'>
         Moon Rise
@@ -134,33 +151,24 @@
       <button class='markerButton' onclick='changeCityMarkers(astrologyData, `moonset`)'>
         Moon Set
       </button>
-      <button class='markerButton' onclick='allBorders()'>
-        Toggle All Borders
-      </button>
-
-    </div> -->
-    <div id="countryData">
-
+      <button class='markerButton' onclick='changeCityMarkers(astrologyData, `day_length`)'>
+        Day Length
+      </button> <br />
     </div>
 
-
-
-
-  </div>
-
-  <div id="centerTop">
-    <div id="astrologyMode">
-      <button id='getISS'>
-        Get ISS
-      </button>
-    </div>
   </div>
 
 
-  <div id="weatherMode">
 
-  </div>
-  <div id="centerBottom">
+
+
+
+  <!-- BOTTOM PANEL / ASTROLOGY MODE ------------------------------------------- -->
+
+
+  <div class="centerBottom">
+
+
     <div id="buttonPanel">
       <div id="countryModeButton" class="modeButton">
         <img src="./images/Country Icon Black.png" alt="Country Mode Icon" class="icon">
@@ -171,14 +179,60 @@
       <div id="weatherModeButton" class="modeButton">
         <img src="./images/Weather Icon Black.png" alt="Weather Mode Icon" class="icon">
       </div>
+      <div id="astrologyMode">
+
+        <div id="astroData">
+          <h3> ISS Station Live Position</h3>
+          <p>Latitude: <span id="astroLat"> </span></p>
+          <p>Longitude: <span id="astroLng"> </span></p>
+          <button class='issButton' id='getISS'>
+            Start
+          </button>
+          <button class='issButton' id='stopISS'>
+            Stop
+          </button>
+        </div>
+      </div>
 
     </div>
 
   </div>
 
+
+
+
+
+
+
+
+  <!-- MOBILE ONLY SEARCH ------------------------------------------- -->
+
+  <div class="centerBottom">
+    <div class="searchDiv" id="countrySearchFixed">
+      <input id="selectCountry" class="datasetInput" list='countriesList' placeholder="Search Country" />
+      <datalist id="countriesList">
+      </datalist>
+      <button id='selectCountryButton' class='search'>
+        Search
+      </button>
+    </div>
+  </div>
+
+
+
+
+
+
+
+  <!-- LOAD LEAFLET MAP ------------------------------------------- -->
+
   <div>
     <div id="map"></div>
   </div>
+
+
+
+  <!-- LOAD SCRIPTS ------------------------------------------- -->
 
 
   <script type="application/javascript" src="js/jquery-2.2.3.min.js" class="'icon"></script>

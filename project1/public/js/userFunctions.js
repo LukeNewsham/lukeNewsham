@@ -1,10 +1,12 @@
 //Function to change marker data -----------------------
 
 function changeCityMarkers(marker, data) {
+  GLOBAL_issRun = false;
   cityMarkerOption = marker;
   dataOption = data;
+  countryChosen = false;
   loadMapMarkers()
-  loadCountryMarkers()
+  // loadCountryMarkers()
 }
 
 
@@ -27,9 +29,20 @@ function allBorders() {
 
 
 
-//Function to create an ocean marker -----------------------
+//Function to get iss -----------------------
 $('#getISS').click(function () {
+  chosenCountryCityMarker.clearLayers()
+  allCityMarkers.clearLayers()
+  capitalCityMarkers.clearLayers()
+
+  changeCityMarkers(false, false)
+  GLOBAL_issRun = true;
   issData(true)
+});
+
+//Function to stop iss -----------------------
+$('#stopISS').click(function () {
+  GLOBAL_issRun = false;
 });
 
 
@@ -49,9 +62,9 @@ $('#clearCityButton').click(function () {
 
 
 
-
 //Function to get country city data -----------------------
 $('#selectCityButton').click(function () {
+  GLOBAL_issRun = false;
   $('#countryModeData').hide();
   countryCity = cities.filter(city => city.city === $('#selectCity').val())[0]
   chosenCountryCityMarker.clearLayers()
@@ -69,7 +82,7 @@ $('#selectCityButton').click(function () {
 
 //Function to get and show country data  -----------------------
 function showCountryData(countryChosen) {
-  console.log(countryChosen)
+  GLOBAL_issRun = false;
 
   let phpCountryChosen = countryChosen.replace(" ", "%20");
   getCountryData(phpCountryChosen)  
@@ -81,7 +94,6 @@ function showCountryData(countryChosen) {
 
   //Run through geoJson data to find current country and add markers
   citiesInCountry = cities.filter(city => city.country === countryChosen)
-  console.log(citiesInCountry)
 
   citiesInCountry.forEach(city => {
     if (city.capital === 'primary') {
@@ -94,6 +106,8 @@ function showCountryData(countryChosen) {
   chosenCountryCityMarker.clearLayers()
   allCityMarkers.clearLayers()
   capitalCityMarkers.clearLayers()
+
+  changeCityMarkers(false, false)
 
   console.log(capitalCity)
 
@@ -114,11 +128,7 @@ function showCountryData(countryChosen) {
   //Add astrology data for capital city by default to country mode div
   getCityAstroData(capitalCity)
 
-  getCityWeatherData(capitalCity)
-
-  
-
-  
+  getCityWeatherData(capitalCity)  
 
   $('#countryModeData').fadeIn();
 }
@@ -126,6 +136,7 @@ function showCountryData(countryChosen) {
 
 //Function to show current location with country information -----------------------
 $('#selectCountryButton').click(function () {
+  GLOBAL_issRun = false;
   countryChosen = $('#selectCountry').val();
   showCountryData(countryChosen)  
   
@@ -133,6 +144,7 @@ $('#selectCountryButton').click(function () {
 
 //Function to show current location with country information -----------------------
 $('#findLocation').click(function () {
+  GLOBAL_issRun = false;
   findLocation()  
 });
 

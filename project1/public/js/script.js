@@ -1,4 +1,10 @@
-
+var Stamen_TerrainBackground = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain-background/{z}/{x}/{y}{r}.{ext}', {
+	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	subdomains: 'abcd',
+	minZoom: 0,
+	maxZoom: 18,
+	ext: 'png'
+});
 
 
 
@@ -27,10 +33,21 @@ tiles = {
       }
     ),
   Stadia_AlidadeSmoothDark:
-    L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
-      maxZoom: 20,
-      attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+    L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png',
+      {
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+      }
+    ),
+  terrain_background:
+  L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain-background/{z}/{x}/{y}{r}.{ext}', {
+    attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    subdomains: 'abcd',
+    minZoom: 0,
+    maxZoom: 18,
+    ext: 'png'
     })
+
 }
 
 tiles.alidade_smooth.addTo(map);
@@ -38,7 +55,8 @@ tiles.alidade_smooth.addTo(map);
 let baseMaps = {
   "<span class='option'> Alidade Smooth </span>": tiles.alidade_smooth,
   "<span class='option'> Outdoors </span>": tiles.outdoors,
-  "<span class='option'> Stadia_AlidadeSmoothDark </span>": tiles.Stadia_AlidadeSmoothDark
+  "<span class='option'> Stadia_AlidadeSmoothDark </span>": tiles.Stadia_AlidadeSmoothDark,
+  "<span class='option'> terrain_background </span>": tiles.terrain_background
 };
 
 
@@ -52,7 +70,7 @@ let chosenCountryCityMarker = new L.FeatureGroup();
 map.addLayer(chosenCountryCityMarker);
 
 let issIcon = L.icon({
-  iconUrl: './images/internationalSpaceStation.png',
+  iconUrl: './images/internationalSpaceStationLight.png',
   iconSize: [50, 50],
   iconAnchor: [22, 94]
 });
@@ -60,7 +78,6 @@ let issIcon = L.icon({
 
 let userLocation = L.marker([0, 0]).addTo(map);
 let markerIss = L.marker([0, 0], { icon: issIcon }).addTo(map);
-// let chosenCountryCityMarker = L.marker([0, 0]).addTo(map);
 
 
 
@@ -141,12 +158,13 @@ function getBorders(countries) {
 
 
 //Function to load global map markers
-
-
-
 function loadMapMarkers() {
 
   if (cityMarkerOption && !countryChosen) {
+
+    map.removeLayer(chosenCountryCityMarker);
+    getBorders([''])
+
     console.log('Loading map markers')
     document.getElementById("loading").style.display = "block"
 
@@ -162,7 +180,6 @@ function loadMapMarkers() {
       let west = map.getBounds()._southWest.lng
       //cycle through list of cities within view boundary to add marker to map
       for (city of cities) {
-        console.log(city.capital)
         if (city.lat < north && city.lat > south && city.lng < east && city.lng > west && map.getZoom() > 7 && city.capital !== 'minor') {
           marker = cityMarkerOption(city, dataOption)
           allCityMarkers.addLayer(marker)
@@ -210,13 +227,12 @@ function findLocation() {
       navigator.geolocation.getCurrentPosition(position => {
         GLOBAL_positionLat = position.coords.latitude
         GLOBAL_positionLng = position.coords.longitude
-        console.log(GLOBAL_positionLng, GLOBAL_positionLat)
         map.setView([GLOBAL_positionLat, GLOBAL_positionLng], 5)
         userLocation.setLatLng([GLOBAL_positionLat, GLOBAL_positionLng])
 
-        countryChosen ='United Kingdom'
+        countryChosen = 'United Kingdom'
         showCountryData(countryChosen);
-        
+
         document.getElementById("loading").style.display = "none";
       })
     } else {

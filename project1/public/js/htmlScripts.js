@@ -27,7 +27,6 @@ function loadCountryCityList(country) {
     let option = '';
 
     select.innerHTML = '0';
-    console.log(select.innerHTML)
 
     // for (var i = 0; i < select.options.length; i++) { 
     //     console.log(select.options.length)

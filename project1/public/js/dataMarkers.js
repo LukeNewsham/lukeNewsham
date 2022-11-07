@@ -1,10 +1,10 @@
 //Function to add city info marker 
-let cityData = (city, data) => {
+let cityData = (city) => {
   text = `Rank: ${city.capital}`
   let infoIcon = L.divIcon({
-    className: 'infoIcon',
+    className: 'weatherIcon',
     iconAnchor: [0, 0],
-    // html: `${city[data]}`
+    html: `<p> ${(city.city).toUpperCase()} </p>`
   });
   marker = L.marker([city.lat, city.lng], { icon: infoIcon }).addTo(map);
   marker.bindPopup(text)
@@ -33,11 +33,55 @@ let astrologyData = (point, dataOption) => {
         Moonrise: ${result['data']['moonrise']} <br />
         Moonset: ${result['data']['moonset']}`
         let astroIcon = L.divIcon({
-          className: 'astroIcon',
+          className: 'weatherIcon',
           iconAnchor: [40, 40],
-          html: `${city.city} <br /> ${result['data'][`${dataOption}`]}`
+          html: `<p> ${(city.city).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${result.data[`${dataOption}`]} </span>`
         });
         marker = L.marker([point.lat, point.lng], { icon: astroIcon }).addTo(map);
+        marker.bindPopup(text)
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      // your error code
+    }
+  })
+  // getBorders(countries, data)
+  return marker
+}
+
+
+//Function to get weather data marker 
+let weatherData = (point, dataOption) => {
+
+
+  $.ajax({
+    url: "php/getWeatherData.php",
+    type: 'POST',
+    dataType: 'json',
+    async: false,
+    data: {
+      lat: point.lat,
+      lng: point.lng
+    },
+    success: function (result) {
+      if (result.status.name == "ok") {
+        console.log(result)
+        let text = `test`
+
+        let symbol = ''
+        if (dataOption === 'temperature') {
+          symbol = `&deg C`
+        }
+        if (dataOption === 'wind speed') {
+          symbol = `Km/h`
+        }
+
+        let weatherIcon = L.divIcon({
+          className: 'weatherIcon',
+          iconAnchor: [0, 0],
+          html: `<p> ${(city.city).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${result.data.weatherObservation[`${dataOption}`]} ${symbol} </span>`
+        });
+        marker = L.marker([point.lat, point.lng], { icon: weatherIcon }).addTo(map);
         marker.bindPopup(text)
       }
     },
@@ -58,30 +102,35 @@ let issData = () => {
 
   function run(relocate) {
 
-    if (relocate) {      
+    if (relocate) {
       firstTime = true
     }
 
-    $.ajax({
-      url: "php/getISS.php",
-      type: 'GET',
-      async: false,
-      dataType: 'json',
-      success: function (result) {
-        if (result.status.name == "ok") {
-          markerIss.setLatLng([result.data.latitude, result.data.longitude])
+    if (GLOBAL_issRun === true) {
+      $.ajax({
+        url: "php/getISS.php",
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (result) {
+          if (result.status.name == "ok") {
+            markerIss.setLatLng([result.data.latitude, result.data.longitude])
+            $('#astroLat').html(Math.round(result.data.latitude * 1000) / 1000);
+            $('#astroLng').html(Math.round(result.data.longitude * 1000) / 1000);
 
-          if (firstTime) {
-            map.setView([result.data.latitude, result.data.longitude], 4);
-            firstTime = false;
+            if (firstTime) {
+              map.setView([result.data.latitude, result.data.longitude], 4);
+              firstTime = false;
+
+            }
           }
-        }
 
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        // your error code
-      }
-    })
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          // your error code
+        }
+      })
+    }
   }
 
   setInterval(run, 1000)

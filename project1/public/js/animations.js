@@ -2,18 +2,18 @@ let countryShown = false;
 let astrologyShown = false;
 let weatherShown = false;
 
-function countryModeClose() { countryShown = false; $("#countryMode").animate({ left: '-=20rem' }); $("#countryModeButton").css('opacity', '50%') }
-function weatherModeClose() { weatherShown = false; $("#weatherMode").animate({ right: '-20rem' }); $("#weatherModeButton").css('opacity', '50%') }
-function astrologyModeClose() { astrologyShown = false; $("#astrologyMode").animate({ top: '-20rem' }); $("#astrologyModeButton").css('opacity', '50%')}
+function countryModeClose() { countryShown = false; $("#countryMode").animate({ left: '-23rem' }); $("#countryModeButton").css('opacity', '50%') }
+function weatherModeClose() { weatherShown = false; $("#weatherMode").animate({ right: '-23rem' }); $("#weatherModeButton").css('opacity', '50%') }
+function astrologyModeClose() { astrologyShown = false; $("#buttonPanel").animate({ height: '4.5rem' }); $("#astrologyModeButton").css('opacity', '50%');$("#astrologyMode").fadeOut();}
 
-function countryModeOpen() { countryShown = true; $("#countryMode").animate({ left: '+=20rem', }); $("#countryModeButton").css('opacity', '100%') }
-function weatherModeOpen() { weatherShown = true; $("#weatherMode").animate({ right: '+2rem', });$("#weatherModeButton").css('opacity', '100%') }
-function astrologyModeOpen() { astrologyShown = true; $("#astrologyMode").animate({ top: '0rem', });$("#astrologyModeButton").css('opacity', '100%') }
+function countryModeOpen() { countryShown = true; $("#countryMode").animate({ left: '+=25rem', }); $("#countryModeButton").css('opacity', '100%') }
+function weatherModeOpen() { weatherShown = true; $("#weatherMode").animate({ right: '+=25rem', });$("#weatherModeButton").css('opacity', '100%') }
+function astrologyModeOpen() { astrologyShown = true; $("#buttonPanel").animate({ height: '12rem' });$("#astrologyModeButton").css('opacity', '100%'); $("#astrologyMode").fadeIn(); }
 
 
 
 $("#countryModeButton").click(function () {
-  map.removeLayer(tiles.outdoors)
+  map.removeLayer(tiles.terrain_background)
   map.removeLayer(tiles.Stadia_AlidadeSmoothDark)
   tiles.alidade_smooth.addTo(map);
   if (!countryShown) {
@@ -30,7 +30,7 @@ $("#countryModeButton").click(function () {
 $("#weatherModeButton").click(function () {
   map.removeLayer(tiles.alidade_smooth)
   map.removeLayer(tiles.Stadia_AlidadeSmoothDark)
-  tiles.outdoors.addTo(map);
+  tiles.terrain_background.addTo(map);
 
   if (!weatherShown) {
     weatherModeOpen()
@@ -43,7 +43,7 @@ $("#weatherModeButton").click(function () {
 
 
 $("#astrologyModeButton").click(function () {
-  map.removeLayer(tiles.outdoors)
+  map.removeLayer(tiles.terrain_background)
   map.removeLayer(tiles.alidade_smooth)
   tiles.Stadia_AlidadeSmoothDark.addTo(map);
 
