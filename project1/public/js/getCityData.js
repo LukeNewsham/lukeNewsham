@@ -12,10 +12,14 @@ function getCityAstroData(city) {
         success: function (result) {
             if (result.status.name == "ok") {
 
+                console.log(result.data.current_time)
+
                 $('#sunset').html(result.data.sunset);
                 $('#sunrise').html(result.data.sunrise);
                 $('#moonrise').html(result.data.moonrise);
                 $('#moonset').html(result.data.moonset);
+                $('#currentTime').html(result.data.current_time.slice(0,5));
+                $('#dayLength').html(result.data.day_length);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {

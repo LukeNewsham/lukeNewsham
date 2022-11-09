@@ -1,12 +1,19 @@
 //Function to change marker data -----------------------
 
-function changeCityMarkers(marker, data) {
+function addGlobalMarkers(marker, data) {
   GLOBAL_issRun = false;
   cityMarkerOption = marker;
   dataOption = data;
-  countryChosen = false;
+  GLOBAL_countryChosen = false;
   loadMapMarkers()
-  // loadCountryMarkers()
+}
+
+function addCountryMarkers(marker, data) {
+  console.log(GLOBAL_countryChosen)
+  cityMarkerOption = marker;
+  GLOBAL_issRun = false;
+  dataOption = data;
+  loadCountryMarkers()
 }
 
 
@@ -35,7 +42,7 @@ $('#getISS').click(function () {
   allCityMarkers.clearLayers()
   capitalCityMarkers.clearLayers()
 
-  changeCityMarkers(false, false)
+  addGlobalMarkers(false, false)
   GLOBAL_issRun = true;
   issData(true)
 });
@@ -83,10 +90,13 @@ $('#selectCityButton').click(function () {
 //Function to get and show country data  -----------------------
 function showCountryData(countryChosen) {
   GLOBAL_issRun = false;
+  console.log(GLOBAL_countryChosen)
+  GLOBAL_countryChosen = countryChosen;
+  console.log(GLOBAL_countryChosen)
 
   let phpCountryChosen = countryChosen.replace(" ", "%20");
-  getCountryData(phpCountryChosen)  
-  
+  getCountryData(phpCountryChosen)
+
   loadCountryCityList(countryChosen)
 
 
@@ -107,14 +117,14 @@ function showCountryData(countryChosen) {
   allCityMarkers.clearLayers()
   capitalCityMarkers.clearLayers()
 
-  changeCityMarkers(false, false)
+  // addGlobalMarkers(false, false)
 
   console.log(capitalCity)
 
-  map.setView([capitalCity.lat, capitalCity.lng], 5)
+  map.setView([capitalCity.lat, (capitalCity.lng)], 5)
   marker = cityData(capitalCity, 'city')
   chosenCountryCityMarker.addLayer(marker)
-  
+
 
   //Add border for chosen country
   getBorders([countryChosen])
@@ -128,7 +138,7 @@ function showCountryData(countryChosen) {
   //Add astrology data for capital city by default to country mode div
   getCityAstroData(capitalCity)
 
-  getCityWeatherData(capitalCity)  
+  getCityWeatherData(capitalCity)
 
   $('#countryModeData').fadeIn();
 }
@@ -136,17 +146,25 @@ function showCountryData(countryChosen) {
 
 //Function to show current location with country information -----------------------
 $('#selectCountryButton').click(function () {
+  console.log('running')
   GLOBAL_issRun = false;
   countryChosen = $('#selectCountry').val();
-  showCountryData(countryChosen)  
-  
+  showCountryData(countryChosen)
+
 });
 
 //Function to show current location with country information -----------------------
 $('#findLocation').click(function () {
   GLOBAL_issRun = false;
-  findLocation()  
+  findLocation()
 });
+
+//Function to get all borders -----------------------
+$('#allBorders').click(function () {
+  console.log('all borders')
+  allBorders()
+});
+
 
 
 

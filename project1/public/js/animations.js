@@ -2,13 +2,13 @@ let countryShown = false;
 let astrologyShown = false;
 let weatherShown = false;
 
-function countryModeClose() { countryShown = false; $("#countryMode").animate({ left: '-23rem' }); $("#countryModeButton").css('opacity', '50%') }
-function weatherModeClose() { weatherShown = false; $("#weatherMode").animate({ right: '-23rem' }); $("#weatherModeButton").css('opacity', '50%') }
-function astrologyModeClose() { astrologyShown = false; $("#buttonPanel").animate({ height: '4.5rem' }); $("#astrologyModeButton").css('opacity', '50%');$("#astrologyMode").fadeOut();}
+function countryModeClose() { countryShown = false; $("#countryMode").animate({ left: '-25rem' }); $("#countryModeButton").css('opacity', '50%') }
+function weatherModeClose() { weatherShown = false; $("#weatherMode").animate({ right: '-25rem' }); $("#weatherModeButton").css('opacity', '50%') }
+function astrologyModeClose() { astrologyShown = false; $("#buttonPanel").animate({ height: '3.5rem'}); $("#astrologyModeButton").css('opacity', '50%');$("#astrologyMode").fadeOut(); $(".centerTop").fadeIn()}
 
 function countryModeOpen() { countryShown = true; $("#countryMode").animate({ left: '+=25rem', }); $("#countryModeButton").css('opacity', '100%') }
 function weatherModeOpen() { weatherShown = true; $("#weatherMode").animate({ right: '+=25rem', });$("#weatherModeButton").css('opacity', '100%') }
-function astrologyModeOpen() { astrologyShown = true; $("#buttonPanel").animate({ height: '12rem' });$("#astrologyModeButton").css('opacity', '100%'); $("#astrologyMode").fadeIn(); }
+function astrologyModeOpen() { astrologyShown = true; $("#buttonPanel").animate({ height: '15rem', backgroundColor: 'grey'}); $("#astrologyModeButton").css('opacity', '100%'); $("#astrologyMode").fadeIn(); $(".centerTop").fadeOut() }
 
 
 
@@ -54,4 +54,21 @@ $("#astrologyModeButton").click(function () {
   } else {
     astrologyModeClose()
   }
+});
+
+
+$("#allCitiesTab").click(function () {
+  $("#cityData").css('display', 'none')
+  $("#cityMarkers").css('display', 'flex')
+
+  $("#allCitiesTab").css('background-color', 'rgb(240, 240, 240)')
+  $("#selectCityTab").css('background-color', 'white')
+});
+
+$("#selectCityTab").click(function () {
+  $("#cityMarkers").css('display', 'none')
+  $("#cityData").css('display', 'flex')
+
+  $("#selectCityTab").css('background-color', 'rgb(240, 240, 240)')
+  $("#allCitiesTab").css('background-color', 'white')
 });

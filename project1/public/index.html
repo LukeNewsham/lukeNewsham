@@ -21,90 +21,189 @@
 
 <body>
   <h1 id="loading"> Loading... </h1>
-  <h1 id="title"> explore.com </h1>
+  <!-- <h1 id="title"> explore.com </h1> -->
+
+
+  <!-- SEARCH AND BUTTONS ------------------------------------------- -->
+
+  <div class="centerTop">
+
+    <button class='leafletButton' id='allBorders'>
+      <img src="./images/Borders Icon.png" alt="Borders Icon" class="icon" />
+    </button>
+
+    <div id="countrySearch">
+      <input id="selectCountry" class="datasetInput" list='countriesList' placeholder="Search Country" />
+      <datalist id="countriesList">
+      </datalist>
+      <img src="./images/Magnifier Icon.png" alt="Magnifier Icon" class="icon searchButton" id='selectCountryButton' />
+      <img src="./images/Cancel Icon.png" alt="Cancel Icon" class="icon searchButton" id='clearCountryButton' />
+    </div>
+
+    <button class='leafletButton' class='search' id='findLocation'>
+      <img src="./images/Navigate Icon.png" alt="Navigate Icon" class="icon" />
+    </button>
+
+  </div>
 
 
 
-  <button id='findLocation' class='search'>
-    Find Location
-  </button>
-  <button class='markerButton' onclick='allBorders()'>
-    Toggle All Borders
-  </button>
+
+
 
 
 
   <!-- COUNTRY MODE PANEL ------------------------------------------- -->
 
   <div id='countryMode'>
+    <h1 class="modeName"> Country Search Mode </h1>
+
+
+    <div class="modeBanner" id="countryBanner">
+      <img src="" alt="Flag Icon" id="flag" class='bannerImage'>
+    </div>
+
+    <h1 id="chosenCountry" class="modeTitle"> </h1>
+
     <div id="countryData">
-
-
-
-      <div class="searchDiv" id="countrySearchNoneFixed">
-        <input id="selectCountry" class="datasetInput" list='countriesList' placeholder="Search Country" />
-        <datalist id="countriesList">
-        </datalist>
-        <button id='selectCountryButton' class='search'>
-          Search
-        </button>
+      <div class="countryModeData">Subregion <br /> <span id="subregion"> </span> </div>
+      <div class="countryModeData"> Language <br /><span id="language"> </span> </div>
+      <div class="countryModeData"> Population <br />
+        <div><span id="population"> </span> <span> m </span></div>
       </div>
+      <div class="countryModeData"> Currency <br />
+        <div> <span id="currency"> </span> </div>
+      </div>
+    </div>
 
-      <!-- <button id='clearCountryButton' class='search'>
-          Clear
-        </button> -->
-
-      <!-- <button id='allCountryMarkers' class='search'>
-          All Country Markers
-        </button> -->
-
-      <br />
-
-      <h1 id="chosenCountry"> Select Country </h1>
-      <img src="" alt="Flag Icon" id="flag">
-      <p class="countryModeData">Subregion <br /> <span id="subregion"> </span> </p>
-      <p class="countryModeData"> Language <br /><span id="language"> </span> </p>
-      <p class="countryModeData"> Population <br /><span id="population"> </span> <span> m </span></p>
-      <p class="countryModeData"> Currency <br /><span id="currency"> </span> </p>
+    <div id="cityMode">
+      <h2 id='selectCityTab' class="tab"> Select City </h2>
+      <h2 id='allCitiesTab' class="tab"> All cities </h2>
     </div>
 
 
-
-    <div id="countryModeData">
-
-      <h1 id="chosenCity"> </h1>
-
-
-      <div class="searchDiv" id="citySearch">
+    <div id="cityData" class='tabInfomation'>
+      <div id="citySearch">
         <input id="selectCity" class="datasetInput" list='countryCitiesList' placeholder="Search City" />
         <datalist id="countryCitiesList">
         </datalist>
-        <button id='selectCityButton' class='search'>
-          Search
-        </button>
-        <!-- <button id='clearCityButton' class='search'>
-            Clear
-          </button> -->
+        <img src="./images/Magnifier Icon.png" alt="Magnifier Icon" class="icon searchButton" id='selectCityButton' />
+        <img src="./images/Cancel Icon.png" alt="Cancel Icon" class="icon searchButton" id='clearCityButton' />
       </div>
 
+      <h1 id="chosenCity"> </h1>
+
       <br />
       <br />
 
-      <h2> Weather Data</h2>
-      <p class="countryModeData"> from station <br /><span id="stationName"> </span> </p>
-      <p class="countryModeData"> Temperature<br /> <span id="temperature"> </span> <span> &deg C</span> </p>
-      <p class="countryModeData"> Humidity<br /> <span id="humidity"> </span> </p>
-      <!-- <p class="countryModeData"> Weather Condition <br /><span id="weatherCondition"> </span> </p> -->
-      <p class="countryModeData"> Wind Speed <br /><span id="windSpeed"> </span> <span> Km/h</span> </p>
-      <p class="countryModeData"> Dew point <br /><span id="dewPoint"> </span> </p>
-      <br />
-      <br />
       <h2> Astrology Data</h2>
-      <p class="countryModeData"> Sunset <br /> <span id="sunset"> </span> </p>
-      <p class="countryModeData"> Sunrise <br /><span id="sunrise"> </span> </p>
-      <p class="countryModeData"> Moonrise <br /><span id="moonrise"> </span> </p>
-      <p class="countryModeData"> Moonset <br /><span id="moonset"> </span> </p>
+      <div class="countryModeData">
+        <img src="./images/Daylength Icon.png" alt="CurrentTime Icon" class="cityDataIcon" />
+        Current Time
+        <span id="currentTime"> </span>
+      </div>
+      <div class="countryModeData">
+        <img src="./images/Daylength Icon.png" alt="Daylength Icon" class="cityDataIcon" />
+        Day Length
+        <div> <span id="dayLength"></span><span> Hrs </span> </div>
+      </div>
+      <div class="countryModeData">
+        <img src="./images/Sunrise Icon.png" alt="Sunrise Icon" class="cityDataIcon" />
+        Sunrise
+        <span id="sunrise"> </span>
+      </div>
+      <div class="countryModeData">
+        <img src="./images/Sunset Icon.png" alt="Sunset Icon" class="cityDataIcon" />
+        Sunset
+        <span id="sunset"> </span>
+      </div>
+      <div class="countryModeData">
+        <img src="./images/Moonrise Icon.png" alt="Moonrise Icon" class="cityDataIcon" />
+        Moonrise
+        <span id="moonrise"> </span>
+      </div>
+      <div class="countryModeData">
+        <img src="./images/Moonset Icon.png" alt="Moonset Icon" class="cityDataIcon" />
+        Moonset
+        <span id="moonset"> </span>
+      </div>
+
+      <h2> Weather Data</h2>
+      <!-- <div> from station <br /><span id="stationName"> </span> </div> -->
+      <div class="countryModeData">
+        <img src="./images/Temperature Icon.png" alt="Temperature Icon" class="cityDataIcon" />
+        Temperature
+        <div> <span id="temperature"></span><span> &deg C</span> </div>
+      </div>
+      <div class="countryModeData">
+        <img src="./images/Humidity Icon.png" alt="Humidity Icon" class="cityDataIcon" />
+        Humidity
+        <span id="humidity"> </span>
+      </div>
+      <div class="countryModeData">
+        <img src="./images/Windspeed Icon.png" alt="Windspeed Icon" class="cityDataIcon" />
+        Wind Speed
+        <div><span id="windSpeed"> </span> <span> Km/h</span> </div>
+      </div>
+      <div class="countryModeData">
+        <img src="./images/Dewpoint Icon.png" alt="Dewpoint Icon" class="cityDataIcon" />
+        Dew point
+        <span id="dewPoint"> </span>
+      </div>
       <br />
+      <br />
+
+      <br />
+    </div>
+
+    <div id="cityMarkers" class='tabInfomation'>
+
+      <div class="buttons">
+        <h2> Weather </h2> <br />
+        <button class='markerButton' onclick='addCountryMarkers(weatherData, `temperature`)'>
+          <img src="./images/Temperature Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
+          Temperature
+        </button> <br />
+        <button class='markerButton' onclick='addCountryMarkers(weatherData, `humidity`)'>
+          <img src="./images/Humidity Icon.png" alt="Humidity Icon" class="markerButtonIcon" />
+          Humidity
+        </button> <br />
+        <button class='markerButton' onclick='addCountryMarkers(weatherData, `windSpeed`)'>
+          <img src="./images/Windspeed Icon.png" alt="WindSpeed Icon" class="markerButtonIcon" />
+          Wind Speed
+        </button> <br />
+        <button class='markerButton' onclick='addCountryMarkers(weatherData, `dewPoint`)'>
+          <img src="./images/Dewpoint Icon.png" alt="Dewpoint Icon" class="markerButtonIcon" />
+          Dew Point
+        </button>
+      </div>
+
+
+
+      <div class="buttons">
+        <h2> Astrology </h2> <br />
+        <button class='markerButton' onclick='addCountryMarkers(astrologyData, `sunrise`)'>
+          <img src="./images/Sunrise Icon.png" alt="Sunrise Icon" class="markerButtonIcon" />
+          Sunrise
+        </button> <br />
+        <button class='markerButton' onclick='addCountryMarkers(astrologyData, `moonrise`)'>
+          <img src="./images/Moonrise Icon.png" alt="Moonrise Icon" class="markerButtonIcon" />
+          Moonrise
+        </button> <br />
+        <button class='markerButton' onclick='addCountryMarkers(astrologyData, `sunset`)'>
+          <img src="./images/Sunset Icon.png" alt="Sunset Icon" class="markerButtonIcon" />
+          Sunset
+        </button> <br />
+        <button class='markerButton' onclick='addCountryMarkers(astrologyData, `moonset`)'>
+          <img src="./images/Moonset Icon.png" alt="Moonset Icon" class="markerButtonIcon" />
+          Moonset
+        </button>
+        <button class='markerButton' onclick='addCountryMarkers(astrologyData, `day_length`)'>
+          <img src="./images/Daylength Icon.png" alt="Daylength Icon" class="markerButtonIcon" />
+          Day Length
+        </button> <br />
+      </div>
+
     </div>
   </div>
 
@@ -114,47 +213,63 @@
   <!-- WEATHER MODE PANEL ------------------------------------------- -->
 
   <div id="weatherMode">
+    <h1 class="modeName"> Global Search Mode </h1>
 
-    <h1> Global Search </h1>
+    <div class="modeBanner">
+      <img src="./images/Flatmap.png" alt="Flatmap Icon" class='bannerImage'>
+    </div>
 
-    <h2> Weather </h2> <br />
+
+    <h1 class="modeTitle"> Global Search </h1>
+
+
     <div class="buttons">
-      <button class='markerButton' onclick='changeCityMarkers(weatherData, `temperature`)'>
+      <h2> Weather </h2> <br />
+      <button class='markerButton' onclick='addGlobalMarkers(weatherData, `temperature`)'>
+        <img src="./images/Temperature Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
         Temperature
       </button> <br />
-      <button class='markerButton' onclick='changeCityMarkers(weatherData, `humidity`)'>
+      <button class='markerButton' onclick='addGlobalMarkers(weatherData, `humidity`)'>
+        <img src="./images/Humidity Icon.png" alt="Humidity Icon" class="markerButtonIcon" />
         Humidity
       </button> <br />
-      <button class='markerButton' onclick='changeCityMarkers(weatherData, `windSpeed`)'>
+      <button class='markerButton' onclick='addGlobalMarkers(weatherData, `windSpeed`)'>
+        <img src="./images/Windspeed Icon.png" alt="WindSpeed Icon" class="markerButtonIcon" />
         Wind Speed
       </button> <br />
-      <button class='markerButton' onclick='changeCityMarkers(weatherData, `dewPoint`)'>
+      <button class='markerButton' onclick='addGlobalMarkers(weatherData, `dewPoint`)'>
+        <img src="./images/Dewpoint Icon.png" alt="Dewpoint Icon" class="markerButtonIcon" />
         Dew Point
       </button>
     </div>
 
-    <br />
-    <br />
 
 
-    <h2> Astrology </h2> <br />
     <div class="buttons">
-      <button class='markerButton' onclick='changeCityMarkers(astrologyData, `sunset`)'>
+      <h2> Astrology </h2> <br />
+      <button class='markerButton' onclick='addGlobalMarkers(astrologyData, `sunrise`)'>
+        <img src="./images/Sunrise Icon.png" alt="Sunrise Icon" class="markerButtonIcon" />
+        Sunrise
+      </button> <br />
+      <button class='markerButton' onclick='addGlobalMarkers(astrologyData, `moonrise`)'>
+        <img src="./images/Moonrise Icon.png" alt="Moonrise Icon" class="markerButtonIcon" />
+        Moonrise
+      </button> <br />
+      <button class='markerButton' onclick='addGlobalMarkers(astrologyData, `sunset`)'>
+        <img src="./images/Sunset Icon.png" alt="Sunset Icon" class="markerButtonIcon" />
         Sunset
       </button> <br />
-      <button class='markerButton' onclick='changeCityMarkers(astrologyData, `sunrise`)'>
-        Sunset
-      </button> <br />
-      <button class='markerButton' onclick='changeCityMarkers(astrologyData, `moonrise`)'>
-        Moon Rise
-      </button> <br />
-      <button class='markerButton' onclick='changeCityMarkers(astrologyData, `moonset`)'>
-        Moon Set
+      <button class='markerButton' onclick='addGlobalMarkers(astrologyData, `moonset`)'>
+        <img src="./images/Moonset Icon.png" alt="Moonset Icon" class="markerButtonIcon" />
+        Moonset
       </button>
-      <button class='markerButton' onclick='changeCityMarkers(astrologyData, `day_length`)'>
+      <button class='markerButton' onclick='addGlobalMarkers(astrologyData, `day_length`)'>
+        <img src="./images/Daylength Icon.png" alt="Daylength Icon" class="markerButtonIcon" />
         Day Length
       </button> <br />
     </div>
+
+  </div>
 
   </div>
 
@@ -171,24 +286,24 @@
 
     <div id="buttonPanel">
       <div id="countryModeButton" class="modeButton">
-        <img src="./images/Country Icon Black.png" alt="Country Mode Icon" class="icon">
+        <img src="./images/Magnifier Icon.png" alt="Magnifier Icon" class="icon">
       </div>
       <div id="astrologyModeButton" class="modeButton">
-        <img src="./images/internationalSpaceStation.png" alt="Astrology Mode Icon" class="icon">
+        <img src="./images/internationalSpaceStation.png" alt="ISS Space Station Icon" class="icon">
       </div>
       <div id="weatherModeButton" class="modeButton">
-        <img src="./images/Weather Icon Black.png" alt="Weather Mode Icon" class="icon">
+        <img src="./images/Global Icon.png" alt="Global Icon" class="icon">
       </div>
       <div id="astrologyMode">
 
         <div id="astroData">
-          <h3> ISS Station Live Position</h3>
+          <h2> ISS Station Live Position</h2>
           <p>Latitude: <span id="astroLat"> </span></p>
           <p>Longitude: <span id="astroLng"> </span></p>
-          <button class='issButton' id='getISS'>
+          <button class='astroButton' id='getISS'>
             Start
           </button>
-          <button class='issButton' id='stopISS'>
+          <button class='astroButton ' id='stopISS'>
             Stop
           </button>
         </div>
@@ -205,18 +320,7 @@
 
 
 
-  <!-- MOBILE ONLY SEARCH ------------------------------------------- -->
 
-  <div class="centerBottom">
-    <div class="searchDiv" id="countrySearchFixed">
-      <input id="selectCountry" class="datasetInput" list='countriesList' placeholder="Search Country" />
-      <datalist id="countriesList">
-      </datalist>
-      <button id='selectCountryButton' class='search'>
-        Search
-      </button>
-    </div>
-  </div>
 
 
 

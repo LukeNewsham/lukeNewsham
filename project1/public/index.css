@@ -12,14 +12,29 @@ body {
     font-size: 14px;
 }
 
+h1,
+h2,
+h3 {
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+}
 
-/* h1 {
+h1 {
+    font-size: 1.5rem;
+    width: 100%;
     margin-bottom: 1rem;
-} */
+}
+
+h2 {
+    font-size: 1.2rem;
+    width: 100%;
+    padding: 1rem 0;
+}
 
 
-p span {
-    font-size: 1.1rem;
+span {
+    font-size: 1rem;
     font-weight: bolder;
     color: rgb(78, 138, 181);
 }
@@ -33,10 +48,6 @@ button {
     border: none;
     border-radius: 0.4rem;
     height: 2rem;
-}
-
-button:hover {
-    background-color: rgb(204, 228, 237);
 }
 
 /* Classes */
@@ -61,7 +72,7 @@ button:hover {
     background-color: white;
     font-size: 0.8rem;
     color: black;
-    box-shadow: 0.2rem 0.2rem 1rem gray;    
+    box-shadow: 0.2rem 0.2rem 1rem gray;
     border-radius: 0 0.7rem 0.7rem 0.7rem;
     width: auto !important;
     height: auto !important;
@@ -90,8 +101,6 @@ button:hover {
     min-height: 2.5rem;
 }
 
-.infoIcon:hover {}
-
 .option {
     font-size: 1rem;
     padding: 0.5rem;
@@ -99,18 +108,51 @@ button:hover {
 }
 
 .markerButton {
+    font-size: 1rem;
     cursor: pointer;
-    flex-grow: 1;
-    margin: 0.5rem;
-    background-color: rgb(235, 235, 235);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 3rem;
+    width: 40%;
+    margin: 0.8rem;
+    background-color: white;
     border: 0;
-    border-radius: 0.3rem;
+    border-radius: 0.3rem;    
 }
 
 .markerButton:hover {
-    background-color: lightblue;
+    box-shadow: 0 0 0.5rem rgb(180, 180, 180);
 
 }
+
+.markerButtonIcon {
+    width: auto;
+    height: 70%;
+}
+
+.astroButton {
+    font-size: 0.9rem;
+    cursor: pointer;
+    height: 2rem;
+    width: 30%;
+    margin: 0.5rem;
+    background-color: lightblue;
+    border: 0;
+    border-radius: 0.3rem;    
+}
+
+.astroButton:hover {
+    box-shadow: 0 0 0.5rem rgb(180, 180, 180);
+
+}
+
+.cityDataIcon {
+    width: auto;
+    height: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
 
 .modeButton {
     display: flex;
@@ -118,13 +160,15 @@ button:hover {
     align-items: center;
     cursor: pointer;
     margin: 0 0.5rem;
-    height: 4rem;
-    width: 4rem;
+    height: 3.5rem;
+    width: 3.5rem;
     background-color: white;
 }
 
 .searchDiv {
     margin: 1rem 0;
+    background-color: white;
+    padding: 1rem;
 }
 
 
@@ -132,25 +176,28 @@ button:hover {
     opacity: 100%;
     width: 60%;
     height: 60%;
+    cursor: pointer;
 }
+
+
 
 
 
 .buttons {
     display: Flex;
     flex-wrap: wrap;
-    justify-content: stretch;
+    align-content: center;
+    justify-content: center;
+    background-color: rgb(240, 240, 240);
+    border-radius: 0.4rem;
 }
 
 .datasetInput {
-    width: 60%;
     height: 1rem;
-    /* margin: 1rem 0 0 0; */
     text-align: left;
     padding: 0.5rem;
     font-size: 1rem;
-    border: 1px solid gray;
-    border-radius: 0.2rem;
+    border: none;
 }
 
 
@@ -158,12 +205,98 @@ button:hover {
     width: 40%
 }
 
+
+.centerTop {
+    height: 1rem;
+    position: absolute;
+    display: flex;
+    top: 0;
+    left: 0;
+    right: 0;
+    justify-content: center;
+}
+
+
+.centerBottom {
+    position: absolute;
+    display: flex;
+    bottom: 2rem;
+    left: 0;
+    right: 0;
+    justify-content: center;
+    height: 1rem;
+}
+
+.leafletButton {
+    margin: 0 1.5rem;
+    position: relative;
+    top: 1rem;
+    height: 3rem;
+    width: 3rem;
+    background-color: white;
+    border-radius: 3rem;
+    box-shadow: 0 0 1rem gray;
+
+}
+
+.searchButton {
+    padding-left: 1rem;
+    height: 50%;
+}
+
+.tab {    
+    border-radius: 0.4rem 0.4rem 0 0;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+#selectCityTab {
+    background-color: rgb(240, 240, 240);
+}
+
+.modeName {
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+}
+
+
+.modeBanner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.modeTitle {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+
+
+
+
+
+
 /* Ids */
 
-#chosenCountry {
-    text-align: left;
-    width: 60%;
+
+#chosenCity {
+    margin: 1rem 0;
+    text-align: center;
 }
+
+
+.bannerImage {
+    width: auto;
+    height: 8rem;
+    object-fit: cover;   
+    z-index: -1; 
+    border-radius: 0.4rem;
+    opacity: 100%;    
+}
+
 
 #searchContainer {
     background-color: rgb(236, 236, 236);
@@ -211,24 +344,45 @@ button:hover {
 }
 
 
-#countryMode, #weatherMode {
+#countryMode,
+#weatherMode {    
     position: absolute;
-    padding: 1rem;
-    bottom: 2rem;    
-    width: 15rem;
-    height: auto;
+    padding: 1rem 1rem;
+    bottom: 2rem;
+    width: 20rem;
+    height: fit-content;
+    max-height: 35rem;
     background-color: white;
     box-shadow: 0 0 1rem gray;
-    border-radius: 0.7rem;
+    border-radius: 0.5rem;
     text-align: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#countryMode::-webkit-scrollbar-thumb {
+    background-color: rgb(191, 213, 221);
+    opacity: 50%;
+    border-radius: 1rem;
+}
+
+#countryMode:hover > #countryMode::-webkit-scrollbar-thumb {
+    opacity: 100%;
+}
+
+
+#countryMode::-webkit-scrollbar {
+    width: 0.5rem;  
 }
 
 #countryMode {
-    left: -23rem;
+    left: -25rem;
+    margin-left: 2rem;
 }
 
 #weatherMode {
-    right: -23rem;
+    right: -25rem;
+    margin-right: 2rem;
 }
 
 
@@ -242,27 +396,33 @@ button:hover {
 
 
 
-#countryMode p {
-    padding-top: 1rem;
-    width: 100%;
+.countryModeData {
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: fit-content;
+    width: 35%;
+    margin: 0.5rem;
+    background-color: white;
+    border: 0;
+    border-radius: 0.3rem;
 }
 
-#countryData p {
-    padding-top: 1rem;
-    width: 50%;
-}
 
 
-
-#countryModeData {
-    overflow-x: hidden;
-    overflow-y: auto;
-    height: 20rem;
-    margin: 1rem 0;
+.tabInfomation {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    padding: 1rem;    
+    margin: 0 0 1rem 0;
     text-align: center;
     background-color: rgb(240, 240, 240);
     border: none;
-    border-radius: 0.4rem;
+    border-radius: 0 0 0.4rem 0.4rem;
 }
 
 #countryModeButton,
@@ -294,72 +454,66 @@ button:hover {
 
 }
 
-.centerBottom {
-    position: absolute;
-    display: flex;
-    bottom: 2rem;
-    left: 0;
-    right: 0;
-    justify-content: center;
-    height: 1rem;
-}
+
 
 #buttonPanel {
-    height: 4.5em;
+    width: 15rem;
+    height: 3.5rem;
     display: flex;
     align-items: flex-end;
     background-color: white;
     position: absolute;
-    bottom: 1rem;
+    bottom: 0rem;
     padding: 0.4rem;
-    background-color: white;
     box-shadow: 0 0 1rem gray;
     border-radius: 0.7rem;
-
-}
-
-.centerTop {
-    height: 1rem;
-    position: absolute;
-    display: flex;
-    top: 0;
-    left: 0;
-    right: 0;
     justify-content: center;
+
 }
 
-#selectCity,
-#selectCityButton {
-    display: none;
-}
 
-#flag {
-    width: 30%;
-    height: 30%;
-    margin-top: 1rem;
-}
 
-#countrySearchFixed {
+#countrySearch {
     position: relative;
-    bottom: 5rem;
-    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 0.5rem 2rem;
+    top: 1rem;
+    width: fit-content;
+    height: 2rem;
     text-align: center;
-    display: none;
     z-index: 100000;
-
+    box-shadow: 0 0 1rem gray;
+    border-radius: 2rem;
 }
 
 #countrySearchNoneFixed {
     display: block;
 }
 
+
+#citySearch {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    top: 2rem;
+    width: fit-content;
+    height: 2rem;
+    text-align: center;
+    justify-items: space-between;
+    padding: 0.3rem 0.5rem;
+    background-color: none;
+    border-radius: 0.5rem;
+}
+
 #astroData {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     width: 100%;
-    height: 8rem;
+    height: 12rem;
 }
 
 #astroData p {
@@ -367,50 +521,83 @@ button:hover {
 }
 
 
+#cityMode {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: space-around;
+    margin-top: 2rem;
+}
+
+#cityMarkers {
+    display:  none;
+}
+
 
 @media only screen and (max-width: 1000px) {
 
-    #countryMode {
+    #countryMode, #weatherMode {
         bottom: 0rem;
         top: 0;
-        left: -25rem;
+        max-height: none;
         height: auto;
+    }
 
+    #countryMode {
+        margin-left: 0rem;
+    }
+
+    #weatherMode {
+        margin-right: 0rem;
+    }
+
+    #countryBanner {
+        height: auto;
     }
 
     #countryModeData {
         height: 30rem;
     }
 
+    .leafletButton {
+        display: none;
+    }
+
+    
+
 }
 
 
 @media only screen and (max-width: 700px) {
 
-    #countryMode {
+    #countryMode, #weatherMode {
         width: 100%;
         padding: 0;
         border-radius: 0;
     }
 
-    /* #countrySearchFixed {
-        display: block;
+    .tabInfomation {        
+        padding-bottom: 15rem;
     }
 
-    #countrySearchNoneFixed {
-        display: none;
-    } */
-
     .centerBottom {
-        
         bottom: 0;
     }
 
     #buttonPanel {
-        border-radius: 0 ;
+        border-radius: 0;
         width: 100%;
         justify-content: center;
+        bottom: 0;
+    }
 
+    .centerTop {
+        top: auto;
+        bottom: 11rem;
+    }
+
+    #countryMode::-webkit-scrollbar {
+        width: 0rem;  
     }
 
 }

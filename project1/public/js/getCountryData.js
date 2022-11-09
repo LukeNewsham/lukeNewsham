@@ -14,6 +14,7 @@ function getCountryData(country) {
             if (result.status.name == "ok") {
                 $('#population').html(Math.round((result.data[0].population)/1000000));
                 $('#flag').attr('src', `${result.data[0].flags.png}`)
+                $('#flagBackground').attr('src', `${result.data[0].flags.png}`)
                 $('#currency').html(`${Object.values(result.data[0].currencies)[0].name} ${Object.values(result.data[0].currencies)[0].symbol}`);
                 $('#subregion').html(result.data[0].subregion);
                 $('#language').html(Object.values(result.data[0].languages)[0]);

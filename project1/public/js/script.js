@@ -1,9 +1,9 @@
 var Stamen_TerrainBackground = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain-background/{z}/{x}/{y}{r}.{ext}', {
-	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	subdomains: 'abcd',
-	minZoom: 0,
-	maxZoom: 18,
-	ext: 'png'
+  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  subdomains: 'abcd',
+  minZoom: 0,
+  maxZoom: 18,
+  ext: 'png'
 });
 
 
@@ -40,12 +40,12 @@ tiles = {
       }
     ),
   terrain_background:
-  L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain-background/{z}/{x}/{y}{r}.{ext}', {
-    attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    subdomains: 'abcd',
-    minZoom: 0,
-    maxZoom: 18,
-    ext: 'png'
+    L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain-background/{z}/{x}/{y}{r}.{ext}', {
+      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      subdomains: 'abcd',
+      minZoom: 0,
+      maxZoom: 18,
+      ext: 'png'
     })
 
 }
@@ -110,8 +110,6 @@ function getBorders(countries) {
     url: "js/countryBorders.geo.json",
     success: function (borders) {
 
-      // borders.eachLayer(layer =>
-      //   console.log(layer))
 
       $(borders.features).each(function (key, border) {
 
@@ -160,12 +158,10 @@ function getBorders(countries) {
 //Function to load global map markers
 function loadMapMarkers() {
 
-  if (cityMarkerOption && !countryChosen) {
+  if (cityMarkerOption && !GLOBAL_countryChosen) {
 
     map.removeLayer(chosenCountryCityMarker);
     getBorders([''])
-
-    console.log('Loading map markers')
     document.getElementById("loading").style.display = "block"
 
     function run() {
@@ -198,20 +194,28 @@ function loadMapMarkers() {
 
 //Function to load country map markers
 function loadCountryMarkers() {
-  if (cityMarkerOption && countryChosen) {
+
+
+  if (cityMarkerOption && GLOBAL_countryChosen) {
     document.getElementById("loading").style.display = "block"
+
     function run() {
 
-      console.log('Loading country markers')
+      
       allCityMarkers.clearLayers()
       capitalCityMarkers.clearLayers()
+      chosenCountryCityMarker.clearLayers()
 
-      citiesInCountry = cities.filter(city => city.country === countryChosen && city.capital !== 'minor')
+      citiesInCountry = cities.filter(city => city.country === GLOBAL_countryChosen && city.capital !== 'minor')
       console.log(citiesInCountry)
 
       for (city of citiesInCountry) {
         marker = cityMarkerOption(city, dataOption)
         allCityMarkers.addLayer(marker)
+        if (city.capital === 'primary') {
+          console.log(city.capital)
+          map.setView([city.lat, city.lng], 8)
+        }
       }
 
       document.getElementById("loading").style.display = "none";

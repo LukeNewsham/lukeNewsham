@@ -1,13 +1,11 @@
 //Function to add city info marker 
 let cityData = (city) => {
-  text = `Rank: ${city.capital}`
   let infoIcon = L.divIcon({
     className: 'weatherIcon',
     iconAnchor: [0, 0],
     html: `<p> ${(city.city).toUpperCase()} </p>`
   });
   marker = L.marker([city.lat, city.lng], { icon: infoIcon }).addTo(map);
-  marker.bindPopup(text)
   return marker
 }
 
@@ -34,7 +32,7 @@ let astrologyData = (point, dataOption) => {
         Moonset: ${result['data']['moonset']}`
         let astroIcon = L.divIcon({
           className: 'weatherIcon',
-          iconAnchor: [40, 40],
+          iconAnchor: [0, 0],
           html: `<p> ${(city.city).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${result.data[`${dataOption}`]} </span>`
         });
         marker = L.marker([point.lat, point.lng], { icon: astroIcon }).addTo(map);
@@ -65,14 +63,13 @@ let weatherData = (point, dataOption) => {
     },
     success: function (result) {
       if (result.status.name == "ok") {
-        console.log(result)
         let text = `test`
 
         let symbol = ''
         if (dataOption === 'temperature') {
           symbol = `&deg C`
         }
-        if (dataOption === 'wind speed') {
+        if (dataOption === 'windSpeed') {
           symbol = `Km/h`
         }
 
