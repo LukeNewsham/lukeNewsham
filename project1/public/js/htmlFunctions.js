@@ -1,3 +1,16 @@
+//---------------------------  HTML FUNCTIONS  ---------------------------
+
+//Includes functions which are used to load DOM elements
+
+
+
+
+
+
+
+
+//Adds country list to country dataset ----------------------------------------------------------------------------------
+
 function loadCountryList() {
     console.log('running')
     let select = document.getElementById("countriesList");
@@ -17,9 +30,12 @@ function loadCountryList() {
         filteredCities.push(option);
     }
 }
-
 loadCountryList()
 
+
+
+
+//Adds country city list to city dataset ----------------------------------------------------------------------------------
 
 function loadCountryCityList(country) {
     let select = document.getElementById("countryCitiesList");

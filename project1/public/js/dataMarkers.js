@@ -1,19 +1,34 @@
-//Function to add city info marker 
-let cityData = (city) => {
+//---------------------------  DATA MARKERS  ---------------------------
+
+//Includes functions which are used throughout the application, mostly for listener functions
+
+
+
+
+
+
+
+//Adds city data marker to map ----------------------------------------------------------------------------------
+let cityDataMarker = (city) => {
+
+  //new marker icon for data
   let infoIcon = L.divIcon({
     className: 'weatherIcon',
     iconAnchor: [0, 0],
     html: `<p> ${(city.city).toUpperCase()} </p>`
   });
   marker = L.marker([city.lat, city.lng], { icon: infoIcon }).addTo(map);
+
+  //returns marker to be used
   return marker
 }
 
 
-//Function to astrology data marker 
-let astrologyData = (point, dataOption) => {
-  // let countries = []
+//Creates astrology data marker for given point and chosen data ----------------------------------------------------------------------------------
 
+let astrologyDataMarker = (point, dataOption) => {
+
+  //gets data
   $.ajax({
     url: "php/getAstroData.php",
     type: 'POST',
@@ -26,32 +41,32 @@ let astrologyData = (point, dataOption) => {
     success: function (result) {
       if (result.status.name == "ok") {
         extraPropertiesData = result['data']
-        text = `Sunrise: ${result['data'][`sunrise`]} <br />
-        Sunset: ${result['data']['sunset']} <br />
-        Moonrise: ${result['data']['moonrise']} <br />
-        Moonset: ${result['data']['moonset']}`
         let astroIcon = L.divIcon({
           className: 'weatherIcon',
           iconAnchor: [0, 0],
           html: `<p> ${(city.city).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${result.data[`${dataOption}`]} </span>`
         });
         marker = L.marker([point.lat, point.lng], { icon: astroIcon }).addTo(map);
-        marker.bindPopup(text)
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      // your error code
     }
   })
-  // getBorders(countries, data)
+
+  //returns marker to be used
   return marker
 }
 
 
-//Function to get weather data marker 
-let weatherData = (point, dataOption) => {
 
 
+
+
+//Creates weather data marker for given point and chosen data ----------------------------------------------------------------------------------
+
+let weatherDataMarker = (point, dataOption) => {
+
+  //gets data
   $.ajax({
     url: "php/getWeatherData.php",
     type: 'POST',
@@ -63,8 +78,8 @@ let weatherData = (point, dataOption) => {
     },
     success: function (result) {
       if (result.status.name == "ok") {
-        let text = `test`
 
+        //adds units for specific data
         let symbol = ''
         if (dataOption === 'temperature') {
           symbol = `&deg C`
@@ -79,30 +94,28 @@ let weatherData = (point, dataOption) => {
           html: `<p> ${(city.city).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${result.data.weatherObservation[`${dataOption}`]} ${symbol} </span>`
         });
         marker = L.marker([point.lat, point.lng], { icon: weatherIcon }).addTo(map);
-        marker.bindPopup(text)
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      // your error code
     }
   })
-  // getBorders(countries, data)
+
+  //returns marker to be used
   return marker
 }
 
 
 
-//Function to get ISS live data 
-let issData = () => {
+//Updates ISS Space Station data marker ----------------------------------------------------------------------------------
 
+let issDataMarker = () => {
+
+  //move view for first time getting iss data
   let firstTime = true;
 
-  function run(relocate) {
+  function run() {    
 
-    if (relocate) {
-      firstTime = true
-    }
-
+    //checks if global variable is true (used to stop getting data during other modes)
     if (GLOBAL_issRun === true) {
       $.ajax({
         url: "php/getISS.php",
@@ -111,28 +124,27 @@ let issData = () => {
         dataType: 'json',
         success: function (result) {
           if (result.status.name == "ok") {
+
+            //update iss marker location and add lat lng to astro panel
+            markerIss.addTo(map);
             markerIss.setLatLng([result.data.latitude, result.data.longitude])
             $('#astroLat').html(Math.round(result.data.latitude * 1000) / 1000);
             $('#astroLng').html(Math.round(result.data.longitude * 1000) / 1000);
 
+            //update view if firstTime or relocate is true
             if (firstTime) {
               map.setView([result.data.latitude, result.data.longitude], 4);
               firstTime = false;
-
             }
           }
-
         },
         error: function (jqXHR, textStatus, errorThrown) {
-          // your error code
+
         }
       })
     }
   }
-
   setInterval(run, 1000)
-
-
 }
 
 

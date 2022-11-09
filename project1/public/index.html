@@ -40,10 +40,20 @@
       <img src="./images/Cancel Icon.png" alt="Cancel Icon" class="icon searchButton" id='clearCountryButton' />
     </div>
 
-    <button class='leafletButton' class='search' id='findLocation'>
+    <button class='leafletButton' id='findLocation'>
       <img src="./images/Navigate Icon.png" alt="Navigate Icon" class="icon" />
+    </button>    
+
+  </div>
+
+  <div id="leafletButtonsMobile">
+    <button class='leafletButtonMobile' id='allBordersMobile'>
+      <img src="./images/Borders Icon.png" alt="Borders Icon" class="icon" />
     </button>
 
+    <button class='leafletButtonMobile' id='findLocationMobile'>
+      <img src="./images/Navigate Icon.png" alt="Navigate Icon" class="icon" />
+    </button>
   </div>
 
 
@@ -160,19 +170,19 @@
 
       <div class="buttons">
         <h2> Weather </h2> <br />
-        <button class='markerButton' onclick='addCountryMarkers(weatherData, `temperature`)'>
+        <button class='markerButton' onclick='addCountryMarkers(weatherDataMarker, `temperature`)'>
           <img src="./images/Temperature Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
           Temperature
         </button> <br />
-        <button class='markerButton' onclick='addCountryMarkers(weatherData, `humidity`)'>
+        <button class='markerButton' onclick='addCountryMarkers(weatherDataMarker, `humidity`)'>
           <img src="./images/Humidity Icon.png" alt="Humidity Icon" class="markerButtonIcon" />
           Humidity
         </button> <br />
-        <button class='markerButton' onclick='addCountryMarkers(weatherData, `windSpeed`)'>
+        <button class='markerButton' onclick='addCountryMarkers(weatherDataMarker, `windSpeed`)'>
           <img src="./images/Windspeed Icon.png" alt="WindSpeed Icon" class="markerButtonIcon" />
           Wind Speed
         </button> <br />
-        <button class='markerButton' onclick='addCountryMarkers(weatherData, `dewPoint`)'>
+        <button class='markerButton' onclick='addCountryMarkers(weatherDataMarker, `dewPoint`)'>
           <img src="./images/Dewpoint Icon.png" alt="Dewpoint Icon" class="markerButtonIcon" />
           Dew Point
         </button>
@@ -182,23 +192,23 @@
 
       <div class="buttons">
         <h2> Astrology </h2> <br />
-        <button class='markerButton' onclick='addCountryMarkers(astrologyData, `sunrise`)'>
+        <button class='markerButton' onclick='addCountryMarkers(astrologyDataMarker, `sunrise`)'>
           <img src="./images/Sunrise Icon.png" alt="Sunrise Icon" class="markerButtonIcon" />
           Sunrise
         </button> <br />
-        <button class='markerButton' onclick='addCountryMarkers(astrologyData, `moonrise`)'>
+        <button class='markerButton' onclick='addCountryMarkers(astrologyDataMarker, `moonrise`)'>
           <img src="./images/Moonrise Icon.png" alt="Moonrise Icon" class="markerButtonIcon" />
           Moonrise
         </button> <br />
-        <button class='markerButton' onclick='addCountryMarkers(astrologyData, `sunset`)'>
+        <button class='markerButton' onclick='addCountryMarkers(astrologyDataMarker, `sunset`)'>
           <img src="./images/Sunset Icon.png" alt="Sunset Icon" class="markerButtonIcon" />
           Sunset
         </button> <br />
-        <button class='markerButton' onclick='addCountryMarkers(astrologyData, `moonset`)'>
+        <button class='markerButton' onclick='addCountryMarkers(astrologyDataMarker, `moonset`)'>
           <img src="./images/Moonset Icon.png" alt="Moonset Icon" class="markerButtonIcon" />
           Moonset
         </button>
-        <button class='markerButton' onclick='addCountryMarkers(astrologyData, `day_length`)'>
+        <button class='markerButton' onclick='addCountryMarkers(astrologyDataMarker, `day_length`)'>
           <img src="./images/Daylength Icon.png" alt="Daylength Icon" class="markerButtonIcon" />
           Day Length
         </button> <br />
@@ -225,19 +235,19 @@
 
     <div class="buttons">
       <h2> Weather </h2> <br />
-      <button class='markerButton' onclick='addGlobalMarkers(weatherData, `temperature`)'>
+      <button class='markerButton' onclick='addGlobalMarkers(weatherDataMarker, `temperature`)'>
         <img src="./images/Temperature Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
         Temperature
       </button> <br />
-      <button class='markerButton' onclick='addGlobalMarkers(weatherData, `humidity`)'>
+      <button class='markerButton' onclick='addGlobalMarkers(weatherDataMarker, `humidity`)'>
         <img src="./images/Humidity Icon.png" alt="Humidity Icon" class="markerButtonIcon" />
         Humidity
       </button> <br />
-      <button class='markerButton' onclick='addGlobalMarkers(weatherData, `windSpeed`)'>
+      <button class='markerButton' onclick='addGlobalMarkers(weatherDataMarker, `windSpeed`)'>
         <img src="./images/Windspeed Icon.png" alt="WindSpeed Icon" class="markerButtonIcon" />
         Wind Speed
       </button> <br />
-      <button class='markerButton' onclick='addGlobalMarkers(weatherData, `dewPoint`)'>
+      <button class='markerButton' onclick='addGlobalMarkers(weatherDataMarker, `dewPoint`)'>
         <img src="./images/Dewpoint Icon.png" alt="Dewpoint Icon" class="markerButtonIcon" />
         Dew Point
       </button>
@@ -247,23 +257,23 @@
 
     <div class="buttons">
       <h2> Astrology </h2> <br />
-      <button class='markerButton' onclick='addGlobalMarkers(astrologyData, `sunrise`)'>
+      <button class='markerButton' onclick='addGlobalMarkers(astrologyDataMarker, `sunrise`)'>
         <img src="./images/Sunrise Icon.png" alt="Sunrise Icon" class="markerButtonIcon" />
         Sunrise
       </button> <br />
-      <button class='markerButton' onclick='addGlobalMarkers(astrologyData, `moonrise`)'>
+      <button class='markerButton' onclick='addGlobalMarkers(astrologyDataMarker, `moonrise`)'>
         <img src="./images/Moonrise Icon.png" alt="Moonrise Icon" class="markerButtonIcon" />
         Moonrise
       </button> <br />
-      <button class='markerButton' onclick='addGlobalMarkers(astrologyData, `sunset`)'>
+      <button class='markerButton' onclick='addGlobalMarkers(astrologyDataMarker, `sunset`)'>
         <img src="./images/Sunset Icon.png" alt="Sunset Icon" class="markerButtonIcon" />
         Sunset
       </button> <br />
-      <button class='markerButton' onclick='addGlobalMarkers(astrologyData, `moonset`)'>
+      <button class='markerButton' onclick='addGlobalMarkers(astrologyDataMarker, `moonset`)'>
         <img src="./images/Moonset Icon.png" alt="Moonset Icon" class="markerButtonIcon" />
         Moonset
       </button>
-      <button class='markerButton' onclick='addGlobalMarkers(astrologyData, `day_length`)'>
+      <button class='markerButton' onclick='addGlobalMarkers(astrologyDataMarker, `day_length`)'>
         <img src="./images/Daylength Icon.png" alt="Daylength Icon" class="markerButtonIcon" />
         Day Length
       </button> <br />
@@ -301,7 +311,7 @@
           <p>Latitude: <span id="astroLat"> </span></p>
           <p>Longitude: <span id="astroLng"> </span></p>
           <button class='astroButton' id='getISS'>
-            Start
+            Locate
           </button>
           <button class='astroButton ' id='stopISS'>
             Stop
@@ -312,18 +322,6 @@
     </div>
 
   </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -340,15 +338,14 @@
 
 
   <script type="application/javascript" src="js/jquery-2.2.3.min.js" class="'icon"></script>
-  <script src='js/animations.js'> </script>
-  <script src='js/userFunctions.js'> </script>
-  <script src='js/getCountryData.js'> </script>
-  <script src='js/getCityData.js'> </script>
+  <script src='js/leafletSetup.js'> </script>
   <script src='js/globalVariables.js'> </script>
-  <script src='js/cities.js'> </script>
-  <script src='js/htmlScripts.js'> </script>
+  <script src='js/animations.js'> </script>
+  <script src='js/phpCalls.js'> </script>
+  <script src='js/htmlFunctions.js'> </script>
   <script src='js/dataMarkers.js'> </script>
-  <script src='js/userFunctions.js'> </script>
+  <script src='js/listenerFunctions.js'> </script>
+  <script src='js/functions.js'> </script>
   <script src='js/script.js'> </script>
 
 </body>

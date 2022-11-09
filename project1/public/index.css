@@ -239,6 +239,16 @@ button {
 
 }
 
+.leafletButtonMobile {
+    margin: 0.5rem 0;
+    top: 1rem;
+    height: 3rem;
+    width: 3rem;
+    background-color: white;
+    border-radius: 3rem;
+    box-shadow: 0 0 1rem gray;
+}
+
 .searchButton {
     padding-left: 1rem;
     height: 50%;
@@ -360,28 +370,24 @@ button {
     overflow-y: auto;
 }
 
-#countryMode::-webkit-scrollbar-thumb {
+#countryMode::-webkit-scrollbar-thumb, #weatherMode::-webkit-scrollbar-thumb {
     background-color: rgb(191, 213, 221);
     opacity: 50%;
     border-radius: 1rem;
 }
 
-#countryMode:hover > #countryMode::-webkit-scrollbar-thumb {
-    opacity: 100%;
-}
 
-
-#countryMode::-webkit-scrollbar {
+#countryMode::-webkit-scrollbar, #weatherMode::-webkit-scrollbar{
     width: 0.5rem;  
 }
 
 #countryMode {
-    left: -25rem;
+    left: -30rem;
     margin-left: 2rem;
 }
 
 #weatherMode {
-    right: -25rem;
+    right: -30rem;
     margin-right: 2rem;
 }
 
@@ -533,6 +539,14 @@ button {
     display:  none;
 }
 
+#leafletButtonsMobile {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 6rem;
+    left: 1rem;
+}
+
 
 @media only screen and (max-width: 1000px) {
 
@@ -563,7 +577,9 @@ button {
         display: none;
     }
 
-    
+    #leafletButtonsMobile {
+        display: flex;
+    }   
 
 }
 
@@ -593,11 +609,16 @@ button {
 
     .centerTop {
         top: auto;
-        bottom: 11rem;
+        bottom: 9rem;
     }
 
     #countryMode::-webkit-scrollbar {
         width: 0rem;  
     }
+
+    .modeName {
+        padding: 1rem;
+    }
+    
 
 }
