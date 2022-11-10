@@ -171,7 +171,7 @@ button {
 
 .icon {
     opacity: 100%;
-    width: 60%;
+    width: auto;
     height: 60%;
     cursor: pointer;
 }
@@ -500,11 +500,12 @@ button {
 #countrySearch {
     position: relative;
     display: flex;
+    justify-content: center;
     align-items: center;
     background-color: white;
     padding: 0.5rem 2rem;
     top: 1rem;
-    width: fit-content;
+    width: 18rem;
     height: 2rem;
     text-align: center;
     z-index: 100000;
