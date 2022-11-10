@@ -1,10 +1,10 @@
-/* DOM Elements */
+/* ------------------------------------  DOM ELEMENTS  ------------------------------------ */
+
 
 * {
     margin: 0;
     padding: 0;
     font-family: 'Roboto';
-
 }
 
 body {
@@ -32,13 +32,11 @@ h2 {
     padding: 1rem 0;
 }
 
-
 span {
     font-size: 1rem;
     font-weight: bolder;
     color: rgb(78, 138, 181);
 }
-
 
 button {
     cursor: pointer;
@@ -50,7 +48,66 @@ button {
     height: 2rem;
 }
 
-/* Classes */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ------------------------------------  CLASSES  ------------------------------------ */
+
+.centerTop {
+    height: 1rem;
+    position: absolute;
+    display: flex;
+    top: 0;
+    left: 0;
+    right: 0;
+    justify-content: center;
+}
+
+.centerBottom {
+    position: absolute;
+    display: flex;
+    bottom: 2rem;
+    left: 0;
+    right: 0;
+    justify-content: center;
+    height: 1rem;
+}
+
+.modeButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 0.5rem;
+    height: 3.5rem;
+    width: 3.5rem;
+    background-color: white;
+}
+
+.searchDiv {
+    margin: 1rem 0;
+    background-color: white;
+    padding: 1rem;
+}
 
 
 .infoIcon,
@@ -66,47 +123,6 @@ button {
     height: auto !important;
 }
 
-.weatherIcon {
-    display: flex !important;
-    overflow: hidden;
-    background-color: white;
-    font-size: 0.8rem;
-    color: black;
-    box-shadow: 0.2rem 0.2rem 1rem gray;
-    border-radius: 0 0.7rem 0.7rem 0.7rem;
-    width: auto !important;
-    height: auto !important;
-    color: rgb(68, 68, 68)
-}
-
-
-.weatherIcon span {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(112, 161, 217);
-    color: white;
-    width: 4rem;
-    padding: 0.3rem;
-    font-size: 1rem;
-    font-weight: bolder;
-}
-
-.weatherIcon p {
-    font-weight: bolder;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 0.5rem;
-    min-height: 2.5rem;
-}
-
-.option {
-    font-size: 1rem;
-    padding: 0.5rem;
-    color: black;
-}
-
 .markerButton {
     font-size: 1rem;
     cursor: pointer;
@@ -118,7 +134,7 @@ button {
     margin: 0.8rem;
     background-color: white;
     border: 0;
-    border-radius: 0.3rem;    
+    border-radius: 0.3rem;
 }
 
 .markerButton:hover {
@@ -139,7 +155,7 @@ button {
     margin: 0.5rem;
     background-color: lightblue;
     border: 0;
-    border-radius: 0.3rem;    
+    border-radius: 0.3rem;
 }
 
 .astroButton:hover {
@@ -153,35 +169,12 @@ button {
     margin-bottom: 0.5rem;
 }
 
-
-.modeButton {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    margin: 0 0.5rem;
-    height: 3.5rem;
-    width: 3.5rem;
-    background-color: white;
-}
-
-.searchDiv {
-    margin: 1rem 0;
-    background-color: white;
-    padding: 1rem;
-}
-
-
 .icon {
     opacity: 100%;
     width: 60%;
     height: 60%;
     cursor: pointer;
 }
-
-
-
-
 
 .buttons {
     display: Flex;
@@ -200,31 +193,8 @@ button {
     border: none;
 }
 
-
 .issButton {
     width: 40%
-}
-
-
-.centerTop {
-    height: 1rem;
-    position: absolute;
-    display: flex;
-    top: 0;
-    left: 0;
-    right: 0;
-    justify-content: center;
-}
-
-
-.centerBottom {
-    position: absolute;
-    display: flex;
-    bottom: 2rem;
-    left: 0;
-    right: 0;
-    justify-content: center;
-    height: 1rem;
 }
 
 .leafletButton {
@@ -254,14 +224,10 @@ button {
     height: 50%;
 }
 
-.tab {    
+.tab {
     border-radius: 0.4rem 0.4rem 0 0;
     padding: 0.5rem;
     cursor: pointer;
-}
-
-#selectCityTab {
-    background-color: rgb(240, 240, 240);
 }
 
 .modeName {
@@ -270,7 +236,6 @@ button {
     font-weight: 300;
     margin-bottom: 1rem;
 }
-
 
 .modeBanner {
     position: relative;
@@ -283,58 +248,98 @@ button {
     text-align: center;
 }
 
-
-
-
-
-
-
-/* Ids */
-
-
-#chosenCity {
-    margin: 1rem 0;
-    text-align: center;
-}
-
-
 .bannerImage {
     width: auto;
     height: 8rem;
-    object-fit: cover;   
-    z-index: -1; 
+    object-fit: cover;
+    z-index: -1;
     border-radius: 0.4rem;
-    opacity: 100%;    
+    opacity: 100%;
 }
 
+.countryModeData {
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: fit-content;
+    width: 35%;
+    margin: 0.5rem;
+    background-color: white;
+    border: 0;
+    border-radius: 0.3rem;
+}
 
-#searchContainer {
-    background-color: rgb(236, 236, 236);
+.tabInfomation {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
     padding: 1rem;
-    border-radius: 0.5rem;
+    margin: 0 0 1rem 0;
+    text-align: center;
+    background-color: rgb(240, 240, 240);
+    border: none;
+    border-radius: 0 0 0.4rem 0.4rem;
 }
 
-#loading {
-    position: absolute;
-    text-align: center;
-    padding: 1rem;
-    left: 0;
-    right: 0;
-    bottom: 10rem;
-    display: none;
+.infoMarker {
+    display: flex !important;
+    overflow: hidden;
+    background-color: white;
+    font-size: 0.8rem;
+    color: black;
+    box-shadow: 0.2rem 0.2rem 1rem gray;
+    border-radius: 0 0.7rem 0.7rem 0.7rem;
+    width: auto !important;
+    height: auto !important;
+    color: rgb(68, 68, 68)
 }
 
-#title {
-    position: absolute;
-    top: 2rem;
-    left: 0;
-    right: 0;
-    text-align: center;
+.infoMarker span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(112, 161, 217);
     color: white;
-    text-shadow: 0 0.2rem 0.5rem rgb(68, 68, 68);
+    width: 4rem;
+    padding: 0.3rem;
+    font-size: 1rem;
+    font-weight: bolder;
+}
+
+.infoMarker p {
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0.5rem;
+    min-height: 2.5rem;
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ------------------------------------  IDs  ------------------------------------ */
 
 
 #container {
@@ -353,9 +358,50 @@ button {
     z-index: -1;
 }
 
+#title {
+    position: absolute;
+    top: 2rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: white;
+    text-shadow: 0 0.2rem 0.5rem rgb(68, 68, 68);
+}
+
+#loading {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.705);
+    backdrop-filter: blur(3px);
+    position: relative;
+}
+
+
+#loading>div {
+    height: 4rem;
+    width: 4rem;
+    border: lightblue solid 1rem;
+    border-top-color: rgb(34, 102, 125);
+    border-radius: 50%;
+    z-index: 1000000;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    animation: spin 1.5s infinite linear;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg)
+    }
+}
 
 #countryMode,
-#weatherMode {    
+#weatherMode {
     position: absolute;
     padding: 1rem 1rem;
     bottom: 2rem;
@@ -370,15 +416,16 @@ button {
     overflow-y: auto;
 }
 
-#countryMode::-webkit-scrollbar-thumb, #weatherMode::-webkit-scrollbar-thumb {
+#countryMode::-webkit-scrollbar-thumb,
+#weatherMode::-webkit-scrollbar-thumb {
     background-color: rgb(191, 213, 221);
     opacity: 50%;
     border-radius: 1rem;
 }
 
-
-#countryMode::-webkit-scrollbar, #weatherMode::-webkit-scrollbar{
-    width: 0.5rem;  
+#countryMode::-webkit-scrollbar,
+#weatherMode::-webkit-scrollbar {
+    width: 0.5rem;
 }
 
 #countryMode {
@@ -391,6 +438,20 @@ button {
     margin-right: 2rem;
 }
 
+#selectCityTab {
+    background-color: rgb(240, 240, 240);
+}
+
+#chosenCity {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+#searchContainer {
+    background-color: rgb(236, 236, 236);
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
 
 #countryData {
     display: flex;
@@ -400,54 +461,17 @@ button {
     padding: 0 1rem;
 }
 
-
-
-.countryModeData {
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    height: fit-content;
-    width: 35%;
-    margin: 0.5rem;
-    background-color: white;
-    border: 0;
-    border-radius: 0.3rem;
-}
-
-
-
-.tabInfomation {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
-    padding: 1rem;    
-    margin: 0 0 1rem 0;
-    text-align: center;
-    background-color: rgb(240, 240, 240);
-    border: none;
-    border-radius: 0 0 0.4rem 0.4rem;
-}
-
 #countryModeButton,
 #astrologyModeButton,
 #weatherModeButton {
     opacity: 35%;
 }
 
-
-
 #countryModeButton:hover>.icon,
 #astrologyModeButton:hover>.icon,
 #weatherModeButton:hover>.icon {
     opacity: 65%;
 }
-
-
-
-
 
 #astrologyMode {
     display: none;
@@ -457,10 +481,7 @@ button {
     top: 0.5rem;
     text-align: center;
     background-color: white;
-
 }
-
-
 
 #buttonPanel {
     width: 15rem;
@@ -474,10 +495,7 @@ button {
     box-shadow: 0 0 1rem gray;
     border-radius: 0.7rem;
     justify-content: center;
-
 }
-
-
 
 #countrySearch {
     position: relative;
@@ -497,7 +515,6 @@ button {
 #countrySearchNoneFixed {
     display: block;
 }
-
 
 #citySearch {
     display: flex;
@@ -526,7 +543,6 @@ button {
     width: 100%;
 }
 
-
 #cityMode {
     display: flex;
     width: 100%;
@@ -536,7 +552,7 @@ button {
 }
 
 #cityMarkers {
-    display:  none;
+    display: none;
 }
 
 #leafletButtonsMobile {
@@ -548,9 +564,30 @@ button {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ------------------------------------  MEDIA QUERIES  ------------------------------------ */
+
+
+/* Medium Screens  ------------------------------------ */
+
 @media only screen and (max-width: 1000px) {
 
-    #countryMode, #weatherMode {
+    #countryMode,
+    #weatherMode {
         bottom: 0rem;
         top: 0;
         max-height: none;
@@ -579,20 +616,24 @@ button {
 
     #leafletButtonsMobile {
         display: flex;
-    }   
-
+    }
 }
 
 
+
+
+/* Small Screens  ------------------------------------ */
+
 @media only screen and (max-width: 700px) {
 
-    #countryMode, #weatherMode {
+    #countryMode,
+    #weatherMode {
         width: 100%;
         padding: 0;
         border-radius: 0;
     }
 
-    .tabInfomation {        
+    .tabInfomation {
         padding-bottom: 15rem;
     }
 
@@ -613,12 +654,10 @@ button {
     }
 
     #countryMode::-webkit-scrollbar {
-        width: 0rem;  
+        width: 0rem;
     }
 
     .modeName {
         padding: 1rem;
     }
-    
-
 }

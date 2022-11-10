@@ -13,7 +13,7 @@ let cityDataMarker = (city) => {
 
   //new marker icon for data
   let infoIcon = L.divIcon({
-    className: 'weatherIcon',
+    className: 'infoMarker',
     iconAnchor: [0, 0],
     html: `<p> ${(city.city).toUpperCase()} </p>`
   });
@@ -42,7 +42,7 @@ let astrologyDataMarker = (point, dataOption) => {
       if (result.status.name == "ok") {
         extraPropertiesData = result['data']
         let astroIcon = L.divIcon({
-          className: 'weatherIcon',
+          className: 'infoMarker',
           iconAnchor: [0, 0],
           html: `<p> ${(city.city).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${result.data[`${dataOption}`]} </span>`
         });
@@ -88,12 +88,12 @@ let weatherDataMarker = (point, dataOption) => {
           symbol = `Km/h`
         }
 
-        let weatherIcon = L.divIcon({
-          className: 'weatherIcon',
+        let infoMarker = L.divIcon({
+          className: 'infoMarker',
           iconAnchor: [0, 0],
           html: `<p> ${(city.city).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${result.data.weatherObservation[`${dataOption}`]} ${symbol} </span>`
         });
-        marker = L.marker([point.lat, point.lng], { icon: weatherIcon }).addTo(map);
+        marker = L.marker([point.lat, point.lng], { icon: infoMarker }).addTo(map);
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
