@@ -5,6 +5,65 @@
 
 
 
+function getCountryCities(countryIso) {
+
+    let cities = []
+
+    $.ajax({
+        url: "php/getCountryCities.php",
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        data: {
+            iso: countryIso
+        },
+        success: function (result) {
+            if (result.status.name == "ok") {
+                cities = result.data.results     
+
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+        }
+    })
+
+    return cities
+
+
+}
+
+
+
+//Gets country data from lat and long
+
+function getCountryFromPoint(point) {
+
+    let data = []
+
+    $.ajax({
+        url: "php/getCountryFromPoint.php",
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        data: {
+            lat: point[0],
+            lng: point[1]
+        },
+        success: function (result) {
+            if (result.status.name == "ok") {
+                data = result.data.results[0].components
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+        }
+    })
+
+    return data
+};
+
+
+
+
 
 
 
@@ -17,19 +76,17 @@ function getCityAstroData(city) {
         dataType: 'json',
         async: false,
         data: {
-            lat: city.lat,
-            lng: city.lng
+            lat: city.coordinates.latitude,
+            lng: city.coordinates.longitude
         },
         success: function (result) {
             if (result.status.name == "ok") {
-
-                console.log(result.data.current_time)
 
                 $('#sunset').html(result.data.sunset);
                 $('#sunrise').html(result.data.sunrise);
                 $('#moonrise').html(result.data.moonrise);
                 $('#moonset').html(result.data.moonset);
-                $('#currentTime').html(result.data.current_time.slice(0,5));
+                $('#currentTime').html(result.data.current_time.slice(0, 5));
                 $('#dayLength').html(result.data.day_length);
             }
         },
@@ -46,15 +103,15 @@ function getCityAstroData(city) {
 //Gets weather data for chosen city ----------------------------------------------------------------------------------
 
 function getCityWeatherData(city) {
-    
+
     $.ajax({
         url: "php/getWeatherData.php",
         type: 'POST',
         dataType: 'json',
         async: false,
         data: {
-            lat: city.lat,
-            lng: city.lng
+            lat: city.coordinates.latitude,
+            lng: city.coordinates.longitude
         },
         success: function (result) {
             if (result.status.name == "ok") {
@@ -87,7 +144,7 @@ function getCityWeatherData(city) {
 //Gets country data for chosen city ----------------------------------------------------------------------------------
 
 function getCountryData(country) {
-    
+
     $.ajax({
         url: "php/getCountryData.php",
         type: 'POST',
@@ -98,7 +155,7 @@ function getCountryData(country) {
         },
         success: function (result) {
             if (result.status.name == "ok") {
-                $('#population').html(Math.round((result.data[0].population)/1000000));
+                $('#population').html(Math.round((result.data[0].population) / 1000000));
                 $('#flag').attr('src', `${result.data[0].flags.png}`)
                 $('#flagBackground').attr('src', `${result.data[0].flags.png}`)
                 $('#currency').html(`${Object.values(result.data[0].currencies)[0].name} ${Object.values(result.data[0].currencies)[0].symbol}`);
@@ -110,4 +167,5 @@ function getCountryData(country) {
             console.log(errorThrown)
         }
     })
+
 };

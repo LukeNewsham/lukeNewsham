@@ -10,7 +10,6 @@
 //Loads users location and country data, opens country mode panel and  ----------------------------------------------------------------------------------
 
 findLocation()
-countryModeOpen()
 
 setTimeout(function () {
     map.on('zoomend', function () {

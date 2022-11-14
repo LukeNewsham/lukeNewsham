@@ -30,6 +30,13 @@ $('#selectCountryButton').click(function () {
   showCountryData(countryChosen)
 });
 
+$('#selectCountry').change(function () {
+  GLOBAL_issRun = false;
+  countryChosen = $('#selectCountry').val();
+  showCountryData(countryChosen)
+});
+
+
 
 
 
@@ -37,15 +44,30 @@ $('#selectCountryButton').click(function () {
 //Adds chosen city data ----------------------------------------------------------------------------------
 
 $('#selectCityButton').click(function () {
+
   $('#countryModeData').fadeOut();
   GLOBAL_issRun = false;
   chosenCountryCityMarker.clearLayers()
-  $('#countryModeData').hide();
-  countryCity = cities.filter(city => city.city === $('#selectCity').val())[0]
+
+  countryCity = GLOBAL_chosenCountryCities.filter(city => city.name === $('#selectCity').val())[0]
+
   showCityData(countryCity)
   $('#countryModeData').fadeIn();
 });
 
+
+
+$('#selectCity').change(function () {
+
+  $('#countryModeData').fadeOut();
+  GLOBAL_issRun = false;
+  chosenCountryCityMarker.clearLayers()
+
+  countryCity = GLOBAL_chosenCountryCities.filter(city => city.name === $('#selectCity').val())[0]
+
+  showCityData(countryCity)
+  $('#countryModeData').fadeIn();
+});
 
 
 
@@ -72,13 +94,22 @@ $('#allBorders, #allBordersMobile').click(function () {
 
 
 
+//Search country from map ----------------------------------------------------------------------------------
+
+$('#searchCenter').click(function () {
+  searchCenter(map.getCenter().lat, map.getCenter().lng)
+});
+
+
+
+
 
 
 //Add and Remove ISS Space Station ----------------------------------------------------------------------------------
 
 $('#getISS').click(function () {
   chosenCountryCityMarker.clearLayers()
-  allCityMarkers.clearLayers()
+  lessCityMarkers.clearLayers()
   capitalCityMarkers.clearLayers()
   GLOBAL_issRun = true;
   issDataMarker(true)

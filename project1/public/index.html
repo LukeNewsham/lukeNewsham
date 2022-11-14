@@ -21,9 +21,16 @@
 
 <body>
   <div id="loading">
-    <div></div>
+    <div> </div>
+    <h1 id="loadingText"> Loading </h1>
   </div>
   <!-- <h1 id="title"> explore.com </h1> -->
+
+  <div id="centerReticle">
+    <p> + </p>
+  </div>
+
+
 
 
   <!-- SEARCH AND BUTTONS ------------------------------------------- -->
@@ -44,7 +51,11 @@
 
     <button class='leafletButton' id='findLocation'>
       <img src="./images/Navigate Icon.png" alt="Navigate Icon" class="icon" />
-    </button>    
+    </button>
+
+
+    <!-- <h3 id="cityDataSelected"> </h3> -->
+
 
   </div>
 
@@ -56,7 +67,16 @@
     <button class='leafletButtonMobile' id='findLocationMobile'>
       <img src="./images/Navigate Icon.png" alt="Navigate Icon" class="icon" />
     </button>
+
   </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -68,7 +88,7 @@
   <!-- COUNTRY MODE PANEL ------------------------------------------- -->
 
   <div id='countryMode'>
-    <h1 class="modeName"> Country Search Mode </h1>
+    <h1 class="modeName"> Country Data </h1>
 
 
     <div class="modeBanner" id="countryBanner">
@@ -104,87 +124,102 @@
       </div>
 
       <h1 id="chosenCity"> </h1>
+      <h3 id='snippet'></h3>
 
-      <br />
-      <br />
+      <div class="subPanel">
+        <h2> City Description </h2>
+        <p id="cityDescription">
+        </p>
+
+        <img src="" alt="City Image" id="cityImage" />
+        <p id="cityImageCaption"> </p>
+      </div>
+
+
+
+      <h2> Weather Data</h2>
+      <!-- <div> from station <br /><span id="stationName"> </span> </div> -->
+      <div class="cityModeData">
+        <img src="./images/Temperature Icon.png" alt="Temperature Icon" class="cityDataIcon" />
+        Temperature
+        <div> <span id="temperature"></span><span> &deg C</span> </div>
+      </div>
+      <div class="cityModeData">
+        <img src="./images/Humidity Icon.png" alt="Humidity Icon" class="cityDataIcon" />
+        Humidity
+        <span id="humidity"> </span>
+      </div>
+      <div class="cityModeData">
+        <img src="./images/Windspeed Icon.png" alt="Windspeed Icon" class="cityDataIcon" />
+        Wind Speed
+        <div><span id="windSpeed"> </span> <span> Km/h</span> </div>
+      </div>
+      <div class="cityModeData">
+        <img src="./images/Dewpoint Icon.png" alt="Dewpoint Icon" class="cityDataIcon" />
+        Dew point
+        <span id="dewPoint"> </span>
+      </div>
 
       <h2> Astrology Data</h2>
-      <div class="countryModeData">
+      <div class="cityModeData">
         <img src="./images/Daylength Icon.png" alt="CurrentTime Icon" class="cityDataIcon" />
         Current Time
         <span id="currentTime"> </span>
       </div>
-      <div class="countryModeData">
+      <div class="cityModeData">
         <img src="./images/Daylength Icon.png" alt="Daylength Icon" class="cityDataIcon" />
         Day Length
         <div> <span id="dayLength"></span><span> Hrs </span> </div>
       </div>
-      <div class="countryModeData">
+      <div class="cityModeData">
         <img src="./images/Sunrise Icon.png" alt="Sunrise Icon" class="cityDataIcon" />
         Sunrise
         <span id="sunrise"> </span>
       </div>
-      <div class="countryModeData">
+      <div class="cityModeData">
         <img src="./images/Sunset Icon.png" alt="Sunset Icon" class="cityDataIcon" />
         Sunset
         <span id="sunset"> </span>
       </div>
-      <div class="countryModeData">
+      <div class="cityModeData">
         <img src="./images/Moonrise Icon.png" alt="Moonrise Icon" class="cityDataIcon" />
         Moonrise
         <span id="moonrise"> </span>
       </div>
-      <div class="countryModeData">
+      <div class="cityModeData">
         <img src="./images/Moonset Icon.png" alt="Moonset Icon" class="cityDataIcon" />
         Moonset
         <span id="moonset"> </span>
       </div>
 
-      <h2> Weather Data</h2>
-      <!-- <div> from station <br /><span id="stationName"> </span> </div> -->
-      <div class="countryModeData">
-        <img src="./images/Temperature Icon.png" alt="Temperature Icon" class="cityDataIcon" />
-        Temperature
-        <div> <span id="temperature"></span><span> &deg C</span> </div>
-      </div>
-      <div class="countryModeData">
-        <img src="./images/Humidity Icon.png" alt="Humidity Icon" class="cityDataIcon" />
-        Humidity
-        <span id="humidity"> </span>
-      </div>
-      <div class="countryModeData">
-        <img src="./images/Windspeed Icon.png" alt="Windspeed Icon" class="cityDataIcon" />
-        Wind Speed
-        <div><span id="windSpeed"> </span> <span> Km/h</span> </div>
-      </div>
-      <div class="countryModeData">
-        <img src="./images/Dewpoint Icon.png" alt="Dewpoint Icon" class="cityDataIcon" />
-        Dew point
-        <span id="dewPoint"> </span>
-      </div>
-      <br />
-      <br />
 
-      <br />
+
+
     </div>
 
     <div id="cityMarkers" class='tabInfomation'>
 
+
+
       <div class="buttons">
         <h2> Weather </h2> <br />
-        <button class='markerButton' onclick='addCountryMarkers(weatherDataMarker, `temperature`)'>
+        <button id='temperatureCountryButton' class='markerButton'
+          onclick='addCountryMarkers(weatherDataMarker, `temperature`, true)'>
           <img src="./images/Temperature Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
           Temperature
         </button> <br />
-        <button class='markerButton' onclick='addCountryMarkers(weatherDataMarker, `humidity`)'>
+        <button id='humidityCountryButton' class='markerButton'
+          onclick='addCountryMarkers(weatherDataMarker, `humidity`, true)'>
           <img src="./images/Humidity Icon.png" alt="Humidity Icon" class="markerButtonIcon" />
           Humidity
         </button> <br />
-        <button class='markerButton' onclick='addCountryMarkers(weatherDataMarker, `windSpeed`)'>
+        <button id='windSpeedCountryButton' class='markerButton'
+          onclick='addCountryMarkers(weatherDataMarker, `windSpeed`, true)'>
           <img src="./images/Windspeed Icon.png" alt="WindSpeed Icon" class="markerButtonIcon" />
           Wind Speed
         </button> <br />
-        <button class='markerButton' onclick='addCountryMarkers(weatherDataMarker, `dewPoint`)'>
+        <button id='dewPointCountryButton' class='markerButton'
+          onclick='addCountryMarkers(weatherDataMarker, `dewPoint`, true)'>
           <img src="./images/Dewpoint Icon.png" alt="Dewpoint Icon" class="markerButtonIcon" />
           Dew Point
         </button>
@@ -194,23 +229,28 @@
 
       <div class="buttons">
         <h2> Astrology </h2> <br />
-        <button class='markerButton' onclick='addCountryMarkers(astrologyDataMarker, `sunrise`)'>
+        <button id='sunriseCountryButton' class='markerButton'
+          onclick='addCountryMarkers(astrologyDataMarker, `sunrise`, true)'>
           <img src="./images/Sunrise Icon.png" alt="Sunrise Icon" class="markerButtonIcon" />
           Sunrise
         </button> <br />
-        <button class='markerButton' onclick='addCountryMarkers(astrologyDataMarker, `moonrise`)'>
+        <button id='moonriseCountryButton' class='markerButton'
+          onclick='addCountryMarkers(astrologyDataMarker, `moonrise`, true)'>
           <img src="./images/Moonrise Icon.png" alt="Moonrise Icon" class="markerButtonIcon" />
           Moonrise
         </button> <br />
-        <button class='markerButton' onclick='addCountryMarkers(astrologyDataMarker, `sunset`)'>
+        <button id='sunsetCountryButton' class='markerButton'
+          onclick='addCountryMarkers(astrologyDataMarker, `sunset`, true)'>
           <img src="./images/Sunset Icon.png" alt="Sunset Icon" class="markerButtonIcon" />
           Sunset
         </button> <br />
-        <button class='markerButton' onclick='addCountryMarkers(astrologyDataMarker, `moonset`)'>
+        <button id='moonsetCountryButton' class='markerButton'
+          onclick='addCountryMarkers(astrologyDataMarker, `moonset`, true)'>
           <img src="./images/Moonset Icon.png" alt="Moonset Icon" class="markerButtonIcon" />
           Moonset
         </button>
-        <button class='markerButton' onclick='addCountryMarkers(astrologyDataMarker, `day_length`)'>
+        <button id='day_lengthCountryButton' class='markerButton'
+          onclick='addCountryMarkers(astrologyDataMarker, `day_length`, true)'>
           <img src="./images/Daylength Icon.png" alt="Daylength Icon" class="markerButtonIcon" />
           Day Length
         </button> <br />
@@ -225,7 +265,7 @@
   <!-- WEATHER MODE PANEL ------------------------------------------- -->
 
   <div id="weatherMode">
-    <h1 class="modeName"> Global Search Mode </h1>
+    <h1 class="modeName"> Global Data </h1>
 
     <div class="modeBanner">
       <img src="./images/Flatmap.png" alt="Flatmap Icon" class='bannerImage'>
@@ -294,7 +334,18 @@
 
 
   <div class="centerBottom">
+    
 
+    <button id='searchCenter'>
+      <img src="./images/Magnifier Icon.png" alt="Navigate Icon" class="icon" />
+      <h3 id="searchCenterCountry"> </h3>
+    </button>
+
+    <button id='zoomIn'>
+      <img src="./images/Magnifier Icon.png" alt="Navigate Icon" class="icon" />
+      <h3> Zoom in for  more cities </h3>
+      <h3 id="or"> or move to select country </h3>
+    </button>
 
     <div id="buttonPanel">
       <div id="countryModeButton" class="modeButton">
@@ -320,8 +371,11 @@
           </button>
         </div>
       </div>
-
     </div>
+
+    <!-- <div id="mobileDisplayData">
+      
+    </div> -->
 
   </div>
 
@@ -340,6 +394,7 @@
 
 
   <script type="application/javascript" src="js/jquery-2.2.3.min.js" class="'icon"></script>
+  <script src='js/countryIsoCodes.js'> </script>
   <script src='js/leafletSetup.js'> </script>
   <script src='js/globalVariables.js'> </script>
   <script src='js/animations.js'> </script>

@@ -15,9 +15,9 @@ let cityDataMarker = (city) => {
   let infoIcon = L.divIcon({
     className: 'infoMarker',
     iconAnchor: [0, 0],
-    html: `<p> ${(city.city).toUpperCase()} </p>`
+    html: `<p> ${(city.name).toUpperCase()} </p>`
   });
-  marker = L.marker([city.lat, city.lng], { icon: infoIcon }).addTo(map);
+  marker = L.marker([city.coordinates.latitude, city.coordinates.longitude], { icon: infoIcon }).addTo(map);
 
   //returns marker to be used
   return marker
@@ -26,7 +26,7 @@ let cityDataMarker = (city) => {
 
 //Creates astrology data marker for given point and chosen data ----------------------------------------------------------------------------------
 
-let astrologyDataMarker = (point, dataOption) => {
+let astrologyDataMarker = (city, dataOption) => {
 
   //gets data
   $.ajax({
@@ -35,8 +35,8 @@ let astrologyDataMarker = (point, dataOption) => {
     dataType: 'json',
     async: false,
     data: {
-      lat: point.lat,
-      lng: point.lng
+      lat: city.coordinates.latitude,
+      lng: city.coordinates.longitude
     },
     success: function (result) {
       if (result.status.name == "ok") {
@@ -44,9 +44,9 @@ let astrologyDataMarker = (point, dataOption) => {
         let astroIcon = L.divIcon({
           className: 'infoMarker',
           iconAnchor: [0, 0],
-          html: `<p> ${(city.city).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${result.data[`${dataOption}`]} </span>`
+          html: `<p> ${(city.name).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${result.data[`${dataOption}`]} </span>`
         });
-        marker = L.marker([point.lat, point.lng], { icon: astroIcon }).addTo(map);
+        marker = L.marker([city.coordinates.latitude, city.coordinates.longitude], { icon: astroIcon }).addTo(map);
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -64,7 +64,8 @@ let astrologyDataMarker = (point, dataOption) => {
 
 //Creates weather data marker for given point and chosen data ----------------------------------------------------------------------------------
 
-let weatherDataMarker = (point, dataOption) => {
+let weatherDataMarker = (city, dataOption) => {
+
 
   //gets data
   $.ajax({
@@ -73,27 +74,38 @@ let weatherDataMarker = (point, dataOption) => {
     dataType: 'json',
     async: false,
     data: {
-      lat: point.lat,
-      lng: point.lng
+      lat: city.coordinates.latitude,
+      lng: city.coordinates.longitude
     },
     success: function (result) {
       if (result.status.name == "ok") {
 
-        //adds units for specific data
+        console.log(!result.data.weatherObservation)        
         let symbol = ''
-        if (dataOption === 'temperature') {
-          symbol = `&deg C`
-        }
-        if (dataOption === 'windSpeed') {
-          symbol = `Km/h`
+        let displayData = ''
+
+        if (!result.data.weatherObservation) {
+          console.log('undefined')
+          displayData = ''
+        } else {
+          displayData = result.data.weatherObservation[`${dataOption}`]
+          //adds units for specific data
+          if (dataOption === 'temperature') {
+            symbol = `&deg C`
+          }
+          if (dataOption === 'windSpeed') {
+            symbol = `Km/h`
+          }
+
+          let infoMarker = L.divIcon({
+            className: 'infoMarker',
+            iconAnchor: [0, 0],
+            html: `<p> ${(city.name).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${displayData} ${symbol} </span>`
+          });
+          marker = L.marker([city.coordinates.latitude, city.coordinates.longitude], { icon: infoMarker }).addTo(map);
         }
 
-        let infoMarker = L.divIcon({
-          className: 'infoMarker',
-          iconAnchor: [0, 0],
-          html: `<p> ${(city.city).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${result.data.weatherObservation[`${dataOption}`]} ${symbol} </span>`
-        });
-        marker = L.marker([point.lat, point.lng], { icon: infoMarker }).addTo(map);
+        
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -113,7 +125,7 @@ let issDataMarker = () => {
   //move view for first time getting iss data
   let firstTime = true;
 
-  function run() {    
+  function run() {
 
     //checks if global variable is true (used to stop getting data during other modes)
     if (GLOBAL_issRun === true) {

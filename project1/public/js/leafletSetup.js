@@ -3,12 +3,9 @@
 //Includes the code to set up leaflet.js as well as initial default values when first loaded
 
 
-let test = 'hello'
-
-
 //Initiate Map ----------------------------------------------------------------------------------
 
-const map = L.map('map').setView([20, 0], 5);
+const map = L.map('map', { zoomControl: false }).setView([20, 0], 5);
 
 
 
@@ -49,7 +46,7 @@ let baseMaps = {
   "<span class='option'> terrain_background </span>": tiles.terrain_background
 };
 
-let layerControl = L.control.layers(baseMaps).addTo(map);
+// let layerControl = L.control.layers(baseMaps).addTo(map);
 
 
 
@@ -61,8 +58,15 @@ let layerControl = L.control.layers(baseMaps).addTo(map);
 
 let capitalCityMarkers = new L.FeatureGroup();
 map.addLayer(capitalCityMarkers);
-let allCityMarkers = new L.FeatureGroup();
-map.addLayer(allCityMarkers);
+
+let lessCityMarkers = new L.FeatureGroup();
+map.addLayer(lessCityMarkers);
+map.removeLayer(lessCityMarkers);
+
+let moreCityMarkers = new L.FeatureGroup();
+map.addLayer(moreCityMarkers);
+map.removeLayer(moreCityMarkers);
+
 let chosenCountryCityMarker = new L.FeatureGroup();
 map.addLayer(chosenCountryCityMarker);
 
@@ -72,8 +76,13 @@ let issIcon = L.icon({
   iconAnchor: [22, 94]
 });
 
+
+
 let geoJsonLayerGroup = L.geoJson().addTo(map);
+
 let userLocation = L.marker([0, 0]).addTo(map);
+
+let hoverCountryBorder = L.geoJson().addTo(map);
 
 
 let markerIss = L.marker([0, 0], { icon: issIcon })

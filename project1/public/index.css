@@ -32,6 +32,10 @@ h2 {
     padding: 1rem 0;
 }
 
+p {
+    line-height: 1.1rem;
+}
+
 span {
     font-size: 1rem;
     font-weight: bolder;
@@ -100,7 +104,6 @@ button {
     margin: 0 0.5rem;
     height: 3.5rem;
     width: 3.5rem;
-    background-color: white;
 }
 
 .searchDiv {
@@ -124,7 +127,7 @@ button {
 }
 
 .markerButton {
-    font-size: 1rem;
+    font-size: 0.9rem;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -259,13 +262,26 @@ button {
 
 .countryModeData {
     padding: 0.5rem;
+    margin: 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
     height: fit-content;
     width: 35%;
+    border: 0;
+    border-radius: 0.3rem;
+}
+
+.cityModeData {
+    padding: 0.5rem;
     margin: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: fit-content;
+    width: 35%;
     background-color: white;
     border: 0;
     border-radius: 0.3rem;
@@ -279,7 +295,7 @@ button {
     padding: 1rem;
     margin: 0 0 1rem 0;
     text-align: center;
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(255, 255, 255);
     border: none;
     border-radius: 0 0 0.4rem 0.4rem;
 }
@@ -316,6 +332,12 @@ button {
     align-items: center;
     padding: 0 0.5rem;
     min-height: 2.5rem;
+}
+
+.subPanel {
+    background-color: rgb(237, 237, 237);
+    padding: 1rem;
+    border-radius: 0.4rem;
 }
 
 
@@ -372,32 +394,41 @@ button {
     height: 100vh;
     width: 100vw;
     overflow: hidden;
-    background-color: rgba(255, 255, 255, 0.705);
-    backdrop-filter: blur(3px);
+    background-color: rgb(255, 255, 255);
     position: relative;
+    z-index: 10000;
 }
 
 
 #loading>div {
     height: 4rem;
     width: 4rem;
-    border: lightblue solid 1rem;
+    border: lightblue solid 0.7rem;
     border-top-color: rgb(34, 102, 125);
     border-radius: 50%;
-    z-index: 1000000;
     position: absolute;
     margin: auto;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    animation: spin 1.5s infinite linear;
+    animation: spin 1s infinite linear;
 }
 
 @keyframes spin {
     100% {
         transform: rotate(360deg)
     }
+}
+
+#loadingText {
+    position: absolute;
+    width: fit-content;
+    border-radius: 50%;
+    margin: auto;
+    bottom: 10rem;
+    left: 0;
+    right: 0;
 }
 
 #countryMode,
@@ -408,12 +439,14 @@ button {
     width: 20rem;
     height: fit-content;
     max-height: 35rem;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.325);
+    backdrop-filter: blur(7px);
     box-shadow: 0 0 1rem gray;
     border-radius: 0.5rem;
     text-align: center;
     overflow-x: hidden;
     overflow-y: auto;
+    z-index: 2;
 }
 
 #countryMode::-webkit-scrollbar-thumb,
@@ -439,7 +472,11 @@ button {
 }
 
 #selectCityTab {
-    background-color: rgb(240, 240, 240);
+    background-color: white;
+}
+
+#allCitiesTab {
+    background-color: transparent;
 }
 
 #chosenCity {
@@ -480,7 +517,6 @@ button {
     position: absolute;
     top: 0.5rem;
     text-align: center;
-    background-color: white;
 }
 
 #buttonPanel {
@@ -489,12 +525,15 @@ button {
     display: flex;
     align-items: flex-end;
     background-color: white;
+    /* background-color: rgba(255, 255, 255, 0.648); */
+    backdrop-filter: blur(5px);
     position: absolute;
     bottom: 0rem;
     padding: 0.4rem;
     box-shadow: 0 0 1rem gray;
     border-radius: 0.7rem;
     justify-content: center;
+    z-index: 5;
 }
 
 #countrySearch {
@@ -508,9 +547,10 @@ button {
     width: 18rem;
     height: 2rem;
     text-align: center;
-    z-index: 100000;
+    z-index: 100;
     box-shadow: 0 0 1rem gray;
     border-radius: 2rem;
+    z-index: 2;
 }
 
 #countrySearchNoneFixed {
@@ -528,7 +568,9 @@ button {
     justify-items: space-between;
     padding: 0.3rem 0.5rem;
     background-color: none;
-    border-radius: 0.5rem;
+    border: 1px solid grey;
+    border-radius: 0.4rem;
+    margin: 1.5rem 0 ;
 }
 
 #astroData {
@@ -549,7 +591,7 @@ button {
     width: 100%;
     justify-content: center;
     align-items: space-around;
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
 #cityMarkers {
@@ -564,17 +606,89 @@ button {
     left: 1rem;
 }
 
+#cityImage {
+    width: 80%;
+    border-radius: 1.4rem;
+    padding: 1rem
+}
+
+#snippet {
+    color: grey;
+    /* font-style: italic;
+     */
+    color: rgb(78, 138, 181);
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgb(128, 128, 128);
+}
+
+#cityImageCaption {
+    color: grey;
+    font-style: italic;
+    font-weight: light;
+    font-size: 0.8rem;
+    padding: 0 2rem;
+}
+
+#cityDescription {
+}
 
 
+#centerReticle {
+    font-size: 2rem;
+    color: rgb(75, 75, 75);
+    pointer-events: none;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
 
 
+#searchCenter,
+#zoomIn {
+    position: relative;
+    display: none;
+    padding: 0.5rem 1rem;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 8rem;
+    height: 3rem;
+    gap: 0.5rem;
+    width: fit-content;
+    background-color: white;
+    border-radius: 3rem;
+    box-shadow: 0 0 1rem gray;
+}
 
+#zoomIn {
+    cursor: pointer;
+}
 
+#or {
+    position: absolute;
+    font-size: 0.9rem;
+    bottom: -1.5rem;
+}
 
+#mobileDisplayData {
+    background-color: white;
+    position: absolute;
+    width: 70%;
+    height: 5rem;
+    bottom: 6rem;
+    justify-content: center;
+    box-shadow: 0 0 1rem gray;
+    border-radius: 1rem;
 
-
-
-
+}
 
 
 
@@ -632,6 +746,7 @@ button {
         width: 100%;
         padding: 0;
         border-radius: 0;
+        background-color: rgba(239, 239, 239, 0.822);
     }
 
     .tabInfomation {
@@ -647,12 +762,13 @@ button {
         width: 100%;
         justify-content: center;
         bottom: 0;
+        background-color: white;
     }
 
-    .centerTop {
+    /* .centerTop {
         top: auto;
         bottom: 9rem;
-    }
+    } */
 
     #countryMode::-webkit-scrollbar {
         width: 0rem;

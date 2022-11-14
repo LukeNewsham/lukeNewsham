@@ -5,8 +5,39 @@ let GLOBAL_positionLat = 0;
 let GLOBAL_issRun = true;
 let GLOBAL_countryChosen = false;
 let GLOBAL_allBordersToggle = false;
-let GLOBAL_cityMarkerOption = false;
+let GLOBAL_lessCitiesLoaded = false;
+let GLOBAL_moreCitiesLoaded = false;
+let GLOBAL_mode = 'country';
+let GLOBAL_cityMarkerOption = function() {
+  return false
+};
 let GLOBAL_cityDataOption = 'city';
+let GLOBAL_chosenCountryCities = []
+
+
+
+// let citiesNew = []
+
+// function getAllCities() {
+//   for (country of countryIsoCodes) {
+//       let isoCode = country.Code
+//       if (country.Code === 'GB') {
+//         isoCode = 'UK'
+//       }
+//       let countryCities = getCountryCities(isoCode)
+      
+//       for (city in countryCities) {
+//         if (city = countryCities[0]) {
+//           console.log(city.name)
+//         }
+//         citiesNew.push(city)
+//       }
+//   }
+
+//   console.log(citiesNew)
+  
+// }
+// getAllCities()
 
 
 let cities = [
