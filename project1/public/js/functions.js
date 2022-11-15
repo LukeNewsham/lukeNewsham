@@ -74,7 +74,7 @@ function showCityData(city) {
 
 
   map.setView([city.coordinates.latitude, city.coordinates.longitude], 5)
-  marker = cityDataMarker(city)
+  marker = weatherDataMarker(city, 'temp')
   chosenCountryCityMarker.addLayer(marker)
   $('#chosenCity').html(city.name);
   getCityAstroData(city)
@@ -306,18 +306,18 @@ function getChoroplethBorders(data, dataOption) {
         result = [countryData, apiData]
 
       }
-     
+
       if (firstSet) {
         high = parseInt(result[1]);
         low = parseInt(result[1])
         firstSet = false
       }
 
-      if (result[1].length === undefined ||  typeof result[1]  === 'string' ) {
+      if (result[1].length === undefined || typeof result[1] === 'string') {
         results.push(result)
 
         if (parseInt(result[1]) > high) {
-         
+
 
           high = parseInt(result[1])
         }
@@ -530,7 +530,6 @@ function loadCountryMarkers(relocate, amount, reset) {
     if (reset) {
       GLOBAL_lessCitiesLoaded = false;
       GLOBAL_moreCitiesLoaded = false;
-
     }
 
     //adds loading screen
@@ -560,16 +559,21 @@ function loadCountryMarkers(relocate, amount, reset) {
         citiesInCountry = GLOBAL_chosenCountryCities
         layerOption = moreCityMarkers
       }
-      //for the cities in array, add to map
-      for (city of citiesInCountry) {
-        let marker = GLOBAL_cityMarkerOption(city, GLOBAL_cityDataOption)
-        layerOption.addLayer(marker)
 
-        //focus view on country capital
-        if (relocate && city === citiesInCountry[0]) {
-          map.setView([city.coordinates.latitude, city.coordinates.longitude], 8)
+      //focus view on country capital
+      if (relocate) {
+        city = citiesInCountry[0]
+        map.setView([city.coordinates.latitude, city.coordinates.longitude], 8)
+      }
+
+      //for the cities in array, add to map
+      if (!reset) {
+        for (city of citiesInCountry) {
+          let marker = GLOBAL_cityMarkerOption(city, GLOBAL_cityDataOption)
+          layerOption.addLayer(marker)
         }
       }
+
 
       //removes loading screen
       document.getElementById("loading").style.display = "none";

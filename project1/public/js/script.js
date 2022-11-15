@@ -8,8 +8,8 @@
 
 
 //Loads users location and country data, opens country mode panel and  ----------------------------------------------------------------------------------
-GLOBAL_cityMarkerOption = cityDataMarker
-GLOBAL_cityDataOption = 'city'
+GLOBAL_cityMarkerOption = weatherDataMarker
+GLOBAL_cityDataOption = 'temp'
 
 
 

@@ -122,7 +122,7 @@ let weatherDataMarker = (city, dataOption) => {
         let infoMarker = L.divIcon({
           className: 'infoMarker',
           iconAnchor: [0, 0],
-          html: `<p> ${(city.name).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${displayData} ${symbol} </span>`
+          html: `<p> ${(city.name).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${Math.round(displayData)} ${symbol} </span>`
         });
         marker = L.marker([city.coordinates.latitude, city.coordinates.longitude], { icon: infoMarker }).addTo(map);
 
