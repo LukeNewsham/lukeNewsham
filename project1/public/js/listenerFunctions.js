@@ -110,7 +110,6 @@ $('#searchCenter').click(function () {
 $('#getISS').click(function () {
   chosenCountryCityMarker.clearLayers()
   lessCityMarkers.clearLayers()
-  capitalCityMarkers.clearLayers()
   GLOBAL_issRun = true;
   issDataMarker(true)
 });
