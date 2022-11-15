@@ -165,7 +165,6 @@ function showCountryData(countryChosen) {
     moreCityMarkers.clearLayers()
     GLOBAL_lessCitiesLoaded = false;
     GLOBAL_moreCitiesLoaded = false;
-    capitalCityMarkers.clearLayers()
 
     //Loads data from country name
     loadCountryCitiesList(countryChosen)
@@ -539,9 +538,6 @@ function loadCountryMarkers(relocate, amount, reset) {
     $('#loadingText').html('Loading cities...');
 
     function run() {
-
-      //clears layers
-      capitalCityMarkers.clearLayers()
 
       let citiesInCountry = []
       let layerOption = ''
