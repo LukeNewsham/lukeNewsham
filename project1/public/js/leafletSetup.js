@@ -35,10 +35,16 @@ tiles = {
       minZoom: 0,
       maxZoom: 18,
       ext: 'png'
+    }),
+  Thunderforest_Neighbourhood:
+    L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}.png?apikey=11116584bfb04f57863ad3cd3e3585eb', {
+      attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     })
+
+
 }
 
-tiles.alidade_smooth.addTo(map);
+tiles.Thunderforest_Neighbourhood.addTo(map);
 
 let baseMaps = {
   "<span class='option'> Alidade Smooth </span>": tiles.alidade_smooth,
@@ -70,6 +76,8 @@ map.removeLayer(moreCityMarkers);
 let chosenCountryCityMarker = new L.FeatureGroup();
 map.addLayer(chosenCountryCityMarker);
 
+let legend = L.control({ position: 'bottomright' });
+
 let issIcon = L.icon({
   iconUrl: './images/internationalSpaceStationLight.png',
   iconSize: [50, 50],
@@ -83,6 +91,8 @@ let geoJsonLayerGroup = L.geoJson().addTo(map);
 let userLocation = L.marker([0, 0]).addTo(map);
 
 let hoverCountryBorder = L.geoJson().addTo(map);
+
+let globalCountryBorders = L.geoJson().addTo(map);
 
 
 let markerIss = L.marker([0, 0], { icon: issIcon })

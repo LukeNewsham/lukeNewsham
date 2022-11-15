@@ -15,6 +15,7 @@ body {
 h1,
 h2,
 h3 {
+    color: black !important;
     margin: 0;
     padding: 0;
     font-weight: 500;
@@ -184,8 +185,9 @@ button {
     flex-wrap: wrap;
     align-content: center;
     justify-content: center;
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(236, 236, 236);
     border-radius: 0.4rem;
+    margin-bottom: 1rem;
 }
 
 .datasetInput {
@@ -287,7 +289,7 @@ button {
     border-radius: 0.3rem;
 }
 
-.tabInfomation {
+.tabInformation {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -297,7 +299,7 @@ button {
     text-align: center;
     background-color: rgb(255, 255, 255);
     border: none;
-    border-radius: 0 0 0.4rem 0.4rem;
+    border-radius: 0.4rem;
 }
 
 .infoMarker {
@@ -319,7 +321,7 @@ button {
     align-items: center;
     background-color: rgb(112, 161, 217);
     color: white;
-    width: 4rem;
+    width: 5rem;
     padding: 0.3rem;
     font-size: 1rem;
     font-weight: bolder;
@@ -340,6 +342,25 @@ button {
     border-radius: 0.4rem;
 }
 
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+.info {
+    padding: 1rem !important;
+    background: rgba(255, 255, 255, 0.624) !important;
+    box-shadow: 0 0 1rem gray !important;
+    border-radius: 0.4rem !important;
+    margin-bottom: 3rem !important;
+}
 
 
 
@@ -451,7 +472,7 @@ button {
 
 #countryMode::-webkit-scrollbar-thumb,
 #weatherMode::-webkit-scrollbar-thumb {
-    background-color: rgb(191, 213, 221);
+    background-color: rgb(139, 172, 184);
     opacity: 50%;
     border-radius: 1rem;
 }
@@ -596,6 +617,12 @@ button {
 
 #cityMarkers {
     display: none;
+    border-radius: 0.4rem 0 0.4rem 0.4rem;
+}
+
+#cityData {
+    display: none;
+    border-radius: 0 0.4rem 0.4rem 0.4rem;
 }
 
 #leafletButtonsMobile {
@@ -674,7 +701,7 @@ button {
 
 #or {
     position: absolute;
-    font-size: 0.9rem;
+    font-size: 1rem;
     bottom: -1.5rem;
 }
 
@@ -749,7 +776,7 @@ button {
         background-color: rgba(239, 239, 239, 0.822);
     }
 
-    .tabInfomation {
+    .tabInformation {
         padding-bottom: 15rem;
     }
 

@@ -40,11 +40,24 @@ let astrologyDataMarker = (city, dataOption) => {
     },
     success: function (result) {
       if (result.status.name == "ok") {
-        extraPropertiesData = result['data']
+
+        function formatTime(original) {
+          let [originalHour, originalMin] = original.split(":")
+          console.log(originalHour, originalMin)
+
+          let hour = parseInt(originalHour.replace('0', '')) % 12;
+          console.log(hour)
+          if (hour === 0) hour = 12;
+
+          return hour + `:${parseInt(originalMin)}` + (original < 12 ? ' am' : ' pm');
+        }
+
+
+
         let astroIcon = L.divIcon({
           className: 'infoMarker',
           iconAnchor: [0, 0],
-          html: `<p> ${(city.name).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${result.data[`${dataOption}`]} </span>`
+          html: `<p> ${(city.name).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${formatTime(result.data[`${dataOption}`])} </span>`
         });
         marker = L.marker([city.coordinates.latitude, city.coordinates.longitude], { icon: astroIcon }).addTo(map);
       }
@@ -69,7 +82,7 @@ let weatherDataMarker = (city, dataOption) => {
 
   //gets data
   $.ajax({
-    url: "php/getWeatherData.php",
+    url: "php/getOpenWeatherData.php",
     type: 'POST',
     dataType: 'json',
     async: false,
@@ -79,33 +92,47 @@ let weatherDataMarker = (city, dataOption) => {
     },
     success: function (result) {
       if (result.status.name == "ok") {
+        console.log(result)
 
-        console.log(!result.data.weatherObservation)        
         let symbol = ''
         let displayData = ''
 
-        if (!result.data.weatherObservation) {
-          console.log('undefined')
-          displayData = ''
-        } else {
-          displayData = result.data.weatherObservation[`${dataOption}`]
-          //adds units for specific data
-          if (dataOption === 'temperature') {
-            symbol = `&deg C`
-          }
-          if (dataOption === 'windSpeed') {
-            symbol = `Km/h`
-          }
 
-          let infoMarker = L.divIcon({
-            className: 'infoMarker',
-            iconAnchor: [0, 0],
-            html: `<p> ${(city.name).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${displayData} ${symbol} </span>`
-          });
-          marker = L.marker([city.coordinates.latitude, city.coordinates.longitude], { icon: infoMarker }).addTo(map);
+
+        if (dataOption === 'temp' || dataOption === 'humidity' || dataOption === 'pressure') {
+          console.log(result.data.main[`${dataOption}`])
+          displayData = result.data.main[`${dataOption}`]
+        }
+        if (dataOption === 'clouds') {
+          displayData = result.data.clouds.all
+        }
+        if (dataOption === 'windSpeed') {
+          displayData = result.data.wind.speed
         }
 
-        
+
+        function getSymbol(d) {
+          return d === 'temp' ? `&deg C` :
+            d === 'humidity' ? `%` :
+              d === 'windSpeed' ? `Km/h` :
+                d === 'pressure' ? `hPa` :
+                  d === 'clouds' ? `%` :
+                    ''
+        }
+
+        symbol = getSymbol(dataOption)
+
+
+
+        let infoMarker = L.divIcon({
+          className: 'infoMarker',
+          iconAnchor: [0, 0],
+          html: `<p> ${(city.name).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${displayData} ${symbol} </span>`
+        });
+        marker = L.marker([city.coordinates.latitude, city.coordinates.longitude], { icon: infoMarker }).addTo(map);
+
+
+
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {

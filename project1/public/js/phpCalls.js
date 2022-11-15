@@ -5,7 +5,7 @@
 
 
 
-function getCountryCities(countryIso) {
+function getCountryCities(countryIso, loadAmount) {
 
     let cities = []
 
@@ -15,7 +15,8 @@ function getCountryCities(countryIso) {
         dataType: 'json',
         async: false,
         data: {
-            iso: countryIso
+            iso: countryIso,
+            amount: loadAmount
         },
         success: function (result) {
             if (result.status.name == "ok") {
@@ -82,12 +83,25 @@ function getCityAstroData(city) {
         success: function (result) {
             if (result.status.name == "ok") {
 
-                $('#sunset').html(result.data.sunset);
-                $('#sunrise').html(result.data.sunrise);
-                $('#moonrise').html(result.data.moonrise);
-                $('#moonset').html(result.data.moonset);
-                $('#currentTime').html(result.data.current_time.slice(0, 5));
-                $('#dayLength').html(result.data.day_length);
+                function formatTime(original) {
+                    let [originalHour, originalMin] = original.split(":")
+                    console.log(originalHour, originalMin)
+
+                    let hour = parseInt(originalHour.replace('0','')) % 12;   
+                    console.log(hour)                 
+                    if (hour === 0) hour = 12;
+
+                    return hour + `:${parseInt(originalMin)}`+ (original < 12 ? ' am' : ' pm');
+                }
+
+                console.log(formatTime(result.data.sunset))
+
+                $('#sunset').html(formatTime(result.data.sunset));
+                $('#sunrise').html(formatTime(result.data.sunrise));
+                $('#moonrise').html(formatTime(result.data.moonrise));
+                $('#moonset').html(formatTime(result.data.moonset));
+                $('#currentTime').html(formatTime(result.data.current_time.slice(0, 5)));
+                $('#dayLength').html(result.data.day_length.replace('0',''));
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -105,7 +119,7 @@ function getCityAstroData(city) {
 function getCityWeatherData(city) {
 
     $.ajax({
-        url: "php/getWeatherData.php",
+        url: "php/getOpenWeatherData.php",
         type: 'POST',
         dataType: 'json',
         async: false,
@@ -115,14 +129,17 @@ function getCityWeatherData(city) {
         },
         success: function (result) {
             if (result.status.name == "ok") {
-                $('#clouds').html(result.data.weatherObservation.clouds);
-                $('#dewPoint').html(result.data.weatherObservation.dewPoint);
-                $('#humidity').html(result.data.weatherObservation.humidity);
-                $('#stationName').html(result.data.weatherObservation.stationName);
-                $('#temperature').html(result.data.weatherObservation.temperature);
-                $('#weatherCondition').html(result.data.weatherObservation.weatherCondition);
-                $('#windDirection').html(result.data.weatherObservation.stationwindDirectionName);
-                $('#windSpeed').html(result.data.weatherObservation.windSpeed);
+                console.log(result.data)
+                $('#clouds').html(result.data.clouds.all);
+                $('#humidity').html(result.data.main.humidity);
+                // $('#stationName').html(result.data.weatherObservation.stationName);
+                $('#temperature').html(result.data.main.temp);
+                $('#temperatureMin').html(result.data.main.temp_min);
+                $('#temperatureMax').html(result.data.main.temp_max);
+                $('#weather').html(result.data.weather[0].main);
+                $('#weatherDescription').html(result.data.weather[0].description);
+                $('#pressure').html(result.data.main.pressure);
+                $('#windSpeed').html(result.data.wind.speed);
 
 
             }
@@ -169,3 +186,7 @@ function getCountryData(country) {
     })
 
 };
+
+
+
+

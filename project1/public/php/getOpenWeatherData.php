@@ -1,15 +1,13 @@
 <?php
 
+
 	ini_set('display_errors', 'On');
 	error_reporting(E_ALL);
 
 	$executionStartTime = microtime(true);
 
 	
-
-	
-
-	$url='https://www.triposo.com/api/20221011/location.json?countrycode=' . $_REQUEST['iso'] . '&tag_labels=city&count=' . $_REQUEST['amount'] . '&fields=name,snippet,generated_intro,coordinates,properties,images&order_by=-score&account=6BO6AOOX&token=nkbg4amiixnpkl3r0ku6gv3v12p10dxs';
+	$url='https://api.openweathermap.org/data/2.5/weather?lat=' . $_REQUEST['lat'] . '&lon=' . $_REQUEST['lng'] . '&appid=6d2644bed2206fc3b11c8435d95cda14&units=metric';
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

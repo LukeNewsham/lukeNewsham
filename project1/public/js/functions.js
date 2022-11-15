@@ -25,7 +25,7 @@ function findLocation() {
       navigator.geolocation.getCurrentPosition(position => {
         GLOBAL_positionLat = position.coords.latitude
         GLOBAL_positionLng = position.coords.longitude
-        map.setView([GLOBAL_positionLat, GLOBAL_positionLng], 5)
+        map.setView([GLOBAL_positionLat, GLOBAL_positionLng], 4)
         userLocation.setLatLng([GLOBAL_positionLat, GLOBAL_positionLng])
 
         //finds country user is in from lat and lng and loads country data 
@@ -66,8 +66,6 @@ function findLocation() {
 //Adds chosen city data to countryMode div and city marker to map ----------------------------------------------------------------------------------
 
 function showCityData(city) {
-
-  console.log(city.images[0].sizes.medium.url)
   $('#snippet').html(city.snippet);
   $('#cityDescription').html(city.generated_intro);
 
@@ -115,7 +113,7 @@ function loadCountryCitiesList(country) {
       if (element.Code === 'GB') {
         isoCode = 'UK'
       }
-      cityList = getCountryCities(isoCode)
+      cityList = getCountryCities(isoCode, 50)
       GLOBAL_chosenCountryCities = cityList
     }
   }
@@ -154,8 +152,6 @@ function showCountryData(countryChosen) {
     //Hides div while updating data
     $('#countryMode').fadeOut();
 
-    countryModeClose()
-    countryModeOpen()
 
 
     //Updates global variables and resets map layers
@@ -172,7 +168,7 @@ function showCountryData(countryChosen) {
     //Loads data from country name
     loadCountryCitiesList(countryChosen)
 
-    getBorders([countryChosen], true, false)
+    getBorders(countryChosen, true, 'selected')
     let phpCountryChosen = countryChosen.replace(" ", "%20");
     getCountryData(phpCountryChosen)
     $('#chosenCountry').html(countryChosen);
@@ -201,25 +197,13 @@ function showCountryData(countryChosen) {
 
 
 
-//Add global map markers ----------------------------------------------------------------------------------
-
-function addGlobalMarkers(marker, data) {
-  GLOBAL_countryChosen = false;
-  GLOBAL_issRun = false;
-  GLOBAL_cityMarkerOption = marker;
-  GLOBAL_cityDataOption = data;
-  loadMapMarkers()
-}
-
-
-
-
-
 
 
 //Add country map markers ----------------------------------------------------------------------------------
 
-function addCountryMarkers(marker, data, relocate, amount) {
+function addCountryMarkers(marker, data, relocate, amount, reset) {
+
+
 
   $(`#temperatureCountryButton`).css({ 'font-weight': '400' })
   $(`#windSpeedCountryButton`).css({ 'font-weight': '400' })
@@ -233,96 +217,269 @@ function addCountryMarkers(marker, data, relocate, amount) {
   $(`#moonriseCountryButton`).css({ 'font-weight': '400' })
   $(`#day_lengthCountryButton`).css({ 'font-weight': '400' })
 
+
+
+
   GLOBAL_issRun = false;
   GLOBAL_cityMarkerOption = marker;
   GLOBAL_cityDataOption = data;
-  loadCountryMarkers(relocate, amount)
+  loadCountryMarkers(relocate, amount, reset)
   $(`#${data}CountryButton`).css({ 'font-weight': 'bolder' })
   $(`#cityDataSelected`).html(` ${data}`)
 }
 
 
 
+function getAllCountryCenters() {
 
-
-
-
-
-
-//Get borders from array list ----------------------------------------------------------------------------------
-
-function getBorders(countries, fitToScreen, hover) {
-
-
-  //gets geo.json file
   $.ajax({
     dataType: "json",
     url: "js/countryBorders.geo.json",
     success: function (borders) {
 
-      hoverCountryBorder.clearLayers();
-      
 
+      $(borders.features).each(function (key, border) {
+
+        let country = border.properties.name
+
+        let centerPoint = L.geoJson(border).getBounds().getCenter()
+        GLOBAL_countryCenterPoints.push({ country, centerPoint, border })
+      })
+
+    }
+  }).error(function () {
+    console.log('Error')
+  });
+
+
+}
+
+
+
+function getChoroplethBorders(data, dataOption) {
+
+  //clear previous borders
+  globalCountryBorders.clearLayers()
+  weatherModeClose()
+
+  document.getElementById("loading").style.display = "block";
+  $('#loadingText').html('Getting data for countries...');
+
+  $(`#temperatureGlobalButton`).css({ 'font-weight': '400' })
+  $(`#windSpeedGlobalButton`).css({ 'font-weight': '400' })
+  $(`#humidityGlobalButton`).css({ 'font-weight': '400' })
+  $(`#dewPointGlobalButton`).css({ 'font-weight': '400' })
+
+
+  $(`#sunriseGlobalButton`).css({ 'font-weight': '400' })
+  $(`#sunsetGlobalButton`).css({ 'font-weight': '400' })
+  $(`#moonsetGlobalButton`).css({ 'font-weight': '400' })
+  $(`#moonriseGlobalButton`).css({ 'font-weight': '400' })
+  $(`#day_lengthGlobalButton`).css({ 'font-weight': '400' })
+
+  $(`#${dataOption}GlobalButton`).css({ 'font-weight': 'bolder' })
+
+  let count = 0
+
+  function run() {
+
+    let high = 0;
+    let low = 0
+    let results = [];
+    let firstSet = true
+
+    //for each country, get API data and push results into results. Update High and Low
+    for (countryData of GLOBAL_countryCenterPoints) {
+
+
+      //different api calls depending on data
+      if (data === 'population') {
+        let apiData = getPopulationChoroplethData(countryData.country)
+        result = [countryData, apiData]
+      }
+      if (data === 'weather') {
+        let apiData = getWeatherChoroplethData(countryData.centerPoint, dataOption)
+        result = [countryData, apiData]
+      }
+      if (data === 'astrology') {
+        let apiData = getAstrologyChoroplethData(countryData.centerPoint, dataOption)
+        result = [countryData, apiData]
+
+      }
+
+     
+      if (firstSet) {
+        high = parseInt(result[1]);
+        low = parseInt(result[1])
+        firstSet = false
+      }
+
+      if (result[1].length === undefined ||  typeof result[1]  === 'string' ) {
+        console.log(result[1], parseInt(result[1]))
+        results.push(result)
+
+        if (parseInt(result[1]) > high) {
+         
+
+          high = parseInt(result[1])
+        }
+        if (parseInt(result[1]) < low) {
+          console.log(parseInt(result[1]))
+          low = parseInt(result[1])
+        }
+      }
+
+
+
+
+
+    }
+
+    //function to display colours for range of results
+    let range = high - low
+    console.log(low, high, range)
+
+    function getColor(low, high, range, d) {
+
+      if (dataOption === 'temperature') {
+        return d >= (high) ? '#BD0026' :
+          d > (low + 4 * (range / 5)) ? '#E31A1C' :
+            d > (low + 3 * (range / 5)) ? '#FC4E2A' :
+              d > (low + 2 * (range / 5)) ? '#FD8D3C' :
+                d > (low + (range / 5)) ? '#FEB24C' :
+                  d >= (low) ? '#FED976' :
+                    'white';
+      } else {
+        return d >= (high) ? '#003a64' :
+          d > (low + 4 * (range / 5)) ? '#0067b1' :
+            d > (low + 3 * (range / 5)) ? '#48b3ff' :
+              d > (low + 2 * (range / 5)) ? '#7cc8ff' :
+                d > (low + (range / 5)) ? '#99d5ff' :
+                  d >= (low) ? '#e2f3ff' :
+                    'white';
+
+      }
+
+    }
+
+
+    //for all results, add border to map with specific colour
+    for (country of results) {
+      function globalBorder() {
+        return {
+          fillColor: getColor(low, high, range, parseInt(country[1])),
+          weight: 4,
+          opacity: 0.6,
+          color: 'white',
+          dashArray: '8',
+          fillOpacity: 0.5
+        }
+      }
+
+      let newGlobalCountryBorder = L.geoJson(country[0].border, { style: globalBorder });
+      globalCountryBorders.addLayer(newGlobalCountryBorder);
+    }
+
+    //remove legend if there is one, and add new
+    legend.remove()
+    let grades = [
+      Math.round(low),
+      Math.round((low + (range / 5))),
+      Math.round((low + 2 * (range / 5))),
+      Math.round((low + 3 * (range / 5))),
+      Math.round((low + 4 * (range / 5))),
+      Math.round(high)
+    ]
+    legend.onAdd = function (map) {
+      let div = L.DomUtil.create('div', 'info legend')
+      for (let i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+          '<i style="background:' + getColor(low, high, range, grades[i] + 1) + '"></i> ' +
+          grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+      }
+      return div;
+    };
+    legend.addTo(map)
+
+    //removes loading screen
+    document.getElementById("loading").style.display = "none";
+  }
+
+  //runs function after 1000ms to allow time for dom to update loading screen
+  setTimeout(run, 1000)
+
+
+}
+
+
+
+//Get borders from array list ----------------------------------------------------------------------------------
+
+function getBorders(country, fitToScreen, mode) {
+
+  hoverCountryBorder.clearLayers();
+
+  //Border Styles ----------
+
+  //border style for chosen country and toggle
+  function hoverBorder() {
+    return {
+      fillColor: 'lightBlue',
+      weight: 4,
+      opacity: 1,
+      color: 'rgb(101, 101, 101)',
+      dashArray: '8',
+      fillOpacity: 0
+    }
+  }
+
+  //border style for select country on hover
+  function generalBorder() {
+    return {
+      fillColor: 'lightBlue',
+      weight: 4,
+      opacity: 1,
+      color: 'rgb(101, 101, 101)',
+      dashArray: '8',
+      fillOpacity: 0.5
+    }
+  }
+
+  //Gets geo.json file 
+  $.ajax({
+    dataType: "json",
+    url: "js/countryBorders.geo.json",
+    success: function (borders) {
 
       //for each border within geo.json
       $(borders.features).each(function (key, border) {
 
-        //if there is a border for the current country, remove it
-        if (GLOBAL_borders[key] && hover === false) {
-
-          let deletedFeature = GLOBAL_borders[key];
-          delete GLOBAL_borders[key];
-          geoJsonLayerGroup.removeLayer(deletedFeature);
-        };
-
-        //border style for chosen country and toggle
-        function generalBorder() {
-          return {
-            fillColor: 'lightBlue',
-            weight: 4,
-            opacity: 1,
-            color: 'gray',
-            dashArray: '8',
-            fillOpacity: 0
-          }
-        }
         let newGeneralBorder = L.geoJson(border, { style: generalBorder });
-
-        //border style for select country on hover
-        function hoverBorder() {
-          return {
-            fillColor: 'lightBlue',
-            weight: 4,
-            opacity: 1,
-            color: 'gray',
-            dashArray: '8',
-            fillOpacity: 0.6
-          }
-        }
         let newHoverBorder = L.geoJson(border, { style: hoverBorder });
 
-        //if there is a list of countries
-        if (countries) {         
 
-          countries.forEach(country => {
-            //if the current border feature matches a country in the list
-            if (country === border.properties.name) {
+        if (mode === 'selected') {
+          if (GLOBAL_borders[key]) {
+            let deletedFeature = GLOBAL_borders[key];
+            delete GLOBAL_borders[key];
+            geoJsonLayerGroup.removeLayer(deletedFeature);
+          };
 
-              if (hover) {
-                hoverCountryBorder.addLayer(newHoverBorder);
-              } else {
-                GLOBAL_borders[key] = newGeneralBorder;
-                geoJsonLayerGroup.addLayer(newGeneralBorder);
+          if (country === border.properties.name || country === 'all') {
+            GLOBAL_borders[key] = newGeneralBorder;
+            geoJsonLayerGroup.addLayer(newGeneralBorder);
 
-                if (fitToScreen) {
-                  map.fitBounds(newGeneralBorder.getBounds(), { padding: [20, 20] });
-                }
-              }
+            if (fitToScreen) {
+              map.fitBounds(newGeneralBorder.getBounds(), { padding: [20, 20] });
             }
-          })
-        } else {
-          GLOBAL_borders[key] = newGeneralBorder;
-          geoJsonLayerGroup.addLayer(newGeneralBorder);
+          }
+        }
+
+
+        if (mode === 'hover') {
+          if (country === border.properties.name) {
+            hoverCountryBorder.addLayer(newHoverBorder);
+          }
         }
       });
     }
@@ -357,9 +514,9 @@ function allBorders() {
   console.log(GLOBAL_allBordersToggle)
   geoJsonLayerGroup.clearLayers();
   if (GLOBAL_allBordersToggle) {
-    getBorders([GLOBAL_countryChosen])
+    getBorders(GLOBAL_countryChosen, false, 'selected')
   } else {
-    getBorders()
+    getBorders('all', false, 'selected')
 
   }
   GLOBAL_allBordersToggle = !GLOBAL_allBordersToggle
@@ -372,10 +529,16 @@ function allBorders() {
 
 //Adds country map markers ----------------------------------------------------------------------------------
 
-function loadCountryMarkers(relocate, amount) {
+function loadCountryMarkers(relocate, amount, reset) {
 
   //checks if there is a chosen country (country mode)
   if (GLOBAL_countryChosen && GLOBAL_cityDataOption) {
+
+    if (reset) {
+      GLOBAL_lessCitiesLoaded = false;
+      GLOBAL_moreCitiesLoaded = false;
+
+    }
 
     //adds loading screen
     document.getElementById("loading").style.display = "block"
@@ -384,8 +547,6 @@ function loadCountryMarkers(relocate, amount) {
     function run() {
 
       //clears layers
-      
-      
       capitalCityMarkers.clearLayers()
       chosenCountryCityMarker.clearLayers()
 
@@ -437,6 +598,9 @@ function loadCountryMarkers(relocate, amount) {
 
 function loadMapMarkers() {
 
+  console.log(GLOBAL_moreCitiesLoaded)
+  console.log(GLOBAL_lessCitiesLoaded)
+
   map.addLayer(lessCityMarkers);
   map.removeLayer(lessCityMarkers);
 
@@ -446,89 +610,86 @@ function loadMapMarkers() {
   let centerCountry = getCountryFromPoint([map.getCenter().lat, map.getCenter().lng]).country
 
 
-  if(GLOBAL_mode === 'country') {
+  if (GLOBAL_mode === 'country') {
     if (map.getZoom() <= 5) {
 
       $("#cityMarkers").css('display', 'none')
       $("#cityData").css('display', 'flex')
       $("#selectCityTab").css('background-color', 'white')
       $("#allCitiesTab").css('background-color', 'transparent')
-  
-  
-  
+
+
+
       document.getElementById("centerReticle").style.display = "flex"
       $('#searchCenterCountry').html(centerCountry);
       map.removeLayer(lessCityMarkers);
       map.removeLayer(moreCityMarkers);
-  
-  
+
+
       if (centerCountry !== GLOBAL_countryChosen) {
         document.getElementById("searchCenter").style.display = "flex"
         document.getElementById("zoomIn").style.display = "none"
-        getBorders([centerCountry], false, true)
+        getBorders(centerCountry, false, 'hover')
       } else {
         document.getElementById("searchCenter").style.display = "none"
         document.getElementById("zoomIn").style.display = "flex"
         document.getElementById("centerReticle").style.display = "none"
-        getBorders([''], false, true)
+        getBorders('none', false, 'hover')
       }
-    };  
-  
+    };
+
     if (map.getZoom() > 5 && map.getZoom() < 8) {
-  
+
       $("#cityData").css('display', 'none')
       $("#cityMarkers").css('display', 'flex')
       $("#allCitiesTab").css('background-color', 'white')
       $("#selectCityTab").css('background-color', 'transparent')
-  
-  
-  
-      document.getElementById("centerReticle").style.display = "flex"    
+
+
+
+      document.getElementById("centerReticle").style.display = "flex"
       $('#searchCenterCountry').html(centerCountry);
-  
+
       map.removeLayer(moreCityMarkers);
-      map.addLayer(lessCityMarkers);   
-  
-      console.log(centerCountry, GLOBAL_countryChosen)
-  
-      
-      
+      map.addLayer(lessCityMarkers);
+
+
       if (centerCountry !== GLOBAL_countryChosen) {
         document.getElementById("searchCenter").style.display = "flex"
         document.getElementById("zoomIn").style.display = "none"
-        getBorders([centerCountry], false, true)
+        getBorders(centerCountry, false, 'hover')
       } else {
         document.getElementById("searchCenter").style.display = "none"
         document.getElementById("zoomIn").style.display = "flex"
         document.getElementById("centerReticle").style.display = "none"
-        getBorders([''], false, true)
+        getBorders('none', false, 'hover')
       }
-      
-  
+
+
       if (!GLOBAL_lessCitiesLoaded) {
-        addCountryMarkers(weatherDataMarker, `temperature`, false, 'less')
+        addCountryMarkers(GLOBAL_cityMarkerOption, GLOBAL_cityDataOption, false, 'less')
         GLOBAL_lessCitiesLoaded = true
       }
     };
-  
-  
+
+
     //Country Search
-    if (map.getZoom() >= 8 && centerCountry === GLOBAL_countryChosen) {   
-  
+    if (map.getZoom() >= 8 && centerCountry === GLOBAL_countryChosen) {
+
       $("#cityData").css('display', 'none')
       $("#cityMarkers").css('display', 'flex')
       $("#allCitiesTab").css('background-color', 'white')
       $("#selectCityTab").css('background-color', 'transparent')
-  
+
       document.getElementById("searchCenter").style.display = "none"
       document.getElementById("centerReticle").style.display = "none"
       document.getElementById("zoomIn").style.display = "none"
-  
+
       map.removeLayer(lessCityMarkers);
       map.addLayer(moreCityMarkers);
-  
+
       if (!GLOBAL_moreCitiesLoaded) {
-        addCountryMarkers(weatherDataMarker, `temperature`, false, 'more')
+        addCountryMarkers(GLOBAL_cityMarkerOption, GLOBAL_cityDataOption, false, 'more')
         GLOBAL_moreCitiesLoaded = true
       }
     };

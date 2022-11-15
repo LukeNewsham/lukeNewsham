@@ -31,13 +31,15 @@ function showHoverButtons() {$("#searchCenter").css('display', 'flex');}
 //Listener Functions
 $("#countryModeButton").click(function () {
   GLOBAL_mode = 'country';
-  map.removeLayer(tiles.terrain_background)
+  map.removeLayer(tiles.alidade_smooth)
   map.removeLayer(tiles.Stadia_AlidadeSmoothDark)
   map.addLayer(geoJsonLayerGroup)
   map.addLayer(hoverCountryBorder)
+  map.removeLayer(globalCountryBorders)
   showHoverButtons()
+  legend.remove()
 
-  tiles.alidade_smooth.addTo(map);
+  tiles.Thunderforest_Neighbourhood.addTo(map);
   if (!countryShown) {
     countryModeOpen()
     weatherModeClose()
@@ -50,14 +52,19 @@ $("#countryModeButton").click(function () {
 
 $("#weatherModeButton").click(function () {
   GLOBAL_mode = 'globe';
-  map.removeLayer(tiles.alidade_smooth)
+  map.removeLayer(tiles.Thunderforest_Neighbourhood)
   map.removeLayer(tiles.Stadia_AlidadeSmoothDark)
   map.removeLayer(lessCityMarkers)
   map.removeLayer(moreCityMarkers)
   map.removeLayer(geoJsonLayerGroup)
   map.removeLayer(hoverCountryBorder)
-  tiles.terrain_background.addTo(map);
+  map.addLayer(globalCountryBorders)
+  
   hideHoverButtons()
+  
+
+  tiles.alidade_smooth.addTo(map);
+
   if (!weatherShown) {
     weatherModeOpen()
     countryModeClose()
@@ -70,12 +77,14 @@ $("#weatherModeButton").click(function () {
 
 $("#astrologyModeButton").click(function () {
   GLOBAL_mode = 'astrology';
-  map.removeLayer(tiles.terrain_background)
+  map.removeLayer(tiles.Thunderforest_Neighbourhood)
   map.removeLayer(tiles.alidade_smooth)
   map.removeLayer(lessCityMarkers)
   map.removeLayer(moreCityMarkers)
   map.removeLayer(geoJsonLayerGroup)
   map.removeLayer(hoverCountryBorder)
+  map.removeLayer(globalCountryBorders)
+  legend.remove()
   hideHoverButtons()
   tiles.Stadia_AlidadeSmoothDark.addTo(map);
   if (!astrologyShown) {

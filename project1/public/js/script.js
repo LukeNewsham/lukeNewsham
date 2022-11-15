@@ -8,8 +8,26 @@
 
 
 //Loads users location and country data, opens country mode panel and  ----------------------------------------------------------------------------------
+GLOBAL_cityMarkerOption = cityDataMarker
+GLOBAL_cityDataOption = 'city'
 
-findLocation()
+
+
+function run() {
+    findLocation()
+    getAllCountryCenters()
+}
+
+
+
+
+setTimeout(run, 1000)
+
+
+
+
+
+
 
 setTimeout(function () {
     map.on('zoomend', function () {

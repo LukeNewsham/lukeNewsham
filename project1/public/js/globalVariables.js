@@ -8,6 +8,7 @@ let GLOBAL_allBordersToggle = false;
 let GLOBAL_lessCitiesLoaded = false;
 let GLOBAL_moreCitiesLoaded = false;
 let GLOBAL_mode = 'country';
+let GLOBAL_countryCenterPoints = [];
 let GLOBAL_cityMarkerOption = function() {
   return false
 };
