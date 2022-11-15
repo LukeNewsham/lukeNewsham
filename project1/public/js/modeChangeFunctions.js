@@ -31,6 +31,7 @@ function showHoverButtons() {$("#searchCenter").css('display', 'flex');}
 //Listener Functions
 $("#countryModeButton").click(function () {
   GLOBAL_mode = 'country';
+  map.addLayer(chosenCountryCityMarker)
   map.removeLayer(tiles.alidade_smooth)
   map.removeLayer(tiles.Stadia_AlidadeSmoothDark)
   map.addLayer(geoJsonLayerGroup)
@@ -59,6 +60,7 @@ $("#weatherModeButton").click(function () {
   map.removeLayer(geoJsonLayerGroup)
   map.removeLayer(hoverCountryBorder)
   map.addLayer(globalCountryBorders)
+  map.removeLayer(chosenCountryCityMarker)
   
   hideHoverButtons()
   
@@ -84,6 +86,7 @@ $("#astrologyModeButton").click(function () {
   map.removeLayer(geoJsonLayerGroup)
   map.removeLayer(hoverCountryBorder)
   map.removeLayer(globalCountryBorders)
+  map.removeLayer(chosenCountryCityMarker)
   legend.remove()
   hideHoverButtons()
   tiles.Stadia_AlidadeSmoothDark.addTo(map);

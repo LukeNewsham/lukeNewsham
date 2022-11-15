@@ -62,9 +62,6 @@ let baseMaps = {
 
 //Leaflet Features and Layers ----------------------------------------------------------------------------------
 
-let capitalCityMarkers = new L.FeatureGroup();
-map.addLayer(capitalCityMarkers);
-
 let lessCityMarkers = new L.FeatureGroup();
 map.addLayer(lessCityMarkers);
 map.removeLayer(lessCityMarkers);

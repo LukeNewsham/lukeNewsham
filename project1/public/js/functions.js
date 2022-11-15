@@ -55,6 +55,8 @@ function findLocation() {
   map.removeLayer(lessCityMarkers);
   map.removeLayer(moreCityMarkers);
 
+ 
+
 
 }
 
@@ -540,7 +542,6 @@ function loadCountryMarkers(relocate, amount, reset) {
 
       //clears layers
       capitalCityMarkers.clearLayers()
-      chosenCountryCityMarker.clearLayers()
 
       let citiesInCountry = []
       let layerOption = ''
