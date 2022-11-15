@@ -43,10 +43,8 @@ let astrologyDataMarker = (city, dataOption) => {
 
         function formatTime(original) {
           let [originalHour, originalMin] = original.split(":")
-          console.log(originalHour, originalMin)
 
           let hour = parseInt(originalHour.replace('0', '')) % 12;
-          console.log(hour)
           if (hour === 0) hour = 12;
 
           return hour + `:${parseInt(originalMin)}` + (original < 12 ? ' am' : ' pm');
@@ -92,15 +90,12 @@ let weatherDataMarker = (city, dataOption) => {
     },
     success: function (result) {
       if (result.status.name == "ok") {
-        console.log(result)
 
         let symbol = ''
         let displayData = ''
 
 
-
         if (dataOption === 'temp' || dataOption === 'humidity' || dataOption === 'pressure') {
-          console.log(result.data.main[`${dataOption}`])
           displayData = result.data.main[`${dataOption}`]
         }
         if (dataOption === 'clouds') {

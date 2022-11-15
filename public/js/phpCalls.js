@@ -85,16 +85,12 @@ function getCityAstroData(city) {
 
                 function formatTime(original) {
                     let [originalHour, originalMin] = original.split(":")
-                    console.log(originalHour, originalMin)
 
                     let hour = parseInt(originalHour.replace('0','')) % 12;   
-                    console.log(hour)                 
                     if (hour === 0) hour = 12;
 
                     return hour + `:${parseInt(originalMin)}`+ (original < 12 ? ' am' : ' pm');
                 }
-
-                console.log(formatTime(result.data.sunset))
 
                 $('#sunset').html(formatTime(result.data.sunset));
                 $('#sunrise').html(formatTime(result.data.sunrise));
@@ -129,7 +125,6 @@ function getCityWeatherData(city) {
         },
         success: function (result) {
             if (result.status.name == "ok") {
-                console.log(result.data)
                 $('#clouds').html(result.data.clouds.all);
                 $('#humidity').html(result.data.main.humidity);
                 // $('#stationName').html(result.data.weatherObservation.stationName);

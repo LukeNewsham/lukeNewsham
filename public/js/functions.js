@@ -306,7 +306,6 @@ function getChoroplethBorders(data, dataOption) {
         result = [countryData, apiData]
 
       }
-
      
       if (firstSet) {
         high = parseInt(result[1]);
@@ -315,7 +314,6 @@ function getChoroplethBorders(data, dataOption) {
       }
 
       if (result[1].length === undefined ||  typeof result[1]  === 'string' ) {
-        console.log(result[1], parseInt(result[1]))
         results.push(result)
 
         if (parseInt(result[1]) > high) {
@@ -324,12 +322,9 @@ function getChoroplethBorders(data, dataOption) {
           high = parseInt(result[1])
         }
         if (parseInt(result[1]) < low) {
-          console.log(parseInt(result[1]))
           low = parseInt(result[1])
         }
       }
-
-
 
 
 
@@ -337,7 +332,6 @@ function getChoroplethBorders(data, dataOption) {
 
     //function to display colours for range of results
     let range = high - low
-    console.log(low, high, range)
 
     function getColor(low, high, range, d) {
 
@@ -511,7 +505,6 @@ function searchCenter(lat, lng) {
 //Toggle all country borders ----------------------------------------------------------------------------------
 
 function allBorders() {
-  console.log(GLOBAL_allBordersToggle)
   geoJsonLayerGroup.clearLayers();
   if (GLOBAL_allBordersToggle) {
     getBorders(GLOBAL_countryChosen, false, 'selected')
@@ -597,9 +590,6 @@ function loadCountryMarkers(relocate, amount, reset) {
 //Adds global map markers depending on zoom scale ----------------------------------------------------------------------------------
 
 function loadMapMarkers() {
-
-  console.log(GLOBAL_moreCitiesLoaded)
-  console.log(GLOBAL_lessCitiesLoaded)
 
   map.addLayer(lessCityMarkers);
   map.removeLayer(lessCityMarkers);
