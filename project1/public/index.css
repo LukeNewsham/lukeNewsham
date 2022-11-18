@@ -4,7 +4,7 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto';
+    font-family: 'Calibri'
 }
 
 body {
@@ -15,7 +15,7 @@ body {
 h1,
 h2,
 h3 {
-    color: black !important;
+    color: black;
     margin: 0;
     padding: 0;
     font-weight: 500;
@@ -142,7 +142,22 @@ button {
     border-radius: 0.3rem;
 }
 
-.markerButton:hover {
+.weatherButton {
+    font-size: 0.9rem !important;
+    color: black !important;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 3rem;
+    width: 3rem;
+    margin: 0.2rem;
+    background-color: white;
+    border: 0;
+    border-radius: 0.3rem;
+}
+
+.weatherButton:hover {
     box-shadow: 0 0 0.5rem rgb(180, 180, 180);
 
 }
@@ -176,8 +191,8 @@ button {
 
 .icon {
     opacity: 100%;
-    width: auto;
-    height: 60%;
+    width: 2rem;
+    height: auto;
     cursor: pointer;
 }
 
@@ -191,6 +206,8 @@ button {
     margin-bottom: 1rem;
 }
 
+
+
 .datasetInput {
     height: 1rem;
     text-align: left;
@@ -198,6 +215,17 @@ button {
     font-size: 1rem;
     border: none;
 }
+
+.selectInput {
+    height: 100%;
+    text-align: center;
+    font-size: 1.3rem;
+    border: none;
+    color: rgb(57, 154, 186);
+    font-weight: bolder;
+    width: 100%;
+}
+
 
 .issButton {
     width: 40%
@@ -265,26 +293,24 @@ button {
 
 .countryModeData {
     padding: 0.5rem;
-    margin: 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
     height: fit-content;
-    width: 35%;
+    width: 6rem;
     border: 0;
     border-radius: 0.3rem;
 }
 
 .cityModeData {
-    padding: 0.5rem;
     margin: 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
     height: fit-content;
-    width: 35%;
+    width: 4rem;
     background-color: white;
     border: 0;
     border-radius: 0.3rem;
@@ -303,10 +329,13 @@ button {
     border-radius: 0.4rem;
 }
 
+
+
+
 .infoMarker {
     display: flex !important;
     overflow: hidden;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.649);
     font-size: 0.8rem;
     color: black;
     box-shadow: 0.2rem 0.2rem 1rem gray;
@@ -334,7 +363,19 @@ button {
     justify-content: center;
     align-items: center;
     padding: 0 0.5rem;
-    min-height: 2.5rem;
+    min-height: 2rem;
+}
+
+.selected {
+    /* background-color: lightblue; */
+    font-size: 1rem;
+    border: 1px solid black;
+    z-index: 100000 !important;
+    background-color: rgb(255, 255, 255);
+}
+
+.selectedIcon {
+    height: 1rem;
 }
 
 .subPanel {
@@ -402,6 +443,18 @@ button {
     z-index: -1;
 }
 
+#weatherButtons {
+    position: absolute;
+    left: 0;
+    display: Flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    border-radius: 0.4rem;
+    margin: 1rem;
+}
+
 #title {
     position: absolute;
     top: 2rem;
@@ -413,6 +466,7 @@ button {
 }
 
 #loading {
+    display:none;
     height: 100vh;
     width: 100vw;
     overflow: hidden;
@@ -517,7 +571,6 @@ button {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
-    padding: 0 1rem;
 }
 
 #countryModeButton,
@@ -583,16 +636,15 @@ button {
     display: flex;
     align-items: center;
     background-color: white;
-    top: 2rem;
     width: fit-content;
     height: 2rem;
     text-align: center;
     justify-items: space-between;
     padding: 0.3rem 0.5rem;
     background-color: none;
-    border: 1px solid grey;
-    border-radius: 0.4rem;
-    margin: 1.5rem 0 ;
+    /* border-bottom: 1px solid grey; */
+    border-radius: 0.7rem;
+    margin: 0.5rem 0 ;
 }
 
 #astroData {
@@ -642,12 +694,10 @@ button {
 
 #snippet {
     color: grey;
-    /* font-style: italic;
-     */
+    font-size: 1rem;
     color: rgb(78, 138, 181);
-    padding-bottom: 2rem;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid rgb(128, 128, 128);
+    padding: 0.5rem;
+    
 }
 
 #cityImageCaption {
@@ -718,6 +768,15 @@ button {
 
 }
 
+#countryExplorerIcon {
+    position: absolute;
+    width: 10rem;
+    top: 3rem;
+    left: 0;
+    right: 0;
+    margin: auto
+}
+
 
 
 
@@ -768,6 +827,23 @@ button {
 /* Small Screens  ------------------------------------ */
 
 @media only screen and (max-width: 700px) {
+
+    /* #countrySearch {
+        width: auto;
+        border-radius: 0;
+        left: 1rem;
+        right: 1rem;
+        padding: 0.8rem;
+    } */
+
+    .leaflet-control { 
+        margin-top: 5rem !important;
+    }
+
+    #weatherButtons {
+        margin-top: 5rem;
+    }
+
 
     #countryMode,
     #weatherMode {

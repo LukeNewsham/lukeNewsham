@@ -5,7 +5,7 @@
 
 
 
-function getCountryCities(countryIso, loadAmount) {
+function getCountryCitiesPHP(countryIso, loadAmount) {
 
     let cities = []
 
@@ -20,7 +20,7 @@ function getCountryCities(countryIso, loadAmount) {
         },
         success: function (result) {
             if (result.status.name == "ok") {
-                cities = result.data.results     
+                cities = result.data.results
 
             }
         },
@@ -35,9 +35,36 @@ function getCountryCities(countryIso, loadAmount) {
 
 
 
+
+
+
+
+function getCountryBorderPHP(country) {
+
+    result = ''
+
+    $.ajax({
+        dataType: "json",
+        url: "php/getCountryBorder.php",
+        async: false,
+        data: {
+            countryName: country
+        },
+        success: function (border) {
+            result = border['data']
+        }
+    }).error(function (e) {
+    });
+
+    return result
+}
+
+
+
+
 //Gets country data from lat and long
 
-function getCountryFromPoint(point) {
+function getCountryFromPointPHP(point) {
 
     let data = []
 
@@ -70,7 +97,7 @@ function getCountryFromPoint(point) {
 
 //Gets astrology data for chosen city ----------------------------------------------------------------------------------
 
-function getCityAstroData(city) {
+function loadAstroDataPHP(city) {
     $.ajax({
         url: "php/getAstroData.php",
         type: 'POST',
@@ -86,10 +113,10 @@ function getCityAstroData(city) {
                 function formatTime(original) {
                     let [originalHour, originalMin] = original.split(":")
 
-                    let hour = parseInt(originalHour.replace('0','')) % 12;   
+                    let hour = parseInt(originalHour.replace('0', '')) % 12;
                     if (hour === 0) hour = 12;
 
-                    return hour + `:${parseInt(originalMin)}`+ (original < 12 ? ' am' : ' pm');
+                    return hour + `:${parseInt(originalMin)}` + (original < 12 ? ' am' : ' pm');
                 }
 
                 $('#sunset').html(formatTime(result.data.sunset));
@@ -97,7 +124,7 @@ function getCityAstroData(city) {
                 $('#moonrise').html(formatTime(result.data.moonrise));
                 $('#moonset').html(formatTime(result.data.moonset));
                 $('#currentTime').html(formatTime(result.data.current_time.slice(0, 5)));
-                $('#dayLength').html(result.data.day_length.replace('0',''));
+                $('#dayLength').html(result.data.day_length.replace('0', ''));
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -112,7 +139,7 @@ function getCityAstroData(city) {
 
 //Gets weather data for chosen city ----------------------------------------------------------------------------------
 
-function getCityWeatherData(city) {
+function loadCityWeatherDataPHP(city) {
 
     $.ajax({
         url: "php/getOpenWeatherData.php",
@@ -155,7 +182,7 @@ function getCityWeatherData(city) {
 
 //Gets country data for chosen city ----------------------------------------------------------------------------------
 
-function getCountryData(country) {
+function loadCountryDataPHP(country) {
 
     $.ajax({
         url: "php/getCountryData.php",
@@ -169,6 +196,7 @@ function getCountryData(country) {
             if (result.status.name == "ok") {
                 $('#population').html(Math.round((result.data[0].population) / 1000000));
                 $('#flag').attr('src', `${result.data[0].flags.png}`)
+                $('#searchFlag').attr('src', `${result.data[0].flags.png}`)
                 $('#flagBackground').attr('src', `${result.data[0].flags.png}`)
                 $('#currency').html(`${Object.values(result.data[0].currencies)[0].name} ${Object.values(result.data[0].currencies)[0].symbol}`);
                 $('#subregion').html(result.data[0].subregion);
@@ -181,7 +209,3 @@ function getCountryData(country) {
     })
 
 };
-
-
-
-

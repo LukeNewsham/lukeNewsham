@@ -6,34 +6,16 @@
 
 
 
-//Clear search fields ----------------------------------------------------------------------------------
-
-$('#clearCountryButton').click(function () {
-  $('#selectCountry').val('')
-});
-
-$('#clearCityButton').click(function () {
-  $('#selectCity').val('')
-});
-
-
-
 
 
 
 
 //Adds chosen country data ----------------------------------------------------------------------------------
 
-$('#selectCountryButton').click(function () {
-  GLOBAL_issRun = false;
-  countryChosen = $('#selectCountry').val();
-  showCountryData(countryChosen)
-});
 
-$('#selectCountry').change(function () {
-  GLOBAL_issRun = false;
-  countryChosen = $('#selectCountry').val();
-  showCountryData(countryChosen)
+$('#countriesList').change(function () {
+  countryChosen = $('#countriesList')[0].value
+  loadCountryData(countryChosen)
 });
 
 
@@ -43,31 +25,18 @@ $('#selectCountry').change(function () {
 
 //Adds chosen city data ----------------------------------------------------------------------------------
 
-$('#selectCityButton').click(function () {
+
+$('#countryCitiesList').change(function () {
 
   $('#countryModeData').fadeOut();
-  GLOBAL_issRun = false;
   chosenCountryCityMarker.clearLayers()
-
-  countryCity = GLOBAL_chosenCountryCities.filter(city => city.name === $('#selectCity').val())[0]
-
-  showCityData(countryCity)
+  countryCity = GLOBAL_chosenCountryCities.filter(city => city.name === $('#countryCitiesList')[0].value)
+  showCityData(countryCity[0])
   $('#countryModeData').fadeIn();
 });
 
 
 
-$('#selectCity').change(function () {
-
-  $('#countryModeData').fadeOut();
-  GLOBAL_issRun = false;
-  chosenCountryCityMarker.clearLayers()
-
-  countryCity = GLOBAL_chosenCountryCities.filter(city => city.name === $('#selectCity').val())[0]
-
-  showCityData(countryCity)
-  $('#countryModeData').fadeIn();
-});
 
 
 
@@ -76,7 +45,6 @@ $('#selectCity').change(function () {
 //Loads data for current location ----------------------------------------------------------------------------------
 
 $('#findLocation, #findLocationMobile').click(function () {
-  GLOBAL_issRun = false;
   findLocation()
 });
 
@@ -88,7 +56,7 @@ $('#findLocation, #findLocationMobile').click(function () {
 //Adds all borders ----------------------------------------------------------------------------------
 
 $('#allBorders, #allBordersMobile').click(function () {
-  allBorders()
+  toggleBorders()
 });
 
 
@@ -97,7 +65,9 @@ $('#allBorders, #allBordersMobile').click(function () {
 //Search country from map ----------------------------------------------------------------------------------
 
 $('#searchCenter').click(function () {
-  searchCenter(map.getCenter().lat, map.getCenter().lng)
+  let locationData = getCountryFromPointPHP([map.getCenter().lat, map.getCenter().lng])
+  let locationCountry = locationData.country
+  loadCountryData(locationCountry);
 });
 
 
@@ -110,15 +80,12 @@ $('#searchCenter').click(function () {
 $('#getISS').click(function () {
   chosenCountryCityMarker.clearLayers()
   lessCityMarkers.clearLayers()
-  GLOBAL_issRun = true;
   issDataMarker(true)
 });
 
 
 $('#stopISS').click(function () {
-  GLOBAL_issRun = false;
   map.removeLayer(markerIss)
-
 });
 
 

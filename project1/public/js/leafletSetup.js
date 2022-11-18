@@ -47,12 +47,14 @@ tiles = {
 tiles.Thunderforest_Neighbourhood.addTo(map);
 
 let baseMaps = {
-  "<span class='option'> Alidade Smooth </span>": tiles.alidade_smooth,
-  "<span class='option'> Stadia_AlidadeSmoothDark </span>": tiles.Stadia_AlidadeSmoothDark,
-  "<span class='option'> terrain_background </span>": tiles.terrain_background
+  "<span class='option'> Default </span>": tiles.Thunderforest_Neighbourhood,
+  "<span class='option'> Light Mode </span>": tiles.alidade_smooth,
+  "<span class='option'> Dark Mode </span>": tiles.Stadia_AlidadeSmoothDark,
+  "<span class='option'> Terrain Mode </span>": tiles.terrain_background
+  
 };
 
-// let layerControl = L.control.layers(baseMaps).addTo(map);
+let layerControl = L.control.layers(baseMaps).addTo(map);
 
 
 
@@ -64,14 +66,13 @@ let baseMaps = {
 
 let lessCityMarkers = new L.FeatureGroup();
 map.addLayer(lessCityMarkers);
-map.removeLayer(lessCityMarkers);
 
 let moreCityMarkers = new L.FeatureGroup();
 map.addLayer(moreCityMarkers);
-map.removeLayer(moreCityMarkers);
 
 let chosenCountryCityMarker = new L.FeatureGroup();
 map.addLayer(chosenCountryCityMarker);
+
 
 let legend = L.control({ position: 'bottomright' });
 
@@ -84,12 +85,11 @@ let issIcon = L.icon({
 
 
 let geoJsonLayerGroup = L.geoJson().addTo(map);
-
+let allBordersLayerGroup = L.geoJson().addTo(map);
 let userLocation = L.marker([0, 0]).addTo(map);
-
 let hoverCountryBorder = L.geoJson().addTo(map);
-
 let globalCountryBorders = L.geoJson().addTo(map);
 
 
-let markerIss = L.marker([0, 0], { icon: issIcon })
+let markerIss = L.marker([0, 0], { icon: issIcon });
+

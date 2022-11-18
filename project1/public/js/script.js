@@ -1,40 +1,35 @@
 //---------------------------  SCRIPT  ---------------------------
 
-//Loads functions on start up and sets functions for leaflet use
 
 
+let GLOBAL_mode = 'country';
+let GLOBAL_countryChosen = false;
+let GLOBAL_chosenCountryCities = []
+let GLOBAL_cityChosen = '';
+let GLOBAL_allBordersToggle = false;
+let GLOBAL_lessCitiesLoaded = false;
+let GLOBAL_moreCitiesLoaded = false;
+let GLOBAL_countryCenterPoints = [];
 
-
-
-
-//Loads users location and country data, opens country mode panel and  ----------------------------------------------------------------------------------
-GLOBAL_cityMarkerOption = weatherDataMarker
-GLOBAL_cityDataOption = 'temp'
 
 
 
 function run() {
-    findLocation()
+    findLocation(true)
     getAllCountryCenters()
+    loadCountryList()
 }
-
-
-
-
 setTimeout(run, 1000)
-
-
-
 
 
 
 
 setTimeout(function () {
     map.on('zoomend', function () {
-        loadMapMarkers()
+        updateMap()
     });
     map.on('moveend', function () {
-        loadMapMarkers()
+        updateMap()
     });
 }, 2000)
 

@@ -8,6 +8,32 @@
 
 
 
+//Adds selected city data marker to map ----------------------------------------------------------------------------------
+let selectedCityDataMarker = (city) => {
+  //new marker icon for data
+  let infoIcon = L.divIcon({
+    className: 'infoMarker selected',
+    iconAnchor: [0, 0],
+    html: `<p> <img src="./images/Magnifier Icon.png" alt="Navigate Icon" class="selectedIcon" /> ${(city.name)} </p>`
+  });
+  marker = L.marker([city.coordinates.latitude, city.coordinates.longitude], { icon: infoIcon }).addTo(map).on('click', function (e) {
+    GLOBAL_issRun = false;
+    chosenCountryCityMarker.clearLayers()
+    console.log(city.name)
+    $('#countryCitiesList')[0].value = city.name
+    loadCityData(city, false)
+    window.location.hash = "#countryMode";
+    window.location.hash = "#cityMode";
+    
+  });
+
+  //returns marker to be used
+  return marker
+}
+
+
+
+
 //Adds city data marker to map ----------------------------------------------------------------------------------
 let cityDataMarker = (city) => {
 
@@ -15,9 +41,17 @@ let cityDataMarker = (city) => {
   let infoIcon = L.divIcon({
     className: 'infoMarker',
     iconAnchor: [0, 0],
-    html: `<p> ${(city.name).toUpperCase()} </p>`
+    html: `<p> ${(city.name)} </p>`
   });
-  marker = L.marker([city.coordinates.latitude, city.coordinates.longitude], { icon: infoIcon }).addTo(map);
+  marker = L.marker([city.coordinates.latitude, city.coordinates.longitude], { icon: infoIcon }).addTo(map).on('click', function (e) {
+    GLOBAL_issRun = false;
+    chosenCountryCityMarker.clearLayers()
+    console.log(city.name)
+    $('#countryCitiesList')[0].value = city.name
+    loadCityData(city, false)
+    window.location.hash = "#countryMode";
+    window.location.hash = "#cityMode";
+  });
 
   //returns marker to be used
   return marker
@@ -96,18 +130,18 @@ let weatherDataMarker = (city, dataOption) => {
 
 
         if (dataOption === 'temp' || dataOption === 'humidity' || dataOption === 'pressure') {
-          displayData = result.data.main[`${dataOption}`]
+          displayData = result.data.main[`${dataOption}`]*2
         }
         if (dataOption === 'clouds') {
-          displayData = result.data.clouds.all
+          displayData = result.data.clouds.all*2
         }
         if (dataOption === 'windSpeed') {
-          displayData = result.data.wind.speed
+          displayData = result.data.wind.speed*2
         }
 
 
         function getSymbol(d) {
-          return d === 'temp' ? `&deg C` :
+          return d === 'temp' ? `&degC` :
             d === 'humidity' ? `%` :
               d === 'windSpeed' ? `Km/h` :
                 d === 'pressure' ? `hPa` :
@@ -122,7 +156,7 @@ let weatherDataMarker = (city, dataOption) => {
         let infoMarker = L.divIcon({
           className: 'infoMarker',
           iconAnchor: [0, 0],
-          html: `<p> ${(city.name).toUpperCase()} </p> &nbsp;  &nbsp;   <span>${Math.round(displayData)} ${symbol} </span>`
+          html: `<p>${Math.round(displayData)/2}${symbol}</p>`
         });
         marker = L.marker([city.coordinates.latitude, city.coordinates.longitude], { icon: infoMarker }).addTo(map);
 
@@ -150,7 +184,7 @@ let issDataMarker = () => {
   function run() {
 
     //checks if global variable is true (used to stop getting data during other modes)
-    if (GLOBAL_issRun === true) {
+    if (GLOBAL_mode === 'astrology') {
       $.ajax({
         url: "php/getISS.php",
         type: 'GET',

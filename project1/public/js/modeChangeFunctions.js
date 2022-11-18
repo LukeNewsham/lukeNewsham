@@ -17,11 +17,11 @@ let weatherShown = false;
 
 //functions to open and close mode panels
 function countryModeOpen() { countryShown = true; $("#countryMode").animate({ left: '+=30rem', }); $("#countryModeButton").css('opacity', '100%') }
-function weatherModeOpen() { weatherShown = true; $("#weatherMode").animate({ right: '+=30rem', });$("#weatherModeButton").css('opacity', '100%') }
+function weatherModeOpen() { weatherShown = true; $("#weatherMode").animate({ right: '+=30rem', });$("#globalModeButton").css('opacity', '100%') }
 function astrologyModeOpen() { astrologyShown = true; $("#buttonPanel").animate({ height: '15rem', backgroundColor: 'grey'}); $("#astrologyModeButton").css('opacity', '100%'); $("#astrologyMode").fadeIn(); $(".centerTop").fadeOut() }
 
 function countryModeClose() { countryShown = false; $("#countryMode").animate({ left: '-30rem' }); $("#countryModeButton").css('opacity', '50%') }
-function weatherModeClose() { weatherShown = false; $("#weatherMode").animate({ right: '-30rem' }); $("#weatherModeButton").css('opacity', '50%') }
+function weatherModeClose() { weatherShown = false; $("#weatherMode").animate({ right: '-30rem' }); $("#globalModeButton").css('opacity', '50%') }
 function astrologyModeClose() { astrologyShown = false; $("#buttonPanel").animate({ height: '3.5rem'}); $("#astrologyModeButton").css('opacity', '50%');$("#astrologyMode").fadeOut(); $(".centerTop").fadeIn()}
 
 function hideHoverButtons() {$("#searchCenter").css('display', 'none');$("#zoomIn").css('display', 'none'); }
@@ -51,7 +51,7 @@ $("#countryModeButton").click(function () {
 });
 
 
-$("#weatherModeButton").click(function () {
+$("#globalModeButton").click(function () {
   GLOBAL_mode = 'globe';
   map.removeLayer(tiles.Thunderforest_Neighbourhood)
   map.removeLayer(tiles.Stadia_AlidadeSmoothDark)
