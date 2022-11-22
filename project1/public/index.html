@@ -15,8 +15,8 @@
   <div id="loading">
     <!-- <img src="./images/Country Explorer Logo.png" alt="Logo" id="countryExplorerIcon" /> -->
     <div> </div>
-    <h1 id="loadingText"> Loading </h1>
-  </div>>
+    <h2 id="loadingText"> This may take a few seconds... </h2>
+  </div>
 
   <div id="centerReticle">
     <p> + </p>
@@ -32,7 +32,7 @@
 
 
     <div id="countrySearch">
-      <img src="" alt="Flag" class="icon" id='searchFlag'/>
+      <img src="" alt="Flag" class="icon" id='searchFlag' />
       <select id="countriesList" class="selectInput" placeholder="Search Country">
       </select>
     </div>
@@ -41,40 +41,60 @@
 
     <div id='weatherButtons'>
       <button class='weatherButton' id='findLocation'>
-        <img src="./images/Navigate Icon.png" alt="Navigate Icon" class="icon" />
-      </button>
+        <img src="./images/Navigate Icon.png" alt="Navigate Icon" class="markerButtonIcon" />
+        <p> Find Location </p>
+      </button>   
+      <button id='locateCityButton' class='weatherButton'>
+        <img src="./images/Magnifier Icon.png" class="markerButtonIcon" />
+        <p> Find City </p>
+      </button>   
       <button class='weatherButton' id='allBorders'>
-        <img src="./images/Borders Icon.png" alt="Borders Icon" class="icon" />
-      </button>
+        <img src="./images/Borders Icon.png" alt="Borders Icon" class="markerButtonIcon" />
+        <p> Toggle Borders </p>
+      </button>      
       <br />
       <br />
-
-      <!-- <h2> Weather </h2> <br /> -->
-      <button id='temperatureCountryButton' class='weatherButton'
-        onclick='loadCityMarkers(weatherDataMarker, `temp`, false, `more`, true)'>
+      <button id='temperatureCountryButton' class='weatherButton'>
         <img src="./images/Temperature Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
-        <!-- Temperature -->
+        <p> Toggle Temperature </p>
       </button>
-      <button id='humidityCountryButton' class='weatherButton'
-        onclick='loadCityMarkers(weatherDataMarker, `humidity`, false, `more`, true)'>
+      <button id='humidityCountryButton' class='weatherButton'>
         <img src="./images/Humidity Icon.png" alt="Humidity Icon" class="markerButtonIcon" />
-        <!-- Humidity -->
+        <p> Toggle Humidity </p>
       </button>
-      <button id='windSpeedCountryButton' class='weatherButton'
-        onclick='loadCityMarkers(weatherDataMarker, `windSpeed`, false, `more`, true)'>
+      <button id='windCountryButton' class='weatherButton'>
         <img src="./images/Windspeed Icon.png" alt="WindSpeed Icon" class="markerButtonIcon" />
-        <!-- Wind Speed -->
+        <p> Toggle Wind Speed </p>
       </button>
-      <button id='pressurePointCountryButton' class='weatherButton'
-        onclick='loadCityMarkers(weatherDataMarker, `pressure`, false, `more`, true)'>
+      <button id='pressureCountryButton' class='weatherButton'>
         <img src="./images/Pressure Icon.png" alt="Pressure Icon" class="markerButtonIcon" />
-        <!-- Pressure -->
+        <p> Toggle Pressure </p>
       </button>
-      <button id='cloudsPointCountryButton' class='weatherButton'
-        onclick='loadCityMarkers(weatherDataMarker, `clouds`, false, `more`, true)'>
+      <button id='cloudsCountryButton' class='weatherButton'>
         <img src="./images/Clouds Icon.png" alt="Clouds Icon" class="markerButtonIcon" />
-        <!-- Clouds -->
+        <p> Toggle Cloudiness </p>
       </button>
+      <br />
+      <br />      
+      <button id='sightseeingPoiButton' class='weatherButton'>
+        <img src="./images/Sightseeing Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
+        <p> Show Sightseeing Markers </p>
+      </button>
+      <button id='shoppingPoiButton' class='weatherButton'>
+        <img src="./images/Shopping Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
+        <p> Show Shopping Markers</p>
+      </button>
+
+      <button id='eatingoutPoiButton' class='weatherButton'>
+        <img src="./images/Eatingout Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
+        <p> Show Eating Out Markers</p>
+      </button>
+
+      <button id='doPoiButton' class='weatherButton'>
+        <img src="./images/Do Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
+        <p> Show 'Things to do' Markers </p>
+      </button>
+
     </div>
 
 
@@ -109,76 +129,67 @@
   <!-- COUNTRY MODE PANEL ------------------------------------------- -->
 
   <div id='countryMode'>
-    <h1 class="modeName"> Country Data </h1>
+    <h1 class="modeName"> </h1>
+
+    <div class="expandButton expandCollapseButton">
+      <img src="./images/Expand Icon.png" alt="CurrentTime Icon" class="cityDataIcon" />
+    </div>
+
+    <div class="upDownButton expandCollapseButton">
+      <img src="./images/UpDown Icon.png" alt="CurrentTime Icon" class="cityDataIcon" />
+    </div>
 
 
     <div class="modeBanner" id="countryBanner">
       <img src="" alt="Flag Icon" id="flag" class='bannerImage'>
+
     </div>
 
     <h1 id="chosenCountry" class="modeTitle"> </h1>
 
+
+
     <div id="countryData">
-      <div class="countryModeData">Subregion <span id="subregion"> </span> </div>
+      <div class='countryModeData'> Region <div><span id="subregion"> </span>
+        </div>
+      </div>
       <div class="countryModeData"> Currency <span id="currency"> </span> </div>
+      <div class="countryModeData"> Population <div><span id="population"> </span> <span> Million </span></div>
+      </div>
       <div class="countryModeData"> Language <span id="language"> </span> </div>
-      <div class="countryModeData"> Population
-        <div><span id="population"> </span> <span> m </span></div>
-      </div>
       
-      <div class="countryModeData">
-        <img src="./images/Daylength Icon.png" alt="CurrentTime Icon" class="cityDataIcon" />
-        <!-- Current Time -->
-        <span id="currentTime"> </span>
+      <br />
+      <div class="countryModeData"> Day Length <div> <span id="dayLength"></span><span> Hours </span> </div>
       </div>
-      <div class="countryModeData">
-        <img src="./images/Daylength Icon.png" alt="Daylength Icon" class="cityDataIcon" />
-        <!-- Day Length -->
-        <div> <span id="dayLength"></span><span> Hours </span> </div>
-      </div>
-      <div class="countryModeData">
-        <img src="./images/Sunrise Icon.png" alt="Sunrise Icon" class="cityDataIcon" />
-        <!-- Sunrise -->
-        <span id="sunrise"> </span>
-      </div>
-      <div class="countryModeData">
-        <img src="./images/Sunset Icon.png" alt="Sunset Icon" class="cityDataIcon" />
-        <!-- Sunset -->
-        <span id="sunset"> </span>
-      </div>
-      <div class="countryModeData">
-        <img src="./images/Moonrise Icon.png" alt="Moonrise Icon" class="cityDataIcon" />
-        <!-- Moonrise -->
-        <span id="moonrise"> </span>
-      </div>
-      <div class="countryModeData">
-        <img src="./images/Moonset Icon.png" alt="Moonset Icon" class="cityDataIcon" />
-        <!-- Moonset -->
-        <span id="moonset"> </span>
-      </div>
+      <div class="countryModeData"> Current Time <span id="currentTime"> </span> </div>
+      <div class="countryModeData"> Sunrise <span id="sunrise"> </span> </div>
+      <div class="countryModeData"> Sunset <span id="sunset"> </span> </div>
+      <div class="countryModeData"> Moonrise <span id="moonrise"> </span> </div>
+      <div class="countryModeData"> Moonset <span id="moonset"> </span> </div>
+
     </div>
 
-    <hr />
+    <h3 id="moreCountryData"> Show more </h3>
+
+    <!-- <div id='citySearchDiv'> -->
+    <div id="citySearch">
+      <select id="countryCitiesList" class="selectInput" list='countryCitiesList' placeholder="Search City"></select>
+    </div>
+    <!-- <div id="locateCity">
+      <img src="./images/Magnifier Icon.png" class='cityDataIcon'>
+    </div> -->
+    <h3 id='snippet'></h3>
+    <!-- </div> -->
 
 
 
     <div id="cityMode">
-      <h2 id='selectCityTab' class="tab"> City </h2>
-      <h2 id='allCitiesTab' class="tab"> Point of Interest </h2>
+      <h2 id='cityDataTab' class="tab"> Details </h2>
+      <h2 id='cityPoisTab' class="tab"> Points of Interest </h2>
     </div>
 
     <div id="cityData" class='tabInformation'>
-
-      <!-- <div id='citySearchDiv'> -->
-      <div id="citySearch">
-        <select id="countryCitiesList" class="selectInput" list='countryCitiesList' placeholder="Search City"></select>
-      </div>
-      <h3 id='snippet'></h3>
-      <!-- </div> -->
-
-      <!-- <h2> Weather </h2> -->
-
-      <!-- <h2>Summary: <span id="weatherDescription"></span></h2> -->
+      <h2>Summary: <span id="weatherDescription"></span></h2>
       <div class="cityModeData">
         <img src="./images/Temperature Icon.png" alt="Temperature Icon" class="cityDataIcon" />
         <!-- Temperature -->
@@ -210,47 +221,29 @@
         <!-- Pressure -->
         <div><span id="pressure"> </span><span> hPa </span> </div>
       </div>
-
-      <!-- <div class="subPanel"> -->
       <p id="cityDescription">
       </p>
+      <br />
+
+      <h2> City Images </h2>
+      <br />
       <div id="cityImages">
-
       </div>
-      <!-- </div> -->
-
     </div>
 
-    <div id="cityMarkers" class='tabInformation'>
-
+    <div id="cityPois" class='tabInformation'>
+      <div id="poiSearch">
+        <select id="poiList" class="selectInput poi" placeholder="Search Poi">
+          <option value='sightseeing'> Sightseeing </option>
+          <option value='shopping'> Shopping </option>
+          <option value='eatingout'> Eating Out </option>
+          <option value='do'> Things to do </option>
+        </select>
+      </div>
+      <br />
+      <div id="cityPoisData">
+      </div>
     </div>
-
-
-
-
-    <!-- <div class="buttons">
-        <h2> Astrology </h2> <br />
-        <button id='sunriseCountryButton' class='markerButton'
-          onclick='loadCityMarkers(astrologyDataMarker, `sunrise`, true,`more`, true)'>
-          <img src="./images/Sunrise Icon.png" alt="Sunrise Icon" class="markerButtonIcon" />
-          Sunrise
-        </button> <br />
-        <button id='moonriseCountryButton' class='markerButton'
-          onclick='loadCityMarkers(astrologyDataMarker, `moonrise`, true, `more`, true)'>
-          <img src="./images/Moonrise Icon.png" alt="Moonrise Icon" class="markerButtonIcon" />
-          Moonrise
-        </button> <br />
-        <button id='sunsetCountryButton' class='markerButton'
-          onclick='loadCityMarkers(astrologyDataMarker, `sunset`, true, `more`, true)'>
-          <img src="./images/Sunset Icon.png" alt="Sunset Icon" class="markerButtonIcon" />
-          Sunset
-        </button> <br />
-        <button id='moonsetCountryButton' class='markerButton'
-          onclick='loadCityMarkers(astrologyDataMarker, `moonset`, true, `more`, true)'>
-          <img src="./images/Moonset Icon.png" alt="Moonset Icon" class="markerButtonIcon" />
-          Moonset
-        </button>
-      </div> -->
 
   </div>
   </div>
@@ -258,72 +251,61 @@
 
 
 
-  <!-- WEATHER MODE PANEL ------------------------------------------- -->
+  <!-- GLOABL MODE PANEL ------------------------------------------- -->
 
   <div id="weatherMode">
-    <h1 class="modeName"> Global Data </h1>
+    <h1 class="modeName"> </h1>
+
 
     <div class="modeBanner">
       <img src="./images/Flatmap.png" alt="Flatmap Icon" class='bannerImage'>
     </div>
 
+    <div class="upDownButton expandCollapseButton">
+      <img src="./images/UpDown Icon.png" alt="CurrentTime Icon" class="cityDataIcon" />
+    </div>
+
 
     <h1 class="modeTitle"> Global Search </h1>
 
-    <div class="tabInformation">
+    <div id="cityMode">
+      <h2 id='globalWeatherTab' class="tab"> Global Weather </h2>
+      <h2 id='issTab' class="tab"> ISS Location </h2>
+    </div>
 
 
 
-      <div class="buttons">
-        <!-- <button class='markerButton' onclick='getChoroplethBorders(`population`, `population`)'>
-          <img src="./images/Temperature Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
-          population
-        </button> <br /> -->
-        <h2> Weather </h2> <br />
-        <button id='temperatureGlobalButton' class='markerButton'
-          onclick='getChoroplethBorders(`weather`, `temperature`)'>
-          <img src="./images/Temperature Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
-          Temperature
-        </button> <br />
-        <button id='humidityGlobalButton' class='markerButton' onclick='getChoroplethBorders(`weather`, `humidity`)'>
-          <img src="./images/Humidity Icon.png" alt="Humidity Icon" class="markerButtonIcon" />
-          Humidity
-        </button> <br />
-        <button id='windSpeedGlobalButton' class='markerButton' onclick='getChoroplethBorders(`weather`, `windSpeed`)'>
-          <img src="./images/Windspeed Icon.png" alt="WindSpeed Icon" class="markerButtonIcon" />
-          Wind Speed
-        </button> <br />
-        <button id='pressureGlobalButton' class='markerButton' onclick='getChoroplethBorders(`weather`, `pressure`)'>
-          <img src="./images/Pressure Icon.png" alt="Dewpoint Icon" class="markerButtonIcon" />
-          Pressure
-        </button>
-        <button id='cloudsGlobalButton' class='markerButton' onclick='getChoroplethBorders(`weather`, `clouds`)'>
-          <img src="./images/Clouds Icon.png" alt="Dewpoint Icon" class="markerButtonIcon" />
-          Clouds
-        </button>
+    <div id="globalWeather" class="tabInformation">
+
+      <div id="poiSearch">
+        <select id="globalWeatherList" class="selectInput poi" placeholder="Search Global Option">
+          <option value='temperature'> Temperature </option>
+          <option value='humidity'> Humidity </option>
+          <option value='windSpeed'> Wind Speed </option>
+          <option value='pressure'> Pressure </option>
+          <option value='clouds'> Cloudiness </option>
+        </select>
       </div>
 
+      <div id="globalResults">
+      </div>
 
+    </div>
 
-      <div class="buttons">
-        <h2> Astrology </h2> <br />
-        <button id='sunriseGlobalButton' class='markerButton' onclick='getChoroplethBorders(`astrology`, `sunrise`)'>
-          <img src="./images/Sunrise Icon.png" alt="Sunrise Icon" class="markerButtonIcon" />
-          Sunrise
-        </button> <br />
-        <button id='moonriseGlobalButton' class='markerButton' onclick='getChoroplethBorders(`astrology`, `moonrise`)'>
-          <img src="./images/Moonrise Icon.png" alt="Moonrise Icon" class="markerButtonIcon" />
-          Moonrise
-        </button> <br />
-        <button id='sunsetGlobalButton' class='markerButton' onclick='getChoroplethBorders(`astrology`, `sunset`)'>
-          <img src="./images/Sunset Icon.png" alt="Sunset Icon" class="markerButtonIcon" />
-          Sunset
-        </button> <br />
-        <button id='moonsetGlobalButton' class='markerButton' onclick='getChoroplethBorders(`astrology`, `moonset`)'>
-          <img src="./images/Moonset Icon.png" alt="Moonset Icon" class="markerButtonIcon" />
-          Moonset
+    <div id="iss" class="tabInformation">
+      <h2> International Space Station <br /> Live Location</h2>
+
+      <div id="astroData">
+        <img src="./images/internationalSpaceStation.png" alt="ISS Icon" id='issIcon'>
+
+        <p><span id="issOver"> </span></p>
+        <p><span id="astroLat"> </span> , <span id="astroLng"> </span></p>
+        <button class='astroButton' id='getISS'>
+          Locate
         </button>
-
+        <button class='astroButton ' id='stopISS'>
+          Stop
+        </button>
       </div>
     </div>
 
@@ -336,19 +318,16 @@
 
 
 
-  <!-- BOTTOM PANEL / ASTROLOGY MODE ------------------------------------------- -->
-
+  <!-- BOTTOM PANEL ------------------------------------------- -->
 
   <div class="centerBottom">
 
-
     <button id='searchCenter'>
-      <!-- <img src="./images/Magnifier Icon.png" alt="Navigate Icon" class="icon" /> -->
       <h3> Search <span id="searchCenterCountry"> </span> </h3>
     </button>
 
     <button id='zoomIn'>
-      <h3> Select city / Zoom in for more</h3>
+      <h3> Select city / Zoom in for more </h3>
       <h3 id="or"> or move to select country </h3>
     </button>
 
@@ -356,31 +335,11 @@
       <div id="countryModeButton" class="modeButton">
         <img src="./images/Magnifier Icon.png" alt="Magnifier Icon" class="icon">
       </div>
-      <div id="astrologyModeButton" class="modeButton">
-        <img src="./images/internationalSpaceStation.png" alt="ISS Space Station Icon" class="icon">
-      </div>
       <div id="globalModeButton" class="modeButton">
-        <img src="./images/Weather Icon Black.png" alt="Global Icon" class="icon">
+        <img src="./images/Global Icon.png" alt="Global Icon" class="icon">
       </div>
-      <div id="astrologyMode">
 
-        <div id="astroData">
-          <h2> ISS Station Live Position</h2>
-          <p>Latitude: <span id="astroLat"> </span></p>
-          <p>Longitude: <span id="astroLng"> </span></p>
-          <button class='astroButton' id='getISS'>
-            Locate
-          </button>
-          <button class='astroButton ' id='stopISS'>
-            Stop
-          </button>
-        </div>
-      </div>
     </div>
-
-    <!-- <div id="mobileDisplayData">
-      
-    </div> -->
 
   </div>
 
@@ -402,10 +361,8 @@
   <script src='js/choroplethData.js'> </script>
   <script src='js/countryIsoCodes.js'> </script>
   <script src='js/leafletSetup.js'> </script>
-  <script src='js/globalVariables.js'> </script>
   <script src='js/modeChangeFunctions.js'> </script>
   <script src='js/phpCalls.js'> </script>
-  <script src='js/htmlFunctions.js'> </script>
   <script src='js/dataMarkers.js'> </script>
   <script src='js/listenerFunctions.js'> </script>
   <script src='js/functions.js'> </script>
@@ -414,3 +371,57 @@
 </body>
 
 </html>
+
+
+
+
+
+<!-- <div class="buttons"> -->
+<!-- <button class='markerButton' onclick='getChoroplethBorders(`population`, `population`)'>
+          <img src="./images/Temperature Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
+          population
+        </button> <br /> -->
+<!-- <h2> Weather </h2> <br />
+        <button id='temperatureGlobalButton' class='markerButton'
+          onclick='getChoroplethBorders(`weather`, `temperature`)'>
+          <img src="./images/Temperature Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
+          Temperature
+        </button> <br />
+        <button id='humidityGlobalButton' class='markerButton' onclick='getChoroplethBorders(`weather`, `humidity`)'>
+          <img src="./images/Humidity Icon.png" alt="Humidity Icon" class="markerButtonIcon" />
+          Humidity
+        </button> <br />
+        <button id='windSpeedGlobalButton' class='markerButton' onclick='getChoroplethBorders(`weather`, `windSpeed`)'>
+          <img src="./images/Windspeed Icon.png" alt="WindSpeed Icon" class="markerButtonIcon" />
+          Wind Speed
+        </button> <br />
+        <button id='pressureGlobalButton' class='markerButton' onclick='getChoroplethBorders(`weather`, `pressure`)'>
+          <img src="./images/Pressure Icon.png" alt="Dewpoint Icon" class="markerButtonIcon" />
+          Pressure
+        </button>
+        <button id='cloudsGlobalButton' class='markerButton' onclick='getChoroplethBorders(`weather`, `clouds`)'>
+          <img src="./images/Clouds Icon.png" alt="Dewpoint Icon" class="markerButtonIcon" />
+          Clouds
+        </button>
+      </div> -->
+
+<!-- <div class="buttons">
+        <h2> Astrology </h2> <br />
+        <button id='sunriseGlobalButton' class='markerButton' onclick='getChoroplethBorders(`astrology`, `sunrise`)'>
+          <img src="./images/Sunrise Icon.png" alt="Sunrise Icon" class="markerButtonIcon" />
+          Sunrise
+        </button> <br />
+        <button id='moonriseGlobalButton' class='markerButton' onclick='getChoroplethBorders(`astrology`, `moonrise`)'>
+          <img src="./images/Moonrise Icon.png" alt="Moonrise Icon" class="markerButtonIcon" />
+          Moonrise
+        </button> <br />
+        <button id='sunsetGlobalButton' class='markerButton' onclick='getChoroplethBorders(`astrology`, `sunset`)'>
+          <img src="./images/Sunset Icon.png" alt="Sunset Icon" class="markerButtonIcon" />
+          Sunset
+        </button> <br />
+        <button id='moonsetGlobalButton' class='markerButton' onclick='getChoroplethBorders(`astrology`, `moonset`)'>
+          <img src="./images/Moonset Icon.png" alt="Moonset Icon" class="markerButtonIcon" />
+          Moonset
+        </button>
+
+      </div> -->

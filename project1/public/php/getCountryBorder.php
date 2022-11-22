@@ -14,23 +14,13 @@
 
 	$decode = json_decode($file, true)['features'];	
 
-	// $chosenCountry = "France";
 	$chosenCountry = $_REQUEST['countryName'];
-
-	// if (empty($chosenCountry)) {
-	// 	$send = "Name is empty";
-	//   } else {
-	// 	$send = $chosenCountry;
-	// };
-
-	// echo json_encode($send);
 
 	foreach ($decode as $feature) {
 
 		$country = substr(json_encode($feature['properties']['name']), 1, -1);
 
 		if ($chosenCountry === $country) {
-			// echo  json_encode($feature);
 			$result = $feature;
 		};		
 	};

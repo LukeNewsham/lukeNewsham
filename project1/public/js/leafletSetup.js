@@ -69,9 +69,13 @@ map.addLayer(lessCityMarkers);
 
 let moreCityMarkers = new L.FeatureGroup();
 map.addLayer(moreCityMarkers);
+// map.removeLayer(moreCityMarkers)
 
 let chosenCountryCityMarker = new L.FeatureGroup();
 map.addLayer(chosenCountryCityMarker);
+
+let cityPoiMarkers = new L.FeatureGroup();
+map.addLayer(cityPoiMarkers);
 
 
 let legend = L.control({ position: 'bottomright' });
@@ -82,14 +86,23 @@ let issIcon = L.icon({
   iconAnchor: [22, 94]
 });
 
+let liveLocationIcon = L.icon({
+  iconUrl: './images/Navigate Icon.png',
+  iconSize:     [30, 30],
+  iconAnchor:   [15, 15]
+});
+
 
 
 let geoJsonLayerGroup = L.geoJson().addTo(map);
 let allBordersLayerGroup = L.geoJson().addTo(map);
-let userLocation = L.marker([0, 0]).addTo(map);
+let userLocation = L.marker([0, 0], {icon: liveLocationIcon}).addTo(map);
 let hoverCountryBorder = L.geoJson().addTo(map);
-let globalCountryBorders = L.geoJson().addTo(map);
 
 
 let markerIss = L.marker([0, 0], { icon: issIcon });
+
+
+let globalWeatherResults = new L.FeatureGroup();
+map.addLayer(globalWeatherResults);
 

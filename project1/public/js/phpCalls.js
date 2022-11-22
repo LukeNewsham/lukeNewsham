@@ -29,8 +29,33 @@ function getCountryCitiesPHP(countryIso, loadAmount) {
     })
 
     return cities
+}
 
 
+function getCityPoisPHP(cityName, tagName) {
+
+    let pois = []
+
+    $.ajax({
+        url: "php/getCityPois.php",
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        data: {
+            city: cityName,
+            tag: tagName
+        },
+        success: function (result) {
+            if (result.status.name == "ok") {
+                pois = result.data.results
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown)
+        }
+    })
+
+    return pois
 }
 
 
@@ -116,7 +141,7 @@ function loadAstroDataPHP(city) {
                     let hour = parseInt(originalHour.replace('0', '')) % 12;
                     if (hour === 0) hour = 12;
 
-                    return hour + `:${parseInt(originalMin)}` + (original < 12 ? ' am' : ' pm');
+                    return hour + `:${originalMin}` + (original < 12 ? ' am' : ' pm');
                 }
 
                 $('#sunset').html(formatTime(result.data.sunset));
@@ -182,7 +207,7 @@ function loadCityWeatherDataPHP(city) {
 
 //Gets country data for chosen city ----------------------------------------------------------------------------------
 
-function loadCountryDataPHP(country) {
+function getCountryDataPHP(country) {
 
     $.ajax({
         url: "php/getCountryData.php",
@@ -194,6 +219,7 @@ function loadCountryDataPHP(country) {
         },
         success: function (result) {
             if (result.status.name == "ok") {
+                console.log(result)
                 $('#population').html(Math.round((result.data[0].population) / 1000000));
                 $('#flag').attr('src', `${result.data[0].flags.png}`)
                 $('#searchFlag').attr('src', `${result.data[0].flags.png}`)
@@ -209,3 +235,66 @@ function loadCountryDataPHP(country) {
     })
 
 };
+
+
+
+
+
+
+
+
+
+
+function getIssLocationPHP() {
+
+    let location = []
+
+    $.ajax({
+        url: "php/getISS.php",
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (result) {
+            if (result.status.name == "ok") {
+                location = [result.data.latitude, result.data.longitude]
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+        }
+    })
+
+    return location
+}
+
+
+
+
+
+
+
+function getCountryWeatherPHP(point, country, border) {
+
+    $.ajax({
+        url: "php/getOpenWeatherData.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            lat: point.lat,
+            lng: point.lng
+        },
+        success: function (result) {
+
+            if (result.status.name == "ok") {
+                try {
+                    data = result.data
+                    GLOBAL_globalWeatherData.push([result.data, country, border])
+                } catch (err) {
+                }
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+        }
+    })
+}
+
+

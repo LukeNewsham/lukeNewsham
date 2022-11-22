@@ -6,6 +6,38 @@
 
 
 
+let expandMode = false;
+
+$(".expandButton").click(function () {
+  if (!expandMode) {
+    $("#countryMode").animate({ width: '40rem', height: '90vh' });
+    expandMode = true
+  } else {
+    $("#countryMode").animate({ width: '20rem', height: '35rem' });
+    expandMode = false
+  }
+});
+
+
+let expandMobileMode = false;
+
+$(".upDownButton").click(function () {
+  if (!expandMobileMode) {
+    $("#countryMode").animate({ top: '0rem', height: '100vh' });
+    $("#weatherMode").animate({ top: '0rem', height: '100vh' });
+    expandMobileMode = true
+  } else {
+    $("#countryMode").animate({ top: '50vh', height: '50vh' });
+    $("#weatherMode").animate({ top: '50vh', height: '50vh' });
+    expandMobileMode = false
+  }
+});
+
+
+
+
+
+
 
 
 //Changes which mode is displayed on screen from button presses ----------------------------------------------------------------------------------
@@ -16,104 +48,129 @@ let astrologyShown = false;
 let weatherShown = false;
 
 //functions to open and close mode panels
-function countryModeOpen() { countryShown = true; $("#countryMode").animate({ left: '+=30rem', }); $("#countryModeButton").css('opacity', '100%') }
-function weatherModeOpen() { weatherShown = true; $("#weatherMode").animate({ right: '+=30rem', });$("#globalModeButton").css('opacity', '100%') }
-function astrologyModeOpen() { astrologyShown = true; $("#buttonPanel").animate({ height: '15rem', backgroundColor: 'grey'}); $("#astrologyModeButton").css('opacity', '100%'); $("#astrologyMode").fadeIn(); $(".centerTop").fadeOut() }
+function countryModeOpen() { countryShown = true; $("#countryMode").animate({ left: '+=50rem', }); $("#countryModeButton").css('opacity', '100%') }
+function weatherModeOpen() { weatherShown = true; $("#weatherMode").animate({ right: '+=50rem', }); $("#globalModeButton").css('opacity', '100%') }
 
-function countryModeClose() { countryShown = false; $("#countryMode").animate({ left: '-30rem' }); $("#countryModeButton").css('opacity', '50%') }
-function weatherModeClose() { weatherShown = false; $("#weatherMode").animate({ right: '-30rem' }); $("#globalModeButton").css('opacity', '50%') }
-function astrologyModeClose() { astrologyShown = false; $("#buttonPanel").animate({ height: '3.5rem'}); $("#astrologyModeButton").css('opacity', '50%');$("#astrologyMode").fadeOut(); $(".centerTop").fadeIn()}
+function countryModeClose() { countryShown = false; $("#countryMode").animate({ left: '-50rem' }); $("#countryModeButton").css('opacity', '50%') }
+function weatherModeClose() { weatherShown = false; $("#weatherMode").animate({ right: '-50rem' }); $("#globalModeButton").css('opacity', '50%') }
 
-function hideHoverButtons() {$("#searchCenter").css('display', 'none');$("#zoomIn").css('display', 'none'); }
-function showHoverButtons() {$("#searchCenter").css('display', 'flex');}
+
+function hideHoverButtons() { $("#searchCenter").css('display', 'none'); $("#zoomIn").css('display', 'none'); }
+function showHoverButtons() { $("#searchCenter").css('display', 'flex'); }
 
 
 //Listener Functions
 $("#countryModeButton").click(function () {
+  document.getElementById("centerReticle").style.display = "flex"
+  document.getElementById("weatherButtons").style.display = "flex"
+  document.getElementById("countrySearch").style.display = "flex"
+
   GLOBAL_mode = 'country';
   map.addLayer(chosenCountryCityMarker)
-  map.removeLayer(tiles.alidade_smooth)
-  map.removeLayer(tiles.Stadia_AlidadeSmoothDark)
-  map.addLayer(geoJsonLayerGroup)
+  map.addLayer(lessCityMarkers)
   map.addLayer(hoverCountryBorder)
-  map.removeLayer(globalCountryBorders)
-  showHoverButtons()
+  map.addLayer(geoJsonLayerGroup)
+  map.addLayer(cityPoiMarkers)
+
+  map.removeLayer(globalWeatherResults)
   legend.remove()
 
+  map.removeLayer(tiles.alidade_smooth)
+  map.removeLayer(tiles.Stadia_AlidadeSmoothDark)
+  map.removeLayer(tiles.Thunderforest_Neighbourhood)
   tiles.Thunderforest_Neighbourhood.addTo(map);
+
+  showHoverButtons()
+
+  GLOBAL_ISS = false
+  map.removeLayer(markerIss)
+
   if (!countryShown) {
     countryModeOpen()
     weatherModeClose()
-    astrologyModeClose()
   } else {
     countryModeClose()
   }
 });
 
-
+let firstOpen = true
 $("#globalModeButton").click(function () {
+
+  map.setView([GLOBAL_cityChosen.coordinates.latitude, GLOBAL_cityChosen.coordinates.longitude], 3)
+
+  loadGlobalData('temperature')
+
+  document.getElementById("centerReticle").style.display = "none"
+  document.getElementById("weatherButtons").style.display = "none"
+  document.getElementById("countrySearch").style.display = "none"
+
   GLOBAL_mode = 'globe';
-  map.removeLayer(tiles.Thunderforest_Neighbourhood)
-  map.removeLayer(tiles.Stadia_AlidadeSmoothDark)
   map.removeLayer(lessCityMarkers)
   map.removeLayer(moreCityMarkers)
   map.removeLayer(geoJsonLayerGroup)
   map.removeLayer(hoverCountryBorder)
-  map.addLayer(globalCountryBorders)
   map.removeLayer(chosenCountryCityMarker)
-  
-  hideHoverButtons()
-  
+  map.removeLayer(cityPoiMarkers)
 
+  map.addLayer(globalWeatherResults)
+  // map.addLayer(legend)
+
+  map.removeLayer(tiles.alidade_smooth)
+  map.removeLayer(tiles.Stadia_AlidadeSmoothDark)
+  map.removeLayer(tiles.Thunderforest_Neighbourhood)
   tiles.alidade_smooth.addTo(map);
+
+  hideHoverButtons()
 
   if (!weatherShown) {
     weatherModeOpen()
     countryModeClose()
-    astrologyModeClose()
   } else {
     weatherModeClose()
   }
 });
 
 
-$("#astrologyModeButton").click(function () {
-  GLOBAL_mode = 'astrology';
-  map.removeLayer(tiles.Thunderforest_Neighbourhood)
-  map.removeLayer(tiles.alidade_smooth)
-  map.removeLayer(lessCityMarkers)
-  map.removeLayer(moreCityMarkers)
-  map.removeLayer(geoJsonLayerGroup)
-  map.removeLayer(hoverCountryBorder)
-  map.removeLayer(globalCountryBorders)
-  map.removeLayer(chosenCountryCityMarker)
-  legend.remove()
-  hideHoverButtons()
-  tiles.Stadia_AlidadeSmoothDark.addTo(map);
-  if (!astrologyShown) {
-    astrologyModeOpen()
-    countryModeClose()
-    weatherModeClose()
-  } else {
-    astrologyModeClose()
-  }
-});
 
-
-
-//Changes country city for country mode panel ----------------------------------------------------------------------------------
-
-
-$("#allCitiesTab").click(function () {
+function cityPoiTabOpen() {
   $("#cityData").css('display', 'none')
-  $("#cityMarkers").css('display', 'flex')
-  $("#allCitiesTab").css('background-color', 'white')
-  $("#selectCityTab").css('background-color', 'transparent')
+  $("#cityPois").css('display', 'flex')
+  $("#cityPoisTab").css('background-color', 'white')
+  $("#cityDataTab").css('background-color', 'transparent')
+}
+
+function cityDataTabOpen() {
+  $("#cityPois").css('display', 'none')
+  $("#cityData").css('display', 'flex')
+  $("#cityDataTab").css('background-color', 'white')
+  $("#cityPoisTab").css('background-color', 'transparent')
+}
+
+
+
+//Changes tab for country panel ----------------------------------------------------------------------------------
+
+
+$("#cityDataTab").click(function () {
+  cityDataTabOpen()
 });
 
-$("#selectCityTab").click(function () {
-  $("#cityMarkers").css('display', 'none')
-  $("#cityData").css('display', 'flex')
-  $("#selectCityTab").css('background-color', 'white')
-  $("#allCitiesTab").css('background-color', 'transparent')
+$("#cityPoisTab").click(function () {
+  cityPoiTabOpen()
+});
+
+//Changes tab for global panel ----------------------------------------------------------------------------------
+
+$("#issTab").click(function () {
+  $("#globalWeather").css('display', 'none')
+  $("#iss").css('display', 'flex')
+  $("#issTab").css('background-color', 'white')
+  $("#globalWeatherTab").css('background-color', 'transparent')
+});
+
+$("#globalWeatherTab").click(function () {
+  $("#iss").css('display', 'none')
+  $("#globalWeather").css('display', 'flex')
+  $("#globalWeatherTab").css('background-color', 'white')
+  $("#issTab").css('background-color', 'transparent')
 });

@@ -6,7 +6,42 @@
 
 
 
+//Updates weather buttons depending on what was pressed
+$('#temperatureCountryButton').click(function () {
+  updateMapWeatherData('.tempResult', '#temperatureCountryButton')
+});
+$('#humidityCountryButton').click(function () {
+  updateMapWeatherData('.humidityResult', '#humidityCountryButton')
+});
+$('#pressureCountryButton').click(function () {
+  updateMapWeatherData('.pressureResult', '#pressureCountryButton')
+});
+$('#cloudsCountryButton').click(function () {
+  updateMapWeatherData('.cloudsResult', '#cloudsCountryButton')
+});
+$('#windCountryButton').click(function () {
+  updateMapWeatherData('.windResult', '#windCountryButton')
+});
 
+
+
+//Updates POI buttons depending on what was pressed
+$('#sightseeingPoiButton').click(function () {
+  loadCityPois(GLOBAL_cityChosen.name, `sightseeing`, true)
+  cityPoiTabOpen()
+});
+$('#eatingoutPoiButton').click(function () {
+  loadCityPois(GLOBAL_cityChosen.name, `eatingout`, true)
+  cityPoiTabOpen()
+});
+$('#shoppingPoiButton').click(function () {
+  loadCityPois(GLOBAL_cityChosen.name, `shopping`, true)
+  cityPoiTabOpen()
+});
+$('#doPoiButton').click(function () {
+  loadCityPois(GLOBAL_cityChosen.name, `do`, true)
+  cityPoiTabOpen()
+});
 
 
 
@@ -30,8 +65,11 @@ $('#countryCitiesList').change(function () {
 
   $('#countryModeData').fadeOut();
   chosenCountryCityMarker.clearLayers()
-  countryCity = GLOBAL_chosenCountryCities.filter(city => city.name === $('#countryCitiesList')[0].value)
-  showCityData(countryCity[0])
+  console.log(GLOBAL_Cities)
+  console.log($('#countryCitiesList')[0].value)
+  countryCity = GLOBAL_Cities.filter(city => city.name === $('#countryCitiesList')[0].value)
+  console.log(countryCity)
+  loadCityData(countryCity[0], true)
   $('#countryModeData').fadeIn();
 });
 
@@ -42,11 +80,26 @@ $('#countryCitiesList').change(function () {
 
 
 
-//Loads data for current location ----------------------------------------------------------------------------------
+//Relocates to current location ----------------------------------------------------------------------------------
 
 $('#findLocation, #findLocationMobile').click(function () {
-  findLocation()
+  relocate('live')
+  console.log(GLOBAL_globalWeatherData)
 });
+
+
+
+
+
+
+
+
+//Relocate to chosen city ----------------------------------------------------------------------------------
+
+$('#locateCity, #locateCityButton').click(function () {
+  relocate('city')
+});
+
 
 
 
@@ -78,14 +131,74 @@ $('#searchCenter').click(function () {
 //Add and Remove ISS Space Station ----------------------------------------------------------------------------------
 
 $('#getISS').click(function () {
-  chosenCountryCityMarker.clearLayers()
-  lessCityMarkers.clearLayers()
-  issDataMarker(true)
+  GLOBAL_ISS = true
+  loadISSLocation()
 });
 
 
 $('#stopISS').click(function () {
+  GLOBAL_ISS = false
   map.removeLayer(markerIss)
 });
 
 
+
+
+
+//Adds chosen poi data ----------------------------------------------------------------------------------
+
+
+$('#poiList').change(function () {
+  let poiChosen = $('#poiList')[0].value
+  console.log(GLOBAL_cityChosen, poiChosen)
+  loadCityPois(GLOBAL_cityChosen.name, poiChosen, true)
+});
+
+
+
+
+
+//Shows more country data ----------------------------------------------------------------------------------
+
+let moreCountryDataToggle = false;
+
+$('#moreCountryData').click(function () {
+  console.log(moreCountryDataToggle)
+  if (!moreCountryDataToggle) {
+    $("#countryData").animate({ height: '20rem' })
+    $("#moreCountryData").html('Show less')
+    moreCountryDataToggle = true
+  } else {
+    $("#countryData").animate({ height: '0rem' })
+    $("#moreCountryData").html('Show more')
+    moreCountryDataToggle = false
+  }
+
+
+});
+
+
+
+
+
+
+
+
+
+$('#loadGlobalData').click(function () {
+  loadGlobalData('temperature')
+});
+
+
+
+
+
+
+
+
+
+
+$('#globalWeatherList').change(function () {
+  let weatherChosen = $('#globalWeatherList')[0].value
+  loadGlobalData(weatherChosen)
+});

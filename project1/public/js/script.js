@@ -10,24 +10,31 @@ let GLOBAL_allBordersToggle = false;
 let GLOBAL_lessCitiesLoaded = false;
 let GLOBAL_moreCitiesLoaded = false;
 let GLOBAL_countryCenterPoints = [];
+let GLOBAL_markerOption = ''
+let GLOBAL_poiOption = ''
+let GLOBAL_ISS = false
+let GLOBAL_zoomLevel = 0
+let GLOBAL_updateZoom = false;
+let GLOBAL_globalWeatherData = []
 
-
-
+document.getElementById("loading").style.display = "block"
+// $('#loadingText').html('Loading...');
 
 function run() {
     findLocation(true)
-    getAllCountryCenters()
     loadCountryList()
+    getGlobalData()
+    document.getElementById("loading").style.display = "none"
 }
+
 setTimeout(run, 1000)
 
 
 
 
+
+
 setTimeout(function () {
-    map.on('zoomend', function () {
-        updateMap()
-    });
     map.on('moveend', function () {
         updateMap()
     });

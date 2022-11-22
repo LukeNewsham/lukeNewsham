@@ -5,7 +5,7 @@
 
 	$executionStartTime = microtime(true);	
 
-	$url='https://www.triposo.com/api/20221011/location.json?countrycode=' . $_REQUEST['iso'] . '&tag_labels=city&count=' . $_REQUEST['amount'] . '&fields=name,snippet,generated_intro,coordinates,properties,images&order_by=-score&account=6BO6AOOX&token=nkbg4amiixnpkl3r0ku6gv3v12p10dxs';
+	$url='https://www.triposo.com/api/20221011/poi.json?location_id=' . $_REQUEST['city'] . '&tag_labels='. $_REQUEST['tag'] .'&count=15&fields=name,coordinates,intro,images,tag_labels,price_tier,opening_hours,snippet,generated_intro,generated_snippet&order_by=-score&account=6BO6AOOX&token=nkbg4amiixnpkl3r0ku6gv3v12p10dxs';
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
