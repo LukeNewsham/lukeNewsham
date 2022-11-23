@@ -1,11 +1,14 @@
 <?php
 
+	// /home/u164112955/domains/lukenewshamportfolio.me/public_html
+
 	ini_set('display_errors', 'On');
 	error_reporting(E_ALL);
 
 	$executionStartTime = microtime(true);	
 
-	$url='/project 1/public/php/countryBorders.geo.json';	
+	// $url='/project1/js/countryBorders.geo.json';
+	$url='/project 1/public/js/countryBorders.geo.json';	
 	$root = $_SERVER['DOCUMENT_ROOT'];
 	
 	$fullUrl = $root.$url;

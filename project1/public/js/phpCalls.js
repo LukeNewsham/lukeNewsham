@@ -298,3 +298,81 @@ function getCountryWeatherPHP(point, country, border) {
 }
 
 
+
+
+
+
+
+function getCountryWeatherPHP(point, country, border) {
+
+    $.ajax({
+        url: "php/getOpenWeatherData.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            lat: point.lat,
+            lng: point.lng
+        },
+        success: function (result) {
+
+            if (result.status.name == "ok") {
+                try {
+                    data = result.data
+                    GLOBAL_globalWeatherData.push([result.data, country, border])
+                } catch (err) {
+                }
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+        }
+    })
+}
+
+
+
+
+
+
+
+function testPHP() {
+
+    $.ajax({
+        url: "php/test.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+        },
+        success: function (result) {
+            console.log(result)
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+        }
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
