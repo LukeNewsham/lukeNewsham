@@ -918,7 +918,6 @@ function loadCountryData(countryChosen) {
         loadCityPois(GLOBAL_cityChosen.name, 'sightseeing')
         $('#poiList')[0].value = 'sightseeing'
         GLOBAL_zoomLevel = map.getZoom()
-        console.log(GLOBAL_zoomLevel)
         document.getElementById("loading").style.display = "none"
     }
     //runs function after 1000ms to allow time for dom to update loading screen
@@ -939,7 +938,6 @@ function loadCitiesData(country) {
 
     //gets country isoCode
     let code = getCountryBorderPHP(country).properties.iso_a2
-    console.log(code)
     if (code === 'GB') {
         code = 'UK'
     }
@@ -1323,7 +1321,6 @@ function updateMap() {
             map.removeLayer(lessCityMarkers);
             map.addLayer(moreCityMarkers);
             $(GLOBAL_markerOption).css('display', 'block')
-            console.log(GLOBAL_zoomLevel, map.getZoom())
         };
     } else {
         map.removeLayer(lessCityMarkers)
