@@ -241,7 +241,7 @@ button {
 
 .selectInput {
     height: 100%;
-    text-align: center;
+    text-align: center !important;
     font-size: 1.5rem;
     border: none;
     color: rgb(57, 154, 186);
@@ -609,15 +609,17 @@ button {
 }
 
 #weatherButtons {
+    height: 70vh;
     position: absolute;
     left: 0;
     display: Flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     flex-direction: column;
     align-content: center;
     justify-content: center;
     border-radius: 0.4rem;
-    margin: 1rem;
+    margin: 0 1rem;    
+    margin-top: 15vh;    
     opacity: 60%;
 }
 
@@ -933,7 +935,7 @@ button {
     align-items: center;
     position: absolute;
     bottom: 8rem;
-    height: 3rem;
+    height: 2.5rem;
     gap: 0.5rem;
     width: fit-content;
     background-color: white;
@@ -1097,8 +1099,9 @@ button {
         margin-top: 5rem !important;
     }
 
-    #weatherButtons {
-        margin-top: 5rem;
+    #weatherButtons {      
+        overflow-y: auto;
+        justify-content: normal;
     }
 
     #countryMode,
@@ -1122,10 +1125,10 @@ button {
     }
 
     #buttonPanel {
-        border-radius: 0;
+        /* border-radius: 0;
         width: 100%;
-        justify-content: center;
-        bottom: 0;
+        justify-content: center; */
+        bottom: 1rem;
         background-color: white;
     }
 
