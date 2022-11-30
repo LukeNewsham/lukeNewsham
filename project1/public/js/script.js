@@ -1,4 +1,4 @@
-// ==================================================  APP SET UP  ==================================================
+// ==================================================  SET UP  ==================================================
 
 //This section shows global variables used throughout the app, and sets up how the app will run once all scripts have loaded.
 
@@ -27,7 +27,6 @@ let GLOBAL_getNewZoom = true;
 
 //Loading screen while app collects data
 document.getElementById("loading").style.display = "block"
-$('#loadingText').html('Setting up map...');
 
 
 
@@ -37,9 +36,7 @@ function runApp() {
     findLocation(true)
     loadCountryList()
     getGlobalData()
-    updateMapWeatherData('.conditionResult', '#weatherCountryButton')
     document.getElementById("loading").style.display = "none"
-    // $('#loadingText').html('Loading country data...');
 
     map.on('moveend', function () {
         updateMap()

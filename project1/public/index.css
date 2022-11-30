@@ -552,7 +552,8 @@ button {
 .humidityResult,
 .pressureResult,
 .cloudsResult,
-.windResult {
+.windResult,
+.conditionResult {
     display: none;
 }
 
