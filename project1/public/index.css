@@ -1,10 +1,20 @@
 /* ------------------------------------  DOM ELEMENTS  ------------------------------------ */
 
+@font-face {
+    font-family: Roboto;
+    src: url(./Roboto/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: Roboto-Bold;
+    src: url(./Roboto/Roboto-Bold.ttf);
+}
+
 
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Calibri'
+    font-family: Roboto
 }
 
 body {
@@ -28,7 +38,7 @@ h1 {
 }
 
 h2 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     width: 100%;
     padding: 1rem 0;
 }
@@ -36,8 +46,6 @@ h2 {
 p {
     line-height: 1.1rem;
 }
-
-
 
 button {
     cursor: pointer;
@@ -48,6 +56,9 @@ button {
     border-radius: 0.4rem;
     height: 2rem;
 }
+
+
+
 
 
 
@@ -117,6 +128,7 @@ button {
     font-size: 1rem;
     border-radius: 0 0.5rem 0.5rem 0.5rem;
     font-weight: bolder;
+    /* font-family: Roboto-Bold; */
     color: black;
     box-shadow: 0.2rem 0.2rem 1rem gray;
     width: auto !important;
@@ -146,8 +158,8 @@ button {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    height: 3rem;
-    width: 3rem;
+    height: 2.5rem;
+    width: 2.5rem;
     margin: 0.2rem;
     background-color: white;
     border: 2px solid white;
@@ -197,6 +209,7 @@ button {
 }
 
 .cityDataIcon {
+    padding: 0.4rem;
     width: auto;
     height: 1.5rem;
 }
@@ -218,8 +231,6 @@ button {
     margin-bottom: 1rem;
 }
 
-
-
 .datasetInput {
     height: 1rem;
     text-align: left;
@@ -235,12 +246,13 @@ button {
     border: none;
     color: rgb(57, 154, 186);
     font-weight: bolder;
+    font-family: Roboto-Bold;
     width: 100%;
     background-color: transparent;
     /* border: solid 1px rgb(70 145 206); */
-    border-radius: 0.5rem
+    border-radius: 0.5rem;
+    appearance: menulist;
 }
-
 
 .issButton {
     width: 40%
@@ -255,7 +267,6 @@ button {
     background-color: white;
     border-radius: 3rem;
     box-shadow: 0 0 1rem gray;
-
 }
 
 .leafletButtonMobile {
@@ -296,6 +307,7 @@ button {
     margin: 1rem 0;
     text-align: center;
     font-weight: bolder;
+    font-family: Roboto-Bold;
 }
 
 .bannerImage {
@@ -316,11 +328,15 @@ button {
     text-align: center;
     justify-content: space-between;
     gap: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .countryModeData span {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: bolder;
+    font-family: Roboto-Bold;
     color: rgb(78, 138, 181);
 }
 
@@ -350,9 +366,6 @@ button {
     border-radius: 0.4rem;
 }
 
-
-
-
 .infoMarker {
     display: flex !important;
     overflow: hidden;
@@ -365,7 +378,6 @@ button {
     color: rgb(68, 68, 68)
 }
 
-
 .poi {
     color: black;
     font-size: 1.2rem;
@@ -377,6 +389,7 @@ button {
     font-size: 1rem;
     color: #4a4a4a;
     font-weight: bolder;
+    font-family: Roboto-Bold;
     box-shadow: 0.2rem 0.2rem 1rem grey;
     border-radius: 100%;
     border: 3px solid white;
@@ -393,7 +406,6 @@ button {
     z-index: 100000 !important;
     background-color: white;
     box-shadow: 0.2rem 0.2rem 1rem rgb(69, 69, 69);
-
 }
 
 .infoMarker:hover {
@@ -409,10 +421,10 @@ button {
     margin-left: 0.5rem;
     font-size: 1rem;
     font-weight: bolder;
+    font-family: Roboto-Bold;
 }
 
 .infoMarker p {
-    font-weight: bolder;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -421,7 +433,7 @@ button {
 }
 
 .selected {
-    /* background-color: lightblue; */
+    font-family: Roboto-Bold !important;
     font-size: 1rem;
     border: 1px solid black;
     z-index: 100000 !important;
@@ -429,6 +441,7 @@ button {
 }
 
 .selectedIcon {
+    margin-right: 0.3rem;
     height: 1rem;
 }
 
@@ -446,6 +459,7 @@ button {
     top: 0rem;
     margin: 2rem;
     font-weight: bolder;
+    font-family: Roboto-Bold;
 }
 
 .legend i {
@@ -491,6 +505,72 @@ button {
 .locateElement:hover {
     background-color: white;
 }
+
+.modeTop {
+    height: 5%
+}
+
+.dataName {
+    font-size: 0.9rem;
+    color: gray;
+    text-align: left;
+    width: fit-content
+}
+
+
+.cityImageCaption {
+    color: grey;
+    font-style: italic;
+    font-weight: light;
+    font-size: 0.8rem;
+    padding: 0 2rem;
+}
+
+.cityDescription {
+    padding: 1rem;
+    border-bottom: 1px solid gray;
+}
+
+.expandCollapseButton {
+    position: absolute;
+    cursor: pointer;
+    right: 0.5rem;
+    top: 0.5rem;
+    opacity: 75%;
+    z-index: 100;
+}
+
+.expandCollapseButton:hover {
+    opacity: 100%
+}
+
+.upDownButton {
+    display: none;
+}
+
+.tempResult,
+.humidityResult,
+.pressureResult,
+.cloudsResult,
+.windResult {
+    display: none;
+}
+
+.conditionResult {
+    width: 1rem;
+    height: 1.8rem;
+    margin-left: 0.5rem
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -538,6 +618,11 @@ button {
     border-radius: 0.4rem;
     margin: 1rem;
     opacity: 60%;
+    overflow-y: auto;
+}
+
+#weatherButtons::-webkit-scrollbar {
+    display: none;
 }
 
 #weatherButtons:hover {
@@ -568,14 +653,14 @@ button {
 
 
 #loading>div {
-    height: 3rem;
-    width: 3rem;
-    border: lightblue solid 0.7rem;
+    height: 2rem;
+    width: 2rem;
+    border: lightblue solid 0.5rem;
     border-top-color: rgb(34, 102, 125);
     border-radius: 50%;
     position: absolute;
     margin: auto;
-    bottom: 10rem;
+    bottom: 7rem;
     left: 0;
     right: 0;
     animation: spin 0.8s infinite linear;
@@ -588,12 +673,13 @@ button {
 }
 
 #loadingText {
+    font-size: 1rem;
     color: gray;
     position: absolute;
     width: fit-content;
     border-radius: 50%;
     margin: auto;
-    bottom: 4rem;
+    bottom: 3rem;
     left: 0;
     right: 0;
 }
@@ -601,7 +687,7 @@ button {
 #countryMode,
 #weatherMode {
     position: absolute;
-    padding: 1rem 1rem;
+    padding: 1rem 0.5rem 1rem 1rem;
     bottom: 2rem;
     width: 20rem;
     height: 35rem;
@@ -609,21 +695,27 @@ button {
     backdrop-filter: blur(7px);
     box-shadow: 0 0 1rem gray;
     border-radius: 0.5rem;
-    text-align: center;
-    overflow-x: hidden;
-    overflow-y: auto;
+    text-align: center;  
     z-index: 2;
 }
 
-#countryMode::-webkit-scrollbar-thumb,
-#weatherMode::-webkit-scrollbar-thumb {
+#scrollableCountryMode, #scrollableWeatherMode {
+    width: 100%;
+    height: 95%;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+}
+
+#scrollableCountryMode::-webkit-scrollbar-thumb,
+#scrollableWeatherMode::-webkit-scrollbar-thumb {
     background-color: rgb(139, 172, 184);
     opacity: 50%;
     border-radius: 1rem;
 }
 
-#countryMode::-webkit-scrollbar,
-#weatherMode::-webkit-scrollbar {
+#scrollableCountryMode::-webkit-scrollbar,
+#scrollableWeatherMode::-webkit-scrollbar {
     width: 0.5rem;
 }
 
@@ -665,17 +757,6 @@ button {
     padding: 0 2rem
 }
 
-
-/* #countryData::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2rem;
-    background: linear-gradient(to bottom, transparent, rgb(214, 214, 214));
-    bottom: 0;
-    pointer-events: none;
-} */
-
 #moreCountryData {
     width: auto;
     cursor: pointer;
@@ -687,9 +768,8 @@ button {
 
 #moreCountryData:hover {
     font-weight: bold;
+    font-family: Roboto-Bold;
 }
-
-
 
 #ModeButton {
     padding-left: 1rem;
@@ -784,6 +864,7 @@ button {
 #astroData span {
     font-size: 1.2rem;
     font-weight: bolder;
+    font-family: Roboto-Bold;
     color: rgb(78, 138, 181);
 }
 
@@ -824,22 +905,7 @@ button {
     font-size: 1.1rem;
     color: rgb(78, 138, 181);
     padding: 1rem;
-
 }
-
-.cityImageCaption {
-    color: grey;
-    font-style: italic;
-    font-weight: light;
-    font-size: 0.8rem;
-    padding: 0 2rem;
-}
-
-.cityDescription {
-    padding: 1rem;
-    border-bottom: 1px solid gray;
-}
-
 
 #centerReticle {
     font-size: 2rem;
@@ -897,71 +963,32 @@ button {
 
 }
 
-#countryExplorerIcon {
+#logoIcon {
     position: absolute;
-    width: 10rem;
-    top: 3rem;
+    width: 20rem;
+    top: 0;
+    bottom: 0;
     left: 0;
     right: 0;
-    margin: auto
+    margin: auto;
 }
-
-
-.expandCollapseButton {
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    cursor: pointer;
-    opacity: 75%;
-}
-
-.expandCollapseButton:hover {
-    opacity: 100%
-}
-
-
-.upDownButton {
-    display: none;
-}
-
-
-
-
-
-
 
 #cityPois {
     display: none;
 }
 
-
-.tempResult,
-.humidityResult,
-.pressureResult,
-.cloudsResult,
-.windResult {
-    display: none;
-}
-
-
 #iss {
     display: none;
 }
 
-
 #locateCity {
     font-size: 1rem;
-    /* width: 8rem; */
     cursor: pointer;
     display: flex;
-    /* gap: 0.5rem; */
     padding: 0.5rem;
-    /* border: 2px solid rgb(70 145 206); */
     border-radius: 0.4rem;
     justify-content: center;
     align-items: center;
-    /* background-color: white;
-    /*  */
 }
 
 #cityDescription {
@@ -995,6 +1022,57 @@ button {
     padding: 1rem
 }
 
+#modeTop {
+    height: 5%;
+}
+
+#weatherCondition {
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+#weatherDescription {
+    font-size: 1rem;
+}
+
+#searchCenterCountry {
+    font-family: Roboto-Bold;
+    color: rgb(78, 138, 181);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* ------------------------------------  MEDIA QUERIES  ------------------------------------ */
@@ -1003,22 +1081,18 @@ button {
 /* Medium Screens  ------------------------------------ */
 
 @media only screen and (max-width: 1000px) {
-
     #countryMode,
     #weatherMode {
         bottom: 8rem;
         max-height: 35rem;
     }
-
 }
-
 
 
 
 /* Small Screens  ------------------------------------ */
 
 @media only screen and (max-width: 700px) {
-
     .leaflet-control {
         margin-top: 5rem !important;
     }
@@ -1027,16 +1101,16 @@ button {
         margin-top: 5rem;
     }
 
-
     #countryMode,
     #weatherMode {
         top: 25rem;
         width: 100% !important;
         padding: 0;
-        border-radius: 0;
+        border-radius: 1rem;
         background-color: rgba(239, 239, 239, 0.822);
         margin: 0;
         max-height: none;
+        overflow: hidden;
     }
 
     .tabInformation {
@@ -1079,5 +1153,4 @@ button {
     .upDownButton {
         display: block;
     }
-
 }
