@@ -619,7 +619,6 @@ button {
     border-radius: 0.4rem;
     margin: 1rem;
     opacity: 60%;
-    overflow-y: auto;
 }
 
 #weatherButtons::-webkit-scrollbar {
