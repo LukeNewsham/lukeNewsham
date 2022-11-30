@@ -951,6 +951,7 @@ button {
     position: absolute;
     font-size: 1rem;
     bottom: -1.5rem;
+    width: 25rem;
 }
 
 #mobileDisplayData {
@@ -1101,6 +1102,7 @@ button {
 
     #weatherButtons {      
         overflow-y: auto;
+        overflow-x: hidden;
         justify-content: normal;
     }
 
