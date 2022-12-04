@@ -18,7 +18,7 @@
   <div id="loading">
     <img src="./images/Logo.png" alt="Logo" id="logoIcon" />
     <div> </div>
-    <h2 id="loadingText"> This may take a few seconds... </h2>
+    <h2 id="loadingText"> This may take 10-20 seconds... </h2>
   </div>
 
 
@@ -151,18 +151,20 @@
       </div>
       <h3 id='snippet'></h3>
       <div id="cityMode">
-        <h2 id='cityDataTab' class="tab"> Details </h2>
+        <h2 id='cityDataTab' class="tab"> More </h2>
         <h2 id='cityPoisTab' class="tab"> Points of Interest </h2>
       </div>
       <div id="cityData" class='tabInformation'>
-        <div id="weatherCondition"> <img src="" alt="Weather Condition" class="icon" id='weatherConditionIcon' /> <span
-            id="weatherDescription"></span></div>
+        <div id="weatherCondition"> <img src="" alt="Weather Condition" class="icon" id='weatherConditionIcon' />
+          <div id = 'weatherConditionInfo'> <span id="temperature"></span><span> &deg C</span> <br /><span id="weatherDescription"></span> </div> 
+        </div>
+
         <div class="cityModeData">
           <img src="./images/Temperature Icon.png" alt="Temperature Icon" class="cityDataIcon" />
-          <div> <span id="temperature"></span><span> &deg C</span> </div>
+          <div> <span id="temperatureMin"></span><span> &deg C</span> </div>
         </div>
         <div class="cityModeData">
-          <img src="./images/Temperature Icon.png" alt="Temperature Icon" class="cityDataIcon" />
+          <img src="./images/Temperature High Icon.png" alt="Temperature High Icon" class="cityDataIcon" />
           <div> <span id="temperatureMax"></span><span> &deg C</span> </div>
         </div>
         <div class="cityModeData">
