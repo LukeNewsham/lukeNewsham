@@ -2,7 +2,7 @@
 
 //This section shows global variables used throughout the app, and sets up how the app will run once all scripts have loaded.
 
-
+document.getElementById("loading").style.display = "block"
 
 
 //Global Variables 
@@ -25,9 +25,6 @@ let GLOBAL_getNewZoom = true;
 
 
 
-//Loading screen while app collects data
-document.getElementById("loading").style.display = "block"
-
 
 
 
@@ -36,7 +33,6 @@ function runApp() {
     findLocation(true)
     loadCountryList()
     getGlobalData()
-    document.getElementById("loading").style.display = "none"
 
     map.on('moveend', function () {
         updateMap()
@@ -156,7 +152,7 @@ let hoverCountryBorder = L.geoJson().addTo(map);
 //Custom Markers
 
 let issIcon = L.icon({
-    iconUrl: './images/internationalSpaceStationLight.png',
+    iconUrl: './images/internationalSpaceStation.png',
     iconSize: [50, 50],
     iconAnchor: [22, 94]
 });
@@ -435,7 +431,8 @@ let selectedCityDataMarker = (city) => {
                                         result.data.weather[0].main === 'Clouds' ? './images/Weather/Clouds.png' :
                                             result.data.weather[0].main === 'Storm' ? './images/Weather/Storm.png' :
                                                 result.data.weather[0].main === 'Snow' ? './images/Weather/Snow.png' :
-                                                    '';
+                                                    result.data.weather[0].main === 'Drizzle' ? './images/Weather/Rain.png' :
+                                                        '';
                 }
                 conditionResult = weatherIcon()
             }
@@ -495,6 +492,8 @@ let cityDataMarker = (city) => {
                 cloudsResult = result.data.clouds.all
                 windResult = result.data.wind.speed
 
+
+
                 function weatherIcon() {
                     return result.data.weather[0].main === 'Haze' ? './images/Weather/Haze.png' :
                         result.data.weather[0].main === 'Fog' ? './images/Weather/Fog.png' :
@@ -504,7 +503,8 @@ let cityDataMarker = (city) => {
                                         result.data.weather[0].main === 'Clouds' ? './images/Weather/Clouds.png' :
                                             result.data.weather[0].main === 'Storm' ? './images/Weather/Storm.png' :
                                                 result.data.weather[0].main === 'Snow' ? './images/Weather/Snow.png' :
-                                                    '';
+                                                    result.data.weather[0].main === 'Drizzle' ? './images/Weather/Rain.png' :
+                                                        '';
                 }
                 conditionResult = weatherIcon()
             }
@@ -941,7 +941,7 @@ function loadCitiesData(country) {
     if (code === 'GB') {
         code = 'UK'
     }
-    cityList = getCountryCitiesPHP(code, 50)
+    cityList = getCountryCitiesPHP(code, 60)
     GLOBAL_Cities = cityList
 
 
@@ -1318,9 +1318,11 @@ function updateMap() {
 
         //ZOOM MODE 3
         if (map.getZoom() >= GLOBAL_zoomLevel + 1 && centerCountry) {
+            $('#searchCenterCountry').html(centerCountry);
             map.removeLayer(lessCityMarkers);
             map.addLayer(moreCityMarkers);
             $(GLOBAL_markerOption).css('display', 'block')
+            console.log(GLOBAL_zoomLevel, map.getZoom())
         };
     } else {
         map.removeLayer(lessCityMarkers)
@@ -1705,8 +1707,6 @@ function loadCityWeatherDataPHP(city) {
         success: function (result) {
             if (result.status.name == "ok") {
 
-                // console.log(result.data.weather[0].main)
-
                 function weatherIcon() {
                     return result.data.weather[0].main === 'Haze' ? './images/Weather/Haze.png' :
                         result.data.weather[0].main === 'Fog' ? './images/Weather/Fog.png' :
@@ -1785,33 +1785,6 @@ function getIssLocationPHP() {
         }
     })
     return location
-}
-
-
-
-
-function getCountryWeatherPHP(point, country, border) {
-    $.ajax({
-        url: "php/getOpenWeatherData.php",
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            lat: point.lat,
-            lng: point.lng
-        },
-        success: function (result) {
-
-            if (result.status.name == "ok") {
-                try {
-                    data = result.data
-                    GLOBAL_globalWeatherData.push([result.data, country, border])
-                } catch (err) {
-                }
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-        }
-    })
 }
 
 
