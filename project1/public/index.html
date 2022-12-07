@@ -15,11 +15,14 @@
 <body>
 
   <!-- LOADING SCREEN ------------------------------------------- -->
-  <div id="loading">
-    <img src="./images/Logo.png" alt="Logo" id="logoIcon" />
-    <div> </div>
-    <h2 id="loadingText"> This may take 10-20 seconds... </h2>
+  <div id="loadingFull">
+    <img src="./images/Logo.png" alt="Logo" />
   </div>
+
+  <div id="loading">
+    <div> </div>
+  </div>
+
 
 
   <!-- SEARCH AND BUTTONS ------------------------------------------- -->
@@ -29,60 +32,71 @@
       <select id="countriesList" class="selectInput" placeholder="Search Country">
       </select>
     </div>
-    <div id='weatherButtons'>
-      <button class='weatherButton' id='findLocation'>
-        <img src="./images/Navigate Icon.png" alt="Navigate Icon" class="markerButtonIcon" />
-        <p> Find Location </p>
+    <div id='mapButtons'>
+      <button class='mapButton' id='findLocation'>
+        <div class="markerButtonIcon"> <img src="./images/Navigate Icon.png" alt="Navigate Icon" /> </div>
+        <p> Find Your Location </p>
       </button>
-      <button id='locateCityButton' class='weatherButton'>
-        <img src="./images/Magnifier Icon.png" class="markerButtonIcon" />
-        <p> Find City </p>
+      <button id='locateCityButton' class='mapButton'>
+        <div class="markerButtonIcon"><img src="./images/Magnifier Icon.png" class="markerButtonIcon" /></div>
+        <p> Find Selected City </p>
       </button>
-      <button class='weatherButton' id='allBorders'>
-        <img src="./images/Borders Icon.png" alt="Borders Icon" class="markerButtonIcon" />
-        <p> Toggle Borders </p>
+      <button class='mapButton' id='allBorders'>
+        <div class="markerButtonIcon"><img src="./images/Borders Icon.png" alt="Borders Icon"
+            class="markerButtonIcon" /></div>
+        <p> Toggle All Borders </p>
       </button>
       <br />
       <br />
-      <button id='weatherCountryButton' class='weatherButton'>
-        <img src="./images/Weather/Sun clouds.png" alt="Weather Icon" class="markerButtonIcon" />
+      <button id='weatherCountryButton' class='mapButton'>
+        <div class="markerButtonIcon"> <img src="./images/Weather/Sun clouds.png" alt="Weather Icon"
+            class="markerButtonIcon" /></div>
         <p> Toggle Weather </p>
       </button>
-      <button id='temperatureCountryButton' class='weatherButton'>
-        <img src="./images/Temperature Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
+      <button id='temperatureCountryButton' class='mapButton'>
+        <div class="markerButtonIcon"><img src="./images/Temperature Icon.png" alt="Temperature Icon"
+            class="markerButtonIcon" /></div>
         <p> Toggle Temperature </p>
       </button>
-      <button id='humidityCountryButton' class='weatherButton'>
-        <img src="./images/Humidity Icon.png" alt="Humidity Icon" class="markerButtonIcon" />
+      <button id='humidityCountryButton' class='mapButton'>
+        <div class="markerButtonIcon"><img src="./images/Humidity Icon.png" alt="Humidity Icon"
+            class="markerButtonIcon" /></div>
         <p> Toggle Humidity </p>
       </button>
-      <button id='windCountryButton' class='weatherButton'>
-        <img src="./images/Windspeed Icon.png" alt="WindSpeed Icon" class="markerButtonIcon" />
+      <button id='windCountryButton' class='mapButton'>
+        <div class="markerButtonIcon"><img src="./images/Windspeed Icon.png" alt="WindSpeed Icon"
+            class="markerButtonIcon" /></div>
         <p> Toggle Wind Speed </p>
       </button>
-      <button id='pressureCountryButton' class='weatherButton'>
-        <img src="./images/Pressure Icon.png" alt="Pressure Icon" class="markerButtonIcon" />
+      <button id='pressureCountryButton' class='mapButton'>
+        <div class="markerButtonIcon"><img src="./images/Pressure Icon.png" alt="Pressure Icon"
+            class="markerButtonIcon" /></div>
         <p> Toggle Pressure </p>
       </button>
-      <button id='cloudsCountryButton' class='weatherButton'>
-        <img src="./images/Clouds Icon.png" alt="Clouds Icon" class="markerButtonIcon" />
+      <button id='cloudsCountryButton' class='mapButton'>
+        <div class="markerButtonIcon"><img src="./images/Clouds Icon.png" alt="Clouds Icon" class="markerButtonIcon" />
+        </div>
         <p> Toggle Cloudiness </p>
       </button>
       <br />
       <br />
-      <button id='sightseeingPoiButton' class='weatherButton'>
-        <img src="./images/Sightseeing Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
+      <button id='sightseeingPoiButton' class='mapButton'>
+        <div class="markerButtonIcon"><img src="./images/Sightseeing Icon.png" alt="Temperature Icon"
+            class="markerButtonIcon" /></div>
         <p> Sightseeing Markers </p>
-      </button> <button id='shoppingPoiButton' class='weatherButton'>
-        <img src="./images/Shopping Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
+      </button> <button id='shoppingPoiButton' class='mapButton'>
+        <div class="markerButtonIcon"><img src="./images/Shopping Icon.png" alt="Temperature Icon"
+            class="markerButtonIcon" /></div>
         <p> Shopping Markers </p>
       </button>
-      <button id='eatingoutPoiButton' class='weatherButton'>
-        <img src="./images/Eatingout Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
+      <button id='eatingoutPoiButton' class='mapButton'>
+        <div class="markerButtonIcon"><img src="./images/Eatingout Icon.png" alt="Temperature Icon"
+            class="markerButtonIcon" /></div>
         <p> Eating Out Markers </p>
       </button>
-      <button id='doPoiButton' class='weatherButton'>
-        <img src="./images/Do Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
+      <button id='doPoiButton' class='mapButton'>
+        <div class="markerButtonIcon"><img src="./images/Do Icon.png" alt="Temperature Icon" class="markerButtonIcon" />
+        </div>
         <p> Things to do Markers </p>
       </button>
     </div>
@@ -156,7 +170,8 @@
       </div>
       <div id="cityData" class='tabInformation'>
         <div id="weatherCondition"> <img src="" alt="Weather Condition" class="icon" id='weatherConditionIcon' />
-          <div id = 'weatherConditionInfo'> <span id="temperature"></span><span> &deg C</span> <br /><span id="weatherDescription"></span> </div> 
+          <div id='weatherConditionInfo'> <span id="temperature"></span><span> &deg C</span> <br /><span
+              id="weatherDescription"></span> </div>
         </div>
 
         <div class="cityModeData">
@@ -235,6 +250,7 @@
             <option value='clouds'> Cloudiness </option>
           </select>
         </div>
+        <h2 id="loadingGlobal"> Loading Results... </h2>
         <div id="globalResults">
         </div>
       </div>
@@ -282,7 +298,7 @@
   </div>
 
   <!-- LOAD SCRIPTS ------------------------------------------- -->
-  <script type="application/javascript" src="js/jquery-2.2.3.min.js" class="'icon"></script>
+  <script type="application/javascript" src="./jquery-2.2.3.min.js" class="'icon"></script>
   <script src='js/script.js'> </script>
 
 </body>

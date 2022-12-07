@@ -2,7 +2,6 @@
 
 //This section shows global variables used throughout the app, and sets up how the app will run once all scripts have loaded.
 
-document.getElementById("loading").style.display = "block"
 
 
 //Global Variables 
@@ -29,10 +28,31 @@ let GLOBAL_getNewZoom = true;
 
 
 //Ran at the very end once all functions have loaded
+
+document.getElementById("loadingFull").style.display = "block"
+
+
 function runApp() {
-    findLocation(true)
-    loadCountryList()
+
+
+    //if the user allows access to geolocation
+    if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(position => {
+            userLocation.setLatLng([position.coords.latitude, position.coords.longitude])
+            let loadLocation = getCountryFromPointPHP([position.coords.latitude, position.coords.longitude]).country
+            loadCountryData(loadLocation);
+
+        })
+    } else {
+        let loadLocation = 'France'
+        loadCountryData(loadLocation);
+
+    }
+    // map.removeLayer(moreCityMarkers);
+
+
     getGlobalData()
+    // getGlobalData()
 
     map.on('moveend', function () {
         updateMap()
@@ -73,7 +93,7 @@ function runApp() {
 
 //Initiate Map 
 
-const map = L.map('map', { zoomControl: false }).setView([20, 0], 5);
+const map = L.map('map', { zoomControl: false })
 
 
 
@@ -161,7 +181,7 @@ let liveLocationIcon = L.icon({
     iconSize: [30, 30],
     iconAnchor: [15, 15]
 });
-let userLocation = L.marker([0, 0], { icon: liveLocationIcon }).addTo(map);
+let userLocation = L.marker([0, 0], { icon: liveLocationIcon, zIndexOffset: 900 }).addTo(map);
 let markerIss = L.marker([0, 0], { icon: issIcon });
 
 
@@ -236,8 +256,8 @@ let countryShown = false;
 let weatherShown = false;
 function countryModeOpen() { countryShown = true; $("#countryMode").animate({ left: '+=50rem', }); $("#countryModeButton").css('opacity', '100%') }
 function weatherModeOpen() { weatherShown = true; $("#weatherMode").animate({ right: '+=50rem', }); $("#globalModeButton").css('opacity', '100%') }
-function countryModeClose() { countryShown = false; $("#countryMode").animate({ left: '-50rem' }); $("#countryModeButton").css('opacity', '50%') }
-function weatherModeClose() { weatherShown = false; $("#weatherMode").animate({ right: '-50rem' }); $("#globalModeButton").css('opacity', '50%') }
+function countryModeClose() { countryShown = false; $("#countryMode").animate({ left: '-50rem' }); $("#countryModeButton").css('opacity', '20%') }
+function weatherModeClose() { weatherShown = false; $("#weatherMode").animate({ right: '-50rem' }); $("#globalModeButton").css('opacity', '20%') }
 
 
 //Functions to hide and show hover buttons over countries
@@ -252,7 +272,7 @@ function showHoverButtons() { $("#searchCenter").css('display', 'flex'); }
 
 $("#countryModeButton").click(function () {
     document.getElementById("centerReticle").style.display = "flex"
-    document.getElementById("weatherButtons").style.display = "flex"
+    document.getElementById("mapButtons").style.display = "flex"
     document.getElementById("countrySearch").style.display = "flex"
 
     GLOBAL_mode = 'country';
@@ -290,12 +310,10 @@ $("#countryModeButton").click(function () {
 
 $("#globalModeButton").click(function () {
 
-    map.setView([GLOBAL_cityChosen.coordinates.latitude, GLOBAL_cityChosen.coordinates.longitude], 3)
-
     loadGlobalData('temperature')
 
     document.getElementById("centerReticle").style.display = "none"
-    document.getElementById("weatherButtons").style.display = "none"
+    document.getElementById("mapButtons").style.display = "none"
     document.getElementById("countrySearch").style.display = "none"
 
     GLOBAL_mode = 'globe';
@@ -378,170 +396,40 @@ $("#globalWeatherTab").click(function () {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //==================================================  DATA MARKERS  ==================================================
 
 
 
-//Creates and returns a selected city data marker
 
-let selectedCityDataMarker = (city) => {
-    let tempResult = ''
-    let humidityResult = ''
-    let pressureResult = ''
-    let cloudsResult = ''
-    let windResult = ''
-    let conditionResult = ''
-    $.ajax({
-        url: "php/getOpenWeatherData.php",
-        type: 'POST',
-        dataType: 'json',
-        async: false,
-        data: {
-            lat: city.coordinates.latitude,
-            lng: city.coordinates.longitude
-        },
-        success: function (result) {
-            if (result.status.name == "ok") {
-                tempResult = result.data.main.temp
-                humidityResult = result.data.main.humidity
-                pressureResult = result.data.main.pressure
-                cloudsResult = result.data.clouds.all
-                windResult = result.data.wind.speed
 
-                function weatherIcon() {
-                    return result.data.weather[0].main === 'Haze' ? './images/Weather/Haze.png' :
-                        result.data.weather[0].main === 'Fog' ? './images/Weather/Fog.png' :
-                            result.data.weather[0].main === 'Rain' ? './images/Weather/Rain.png' :
-                                result.data.weather[0].main === 'Clear' ? './images/Weather/Sun.png' :
-                                    result.data.weather[0].main === 'Mist' ? './images/Weather/Mist.png' :
-                                        result.data.weather[0].main === 'Clouds' ? './images/Weather/Clouds.png' :
-                                            result.data.weather[0].main === 'Storm' ? './images/Weather/Storm.png' :
-                                                result.data.weather[0].main === 'Snow' ? './images/Weather/Snow.png' :
-                                                    result.data.weather[0].main === 'Drizzle' ? './images/Weather/Rain.png' :
-                                                        '';
-                }
-                conditionResult = weatherIcon()
+let getAllCountryData = (chosenCountry, countryIso, loadAmount) => {
+
+    if (countryIso === 'GB') {
+        countryIso = 'UK'
+    }
+
+    async function countryData() {
+        let result = $.ajax({
+            url: "php/getAllCountryData.php",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                country: chosenCountry,
+                iso: countryIso,
+                amount: loadAmount
             }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-        }
-    })
-    let infoIcon = L.divIcon({
-        className: 'infoMarker selected',
-        iconAnchor: [0, 0],
-        html: `<p> <img src="./images/Magnifier Icon.png" alt="Navigate Icon" class="selectedIcon" /> ${(city.name)}
-      <span class='tempResult'> ${tempResult}&degC </span> 
-      <span class='humidityResult'> ${humidityResult}% </span>
-      <span class='pressureResult'> ${pressureResult}hPa </span>
-      <span class='cloudsResult'> ${cloudsResult}% </span>
-      <span class='windResult'> ${windResult}m/s </span>
-      <img src="${conditionResult}" alt="Weather Condition" class="conditionResult" />
-      </p>`
-    });
-    marker = L.marker([city.coordinates.latitude, city.coordinates.longitude], { icon: infoIcon }).addTo(map).on('click', function (e) {
-        GLOBAL_issRun = false;
-        chosenCountryCityMarker.clearLayers()
-        $('#countryCitiesList')[0].value = city.name
-        loadCityData(city, true)
-        window.location.hash = "#citySearch";
-    });
-    //returns marker to be used
-    return marker
-}
+        })
 
+        return result
+    }
 
+    async function wait() {
+        let result = await countryData()
+        return result
+    }
 
+    return wait()
 
-//Creates and returns a city data marker 
-
-let cityDataMarker = (city) => {
-    let tempResult = ''
-    let humidityResult = ''
-    let pressureResult = ''
-    let cloudsResult = ''
-    let windResult = ''
-    let conditionResult = ''
-    $.ajax({
-        url: "php/getOpenWeatherData.php",
-        type: 'POST',
-        dataType: 'json',
-        async: false,
-        data: {
-            lat: city.coordinates.latitude,
-            lng: city.coordinates.longitude
-        },
-        success: function (result) {
-            if (result.status.name == "ok") {
-                tempResult = result.data.main.temp
-                humidityResult = result.data.main.humidity
-                pressureResult = result.data.main.pressure
-                cloudsResult = result.data.clouds.all
-                windResult = result.data.wind.speed
-
-
-
-                function weatherIcon() {
-                    return result.data.weather[0].main === 'Haze' ? './images/Weather/Haze.png' :
-                        result.data.weather[0].main === 'Fog' ? './images/Weather/Fog.png' :
-                            result.data.weather[0].main === 'Rain' ? './images/Weather/Rain.png' :
-                                result.data.weather[0].main === 'Clear' ? './images/Weather/Sun.png' :
-                                    result.data.weather[0].main === 'Mist' ? './images/Weather/Mist.png' :
-                                        result.data.weather[0].main === 'Clouds' ? './images/Weather/Clouds.png' :
-                                            result.data.weather[0].main === 'Storm' ? './images/Weather/Storm.png' :
-                                                result.data.weather[0].main === 'Snow' ? './images/Weather/Snow.png' :
-                                                    result.data.weather[0].main === 'Drizzle' ? './images/Weather/Rain.png' :
-                                                        '';
-                }
-                conditionResult = weatherIcon()
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-        }
-    })
-
-    //new marker icon for data
-    let infoIcon = L.divIcon({
-        className: 'infoMarker',
-        iconAnchor: [0, 0],
-        html:
-            `<p> ${(city.name)}
-      <span class='tempResult'> ${tempResult}&degC </span> 
-      <span class='humidityResult'> ${humidityResult}% </span>
-      <span class='pressureResult'> ${pressureResult}hPa </span>
-      <span class='cloudsResult'> ${cloudsResult}% </span>
-      <span class='windResult'> ${windResult}m/s </span>
-      <img src="${conditionResult}" alt="Weather Condition" class="conditionResult" />
-      </p>`
-    });
-
-    marker = L.marker([city.coordinates.latitude, city.coordinates.longitude], { icon: infoIcon }).addTo(map).on('click', function (e) {
-        GLOBAL_issRun = false;
-        chosenCountryCityMarker.clearLayers()
-        console.log(city.name)
-        $('#countryCitiesList')[0].value = city.name
-        loadCityData(city, true)
-        if (countryShown === false) {
-            countryModeOpen()
-        };
-        // cityDataTabOpen()
-        window.location.hash = "#citySearch";
-    });
-    //returns marker to be used
-    return marker
 }
 
 
@@ -603,19 +491,19 @@ $('#windCountryButton').click(function () {
 //Updates POI buttons depending on what was pressed
 
 $('#sightseeingPoiButton').click(function () {
-    loadCityPois(GLOBAL_cityChosen.name, `sightseeing`, true)
+    loadCityPois(GLOBAL_cityChosen[0].name, `sightseeing`, true)
     cityPoiTabOpen()
 });
 $('#eatingoutPoiButton').click(function () {
-    loadCityPois(GLOBAL_cityChosen.name, `eatingout`, true)
+    loadCityPois(GLOBAL_cityChosen[0].name, `eatingout`, true)
     cityPoiTabOpen()
 });
 $('#shoppingPoiButton').click(function () {
-    loadCityPois(GLOBAL_cityChosen.name, `shopping`, true)
+    loadCityPois(GLOBAL_cityChosen[0].name, `shopping`, true)
     cityPoiTabOpen()
 });
 $('#doPoiButton').click(function () {
-    loadCityPois(GLOBAL_cityChosen.name, `do`, true)
+    loadCityPois(GLOBAL_cityChosen[0].name, `do`, true)
     cityPoiTabOpen()
 });
 
@@ -637,10 +525,7 @@ $('#countriesList').change(function () {
 $('#countryCitiesList').change(function () {
     $('#countryModeData').fadeOut();
     chosenCountryCityMarker.clearLayers()
-    console.log(GLOBAL_Cities)
-    console.log($('#countryCitiesList')[0].value)
-    countryCity = GLOBAL_Cities.filter(city => city.name === $('#countryCitiesList')[0].value)
-    console.log(countryCity)
+    countryCity = GLOBAL_chosenCountryCities.filter(city => city[0].name === $('#countryCitiesList')[0].value)
     loadCityData(countryCity[0], true)
     $('#countryModeData').fadeIn();
 });
@@ -652,7 +537,6 @@ $('#countryCitiesList').change(function () {
 
 $('#findLocation, #findLocationMobile').click(function () {
     relocate('live')
-    console.log(GLOBAL_globalWeatherData)
 });
 
 
@@ -707,8 +591,7 @@ $('#stopISS').click(function () {
 
 $('#poiList').change(function () {
     let poiChosen = $('#poiList')[0].value
-    console.log(GLOBAL_cityChosen, poiChosen)
-    loadCityPois(GLOBAL_cityChosen.name, poiChosen, true)
+    loadCityPois(GLOBAL_cityChosen[0].name, poiChosen, true)
 });
 
 
@@ -718,7 +601,6 @@ $('#poiList').change(function () {
 
 let moreCountryDataToggle = false;
 $('#moreCountryData').click(function () {
-    console.log(moreCountryDataToggle)
     if (!moreCountryDataToggle) {
         $("#countryData").animate({ height: '20rem' })
         $("#moreCountryData").html('Show less')
@@ -739,20 +621,6 @@ $('#globalWeatherList').change(function () {
     let weatherChosen = $('#globalWeatherList')[0].value
     loadGlobalData(weatherChosen)
 });
-
-
-
-
-//   let loadedGlobalData = false
-//   $('#getGlobalData').click(function () {
-//     console.log('getting')
-//     if (!loadedGlobalData) {
-//       getGlobalData()
-//       loadedGlobalData = true
-//       let weatherChosen = $('#globalWeatherList')[0].value
-//       loadGlobalData(weatherChosen)
-//     } 
-//   });
 
 
 
@@ -791,81 +659,68 @@ $('#globalWeatherList').change(function () {
 
 
 
-//Function to get global weather data and saves in global variable
-
-function getGlobalData() {
-    $.ajax({
-        dataType: "json",
-        async: false,
-        url: "js/countryBorders.geo.json",
-        success: function (borders) {
-            $(borders.features).each(function (key, border) {
-                let country = border.properties.name
-                let centerPoint = L.geoJson(border).getBounds().getCenter()
-                getCountryWeatherPHP(centerPoint, country, border)
-            })
-        }
-    }).error(function () {
-        console.log('Error')
-    });
-}
 
 
 
 
 //Function to load list of countries  
 
-function loadCountryList() {
+function getGlobalData() {
     let select = document.getElementById("countriesList");
     let filteredCities = []
     let option = '';
 
-    let allCountries = getAllCountriesPHP()
-
-    allCountries.sort()
+    let allCountries = getAllCountriesPHP('all')
 
     for (let i = 0; i < allCountries.length; i++) {
         option = allCountries[i];
+        let name = option['properties']['name']
 
-        if (!filteredCities.includes(option)) {
+        if (!filteredCities.includes(name)) {
             let element = document.createElement("option");
-            element.textContent = option;
-            element.value = option;
+            element.textContent = name;
+            element.value = name;
             select.appendChild(element);
         }
-        filteredCities.push(option);
+        filteredCities.push(name);
     }
-}
+    let allCountriesWithCenters = []
+
+    $(allCountries).each(function (key, country) {
+        let centerPoint = L.geoJson(country).getBounds().getCenter()
+        allCountriesWithCenters.push([centerPoint.lat, centerPoint.lng, country.properties.name])
+    })
 
 
+    $.ajax({
+        url: "php/getGlobalData.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            countries: allCountriesWithCenters
+        },
+        success: function (result) {
+            console.log(result.status.name)
+            document.getElementById("loadingGlobal").style.display = "none"
 
-
-//Function to find users location and adds data for country in 
-
-function findLocation(load) {
-
-    //if the user allows access to geolocation
-    if ('geolocation' in navigator) {
-        //sets global variables to location, moves view and updates userLocation marker
-        navigator.geolocation.getCurrentPosition(position => {
-            userLocation.setLatLng([position.coords.latitude, position.coords.longitude])
-            let loadLocation = getCountryFromPointPHP([position.coords.latitude, position.coords.longitude]).country
-
-            //if load is true, also load country data
-            if (load) {
-                loadCountryData(loadLocation);
+            if (result.status.name == "ok") {                
+                $(allCountries).each(function (key, country) {                    
+                    $(result['data']).each(function (key, countryData) {                       
+                        if (country.properties.name === countryData[1]) {
+                            GLOBAL_globalWeatherData.push([countryData[0], countryData[1], country])
+                            console.log([countryData[0], countryData[1], country])
+                        }
+                    })
+                })
             }
-        })
-    } else {
-        //sets default country if there is no geolocation data
-        let loadLocation = 'France'
-        //if load is true, also load country data
-        if (load) {
-            loadCountryData(loadLocation);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
         }
-    }
-    map.removeLayer(moreCityMarkers);
+    })
 }
+
+
+
 
 
 
@@ -873,7 +728,6 @@ function findLocation(load) {
 //Function to relocate map
 
 function relocate(option) {
-    console.log(option)
     if ('geolocation' in navigator && option === 'live') {
         //sets global variables to location, moves view and updates userLocation marker
         navigator.geolocation.getCurrentPosition(position => {
@@ -882,7 +736,7 @@ function relocate(option) {
         })
     }
     if (option === 'city') {
-        map.setView([GLOBAL_cityChosen.coordinates.latitude, GLOBAL_cityChosen.coordinates.longitude], 11)
+        map.setView([GLOBAL_cityChosen[0].coordinates.latitude, GLOBAL_cityChosen[0].coordinates.longitude], 11)
     }
 }
 
@@ -896,69 +750,101 @@ function relocate(option) {
 
 function loadCountryData(countryChosen) {
     document.getElementById("loading").style.display = "block"
-    function run() {
+    document.getElementById("mapButtons").style.display = "none"
+    document.getElementById("countrySearch").style.display = "none"
+    document.getElementById("buttonPanel").style.display = "none"
+    countryModeClose()
+
+    async function run() {
+
+        moreLoaded = false;
+
+        //load borders       
+        loadBorder(countryChosen, true, 'selected')
+
         //Updates global variables and resets map layers
         GLOBAL_countryChosen = countryChosen;
         $('#countriesList')[0].value = countryChosen
+        $('#chosenCountry').html(countryChosen);
         GLOBAL_getNewZoom = true;
+
         //clears all borders and re adds without chosen country
         map.removeLayer(allBordersLayerGroup)
-        getAllCountryBorders(countryChosen)
         chosenCountryCityMarker.clearLayers()
         lessCityMarkers.clearLayers()
         moreCityMarkers.clearLayers()
         GLOBAL_lessCitiesLoaded = false;
         GLOBAL_moreCitiesLoaded = false;
-        //Loads all data from country name
-        $('#chosenCountry').html(countryChosen);
-        getCountryDataPHP(countryChosen.replace(" ", "%20"))
+
+        //load borders       
         loadBorder(countryChosen, true, 'selected')
-        loadCitiesData(countryChosen)
-        loadCityMarkers(cityDataMarker, 'city', false)
-        loadCityPois(GLOBAL_cityChosen.name, 'sightseeing')
-        $('#poiList')[0].value = 'sightseeing'
+
+        //get country data from php
+        let countryProp = countryChosen.replace(" ", "%20")
+        let isoProp = getCountryFromGeoJson(countryChosen).properties.iso_a2
+
+        let resultData = await getAllCountryData(countryProp, isoProp, 40)
+
+        //save country data into variables
+        GLOBAL_chosenCountryCities = resultData.cities
+        let astrologyData = resultData.astrology
+        let countryData = resultData.country[0]
+
+        //update selected country data 
+        function formatTime(original) {
+            let [originalHour, originalMin] = original.split(":")
+            let hour = parseInt(originalHour.replace('0', '')) % 12;
+            if (hour === 0) hour = 12;
+            return hour + `:${originalMin}` + (original < 12 ? ' am' : ' pm');
+        }
+        $('#population').html(Math.round((countryData.population) / 1000000));
+        $('#flag').attr('src', `${countryData.flags.png}`)
+        $('#searchFlag').attr('src', `${countryData.flags.png}`)
+        $('#flagBackground').attr('src', `${countryData.flags.png}`)
+        $('#currency').html(`${Object.values(countryData.currencies)[0].name} ${Object.values(countryData.currencies)[0].symbol}`);
+        $('#subregion').html(countryData.subregion);
+        $('#language').html(Object.values(countryData.languages)[0]);
+        $('#sunset').html(formatTime(astrologyData.sunset));
+        $('#sunrise').html(formatTime(astrologyData.sunrise));
+        $('#moonrise').html(formatTime(astrologyData.moonrise));
+        $('#moonset').html(formatTime(astrologyData.moonset));
+        $('#currentTime').html(formatTime(astrologyData.current_time.slice(0, 5)));
+        $('#dayLength').html(astrologyData.day_length.replace('0', ''));
+
+        //update county city list
+        let select = document.getElementById("countryCitiesList");
+        let option = '';
+        select.innerHTML = '0';
+        for (var i = 0; i < GLOBAL_chosenCountryCities.length; i++) {
+            option = GLOBAL_chosenCountryCities[i];
+            let element = document.createElement("option");
+            element.textContent = option[1].name;
+            element.value = option[1].name;
+            select.appendChild(element);
+        }
+
+        //load country city markers
+        moreCityMarkers.clearLayers()
+        lessCityMarkers.clearLayers()
+        loadCityMarkers(GLOBAL_chosenCountryCities, 'less')
+
+        //load selected city data (first by default)
+        loadCityData(GLOBAL_chosenCountryCities[0])
+
+        //reset zoom level to fit bounds
         GLOBAL_zoomLevel = map.getZoom()
+
         document.getElementById("loading").style.display = "none"
+        document.getElementById("mapButtons").style.display = "flex"
+        document.getElementById("countrySearch").style.display = "flex"
+        document.getElementById("buttonPanel").style.display = "flex"
+
+        updateMapWeatherData('.conditionResult', '#weatherCountryButton')
     }
     //runs function after 1000ms to allow time for dom to update loading screen
     setTimeout(run, 1000)
 }
 
-
-
-
-//Function which adds country city list to city dataset 
-
-function loadCitiesData(country) {
-
-    let cityList = [];
-    let select = document.getElementById("countryCitiesList");
-    let option = '';
-    select.innerHTML = '0';
-
-    //gets country isoCode
-    let code = getCountryBorderPHP(country).properties.iso_a2
-    if (code === 'GB') {
-        code = 'UK'
-    }
-    cityList = getCountryCitiesPHP(code, 60)
-    GLOBAL_Cities = cityList
-
-
-    //updates search bar to cities
-    for (var i = 0; i < cityList.length; i++) {
-        option = cityList[i];
-        let element = document.createElement("option");
-        element.textContent = option.name;
-        element.value = option.name;
-        select.appendChild(element);
-    }
-
-    //loads most popular city by default
-    let capitalCity = GLOBAL_Cities[0]
-    loadCityData(capitalCity)
-    loadAstroDataPHP(capitalCity)
-}
 
 
 
@@ -969,15 +855,15 @@ function loadCitiesData(country) {
 function loadCityData(city, relocate) {
 
     if (relocate) {
-        map.setView([city.coordinates.latitude, city.coordinates.longitude])
+        map.setView([city[0].coordinates.latitude, city[0].coordinates.longitude])
     }
 
-    $('#snippet').html(city.snippet);
-    $('#cityDescription').html(city.generated_intro);
+    $('#snippet').html(city[0].snippet);
+    $('#cityDescription').html(city[0].generated_intro);
 
     GLOBAL_cityChosen = city
 
-    let images = city.images;
+    let images = city[0].images;
     let select = document.getElementById("cityImages");
 
     select.innerHTML = ''
@@ -988,22 +874,69 @@ function loadCityData(city, relocate) {
 
         let imgElement = document.createElement("img");
         imgElement.className = 'cityImage';
-        imgElement.src = city.images[i].sizes.medium.url;
+        imgElement.src = city[0].images[i].sizes.medium.url;
         imgElementDiv.appendChild(imgElement);
 
         let pElement = document.createElement("p");
-        let html = document.createTextNode(`${city.images[i].caption}`)
+        let html = document.createTextNode(`${city[0].images[i].caption}`)
         pElement.appendChild(html)
         imgElementDiv.appendChild(pElement);
 
         select.appendChild(imgElementDiv);
     }
 
-    marker = selectedCityDataMarker(city, true)
+    //add selected city marker
+    let tempResult = city[1].main.temp
+    let humidityResult = city[1].main.humidity
+    let pressureResult = city[1].main.pressure
+    let cloudsResult = city[1].clouds.all
+    let windResult = city[1].wind.speed
+
+    let infoIcon = L.divIcon({
+        className: 'infoMarker selected',
+        iconAnchor: [0, 0],
+        html: `<p> <img src="./images/Magnifier Icon.png" alt="Navigate Icon" class="selectedIcon" /> ${(city[0].name)}
+      <span class='tempResult'> ${tempResult}&degC </span> 
+      <span class='humidityResult'> ${humidityResult}% </span>
+      <span class='pressureResult'> ${pressureResult}hPa </span>
+      <span class='cloudsResult'> ${cloudsResult}% </span>
+      <span class='windResult'> ${windResult}m/s </span>
+      <img src="${conditionResult}" alt="Weather Condition" class="conditionResult" />
+      </p>`
+    });
+    marker = L.marker([city[0].coordinates.latitude, city[0].coordinates.longitude], { icon: infoIcon }).addTo(map).on('click', function (e) {
+        GLOBAL_issRun = false;
+        chosenCountryCityMarker.clearLayers()
+        $('#countryCitiesList')[0].value = city[0].name
+        window.location.hash = "#citySearch";
+    });
+
     chosenCountryCityMarker.addLayer(marker)
 
-    loadCityWeatherDataPHP(city)
-    loadCityPois(city.name, 'sightseeing', false)
+    function weatherIcon() {
+        return city[1].weather[0].main === 'Haze' ? './images/Weather/Haze.png' :
+            city[1].weather[0].main === 'Fog' ? './images/Weather/Fog.png' :
+                city[1].weather[0].main === 'Rain' ? './images/Weather/Rain.png' :
+                    city[1].weather[0].main === 'Clear' ? './images/Weather/Sun.png' :
+                        city[1].weather[0].main === 'Mist' ? './images/Weather/Mist.png' :
+                            city[1].weather[0].main === 'Clouds' ? './images/Weather/Clouds.png' :
+                                city[1].weather[0].main === 'Storm' ? './images/Weather/Storm.png' :
+                                    city[1].weather[0].main === 'Snow' ? './images/Weather/Snow.png' :
+                                        '';
+    }
+
+    $('#clouds').html(city[1].clouds.all);
+    $('#humidity').html(city[1].main.humidity);
+    $('#temperature').html(city[1].main.temp);
+    $('#temperatureMin').html(city[1].main.temp_min);
+    $('#temperatureMax').html(city[1].main.temp_max);
+    $('#weather').html(city[1].weather[0].main);
+    $('#weatherDescription').html(city[1].weather[0].description);
+    $('#pressure').html(city[1].main.pressure);
+    $('#windSpeed').html(city[1].wind.speed);
+    $('#weatherConditionIcon').attr('src', `${weatherIcon()}`)
+
+    loadCityPois(city[0].name, 'sightseeing', false)
 }
 
 
@@ -1079,31 +1012,77 @@ function loadCityPois(cityName, tagName, relocate) {
 
 //Function which loads city markers for chosen country
 
-function loadCityMarkers(marker, data, relocate) {
-    let citiesInCountry = []
+function loadCityMarkers(citiesData, layer) {
 
-    if (relocate) {
-        // map.setView([citiesInCountry[0].coordinates.latitude, citiesInCountry[0].coordinates.longitude])
-    }
-
-    //runs though cities and adds cities within country to new array for top 5
-    moreCityMarkers.clearLayers()
-    citiesInCountry = GLOBAL_Cities
-
-    //runs though cities and adds cities within country to new array for top 5
-    lessCityMarkers.clearLayers()
-    citiesInCountry = GLOBAL_Cities.slice(0, 8)
-
-    //for the cities in array, add to map
     let count = 0;
-    for (city of GLOBAL_Cities) {
-        moreCityMarkers.addLayer(marker(city, data))
-        map.removeLayer(moreCityMarkers)
-        if (count < 6) {
-            lessCityMarkers.addLayer(marker(city, data))
+
+    function addMarker(cityData) {
+        let weatherData = cityData[1]
+        let tempResult = weatherData.main.temp
+        let humidityResult = weatherData.main.humidity
+        let pressureResult = weatherData.main.pressure
+        let cloudsResult = weatherData.clouds.all
+        let windResult = weatherData.wind.speed
+        function weatherIcon() {
+            return weatherData.weather[0].main === 'Haze' ? './images/Weather/Haze.png' :
+                weatherData.weather[0].main === 'Fog' ? './images/Weather/Fog.png' :
+                    weatherData.weather[0].main === 'Rain' ? './images/Weather/Rain.png' :
+                        weatherData.weather[0].main === 'Clear' ? './images/Weather/Sun.png' :
+                            weatherData.weather[0].main === 'Mist' ? './images/Weather/Mist.png' :
+                                weatherData.weather[0].main === 'Clouds' ? './images/Weather/Clouds.png' :
+                                    weatherData.weather[0].main === 'Storm' ? './images/Weather/Storm.png' :
+                                        weatherData.weather[0].main === 'Snow' ? './images/Weather/Snow.png' :
+                                            weatherData.weather[0].main === 'Drizzle' ? './images/Weather/Rain.png' :
+                                                '';
         }
+        conditionResult = weatherIcon()
+        let infoIcon = L.divIcon({
+            className: 'infoMarker',
+            iconAnchor: [0, 0],
+            html:
+                `<p> ${(cityData[0]['name'])}
+  <span class='tempResult'> ${tempResult}&degC </span> 
+  <span class='humidityResult'> ${humidityResult}% </span>
+  <span class='pressureResult'> ${pressureResult}hPa </span>
+  <span class='cloudsResult'> ${cloudsResult}% </span>
+  <span class='windResult'> ${windResult}m/s </span>
+  <img src="${conditionResult}" alt="Weather Condition" class="conditionResult" />
+  </p>`
+        });
+
+        let i = count
+        let marker = L.marker([cityData[0]['coordinates']['latitude'], cityData[0]['coordinates']['longitude']], { icon: infoIcon }).addTo(map).on('click', function (e) {
+
+            GLOBAL_issRun = false;
+            chosenCountryCityMarker.clearLayers()
+            $('#countryCitiesList')[0].value = citiesData[i][0]['name']
+            loadCityData(citiesData[i])
+            if (countryShown === false) {
+                countryModeOpen()
+            };
+            window.location.hash = "#citySearch";
+        });
+
         count++
+        return marker
     }
+
+    if (layer === 'less') {
+        count = 0;
+        for (let z = 0; z < 5; z++) {
+            console.log(count, z)
+            lessCityMarkers.addLayer(addMarker(citiesData[z]))
+        }
+    }
+
+
+    if (layer === 'more') {
+        count = 0
+        for (let z = 0; z < citiesData.length; z++) {
+            moreCityMarkers.addLayer(addMarker(citiesData[z]))
+        }
+    }
+
 }
 
 
@@ -1114,6 +1093,21 @@ function loadCityMarkers(marker, data, relocate) {
 
 function loadBorder(country, fitToScreen, mode) {
     hoverCountryBorder.clearLayers();
+    allBordersLayerGroup.clearLayers()
+
+    //ADD ALL BORDERS BUT SELECTED TO ALL BORDERS LAYER
+
+    //border style for select country on hover
+    function generalBorder() {
+        return {
+            fillColor: 'lightBlue',
+            weight: 4,
+            opacity: 1,
+            color: 'rgb(101, 101, 101)',
+            dashArray: '8',
+            fillOpacity: 0.5
+        }
+    }
 
     //border style for chosen country and toggle
     function generalBorder() {
@@ -1139,7 +1133,7 @@ function loadBorder(country, fitToScreen, mode) {
         }
     }
 
-    let border = getCountryBorderPHP(country)
+    let border = getCountryFromGeoJson(country)
     let newGeneralBorder = L.geoJson(border, { style: generalBorder });
     let newHoverBorder = L.geoJson(border, { style: hoverBorder });
 
@@ -1148,36 +1142,14 @@ function loadBorder(country, fitToScreen, mode) {
         selectedCountryBorderGroup.addLayer(newGeneralBorder);
         if (fitToScreen) {
             map.fitBounds(newGeneralBorder.getBounds(), { padding: [20, 20] });
+            document.getElementById("loadingFull").style.display = "none"
         }
     }
     if (mode === 'hover') {
         hoverCountryBorder.addLayer(newHoverBorder);
     }
 
-}
-
-
-
-
-//Function which gets all borders
-
-function getAllCountryBorders(country) {
-
-    allBordersLayerGroup.clearLayers()
-
-    //border style for select country on hover
-    function generalBorder() {
-        return {
-            fillColor: 'lightBlue',
-            weight: 4,
-            opacity: 1,
-            color: 'rgb(101, 101, 101)',
-            dashArray: '8',
-            fillOpacity: 0.5
-        }
-    }
-
-    //Gets geo.json file 
+    //Gets geo.json file and adds all borders
     $.ajax({
         dataType: "json",
         url: "js/countryBorders.geo.json",
@@ -1198,10 +1170,8 @@ function getAllCountryBorders(country) {
     }).error(function () {
         console.log('Error')
     });
+
 }
-
-
-
 
 
 
@@ -1269,18 +1239,20 @@ function toggleBorders() {
 
 
 
-
+let moreLoaded = false;
 //Function which updates map on move 
 
 function updateMap() {
 
+    console.log(moreLoaded)
+
     //Updates map if in country mode
     if (GLOBAL_mode === 'country') {
 
-        map.addLayer(moreCityMarkers)
-        map.removeLayer(moreCityMarkers);
-        map.addLayer(lessCityMarkers)
-        map.removeLayer(lessCityMarkers);
+        // map.addLayer(moreCityMarkers)
+        // map.removeLayer(moreCityMarkers);
+        // map.addLayer(lessCityMarkers)
+        // map.removeLayer(lessCityMarkers);
 
         //Finds country currently hovering on
         let centerCountry = getCountryFromPointPHP([map.getCenter().lat, map.getCenter().lng]).country
@@ -1298,31 +1270,34 @@ function updateMap() {
             loadBorder('none', false, 'hover')
         }
 
+        console.log(GLOBAL_zoomLevel, map.getZoom())
+
         //ZOOM MODE 1
         if (map.getZoom() <= GLOBAL_zoomLevel - 2) {
             countryModeClose()
             $('#searchCenterCountry').html(centerCountry);
             map.removeLayer(lessCityMarkers);
             map.removeLayer(moreCityMarkers);
-            console.log(GLOBAL_zoomLevel, map.getZoom())
         };
 
-        //ZOOM MODE 2
+        //ZOOM MODE 2  
         if (map.getZoom() > GLOBAL_zoomLevel - 2 && map.getZoom() < GLOBAL_zoomLevel + 1) {
             $('#searchCenterCountry').html(centerCountry);
             map.removeLayer(moreCityMarkers);
             map.addLayer(lessCityMarkers);
             $(GLOBAL_markerOption).css('display', 'block')
-            console.log(GLOBAL_zoomLevel, map.getZoom())
         };
 
         //ZOOM MODE 3
         if (map.getZoom() >= GLOBAL_zoomLevel + 1 && centerCountry) {
+            if (!moreLoaded) {
+                loadCityMarkers(GLOBAL_chosenCountryCities, 'more')
+                moreLoaded = true
+            }
             $('#searchCenterCountry').html(centerCountry);
             map.removeLayer(lessCityMarkers);
             map.addLayer(moreCityMarkers);
             $(GLOBAL_markerOption).css('display', 'block')
-            console.log(GLOBAL_zoomLevel, map.getZoom())
         };
     } else {
         map.removeLayer(lessCityMarkers)
@@ -1540,28 +1515,6 @@ function loadGlobalData(type) {
 //==================================================  PHP CALL FUNCTIONS  ==================================================
 
 
-function getCountryCitiesPHP(countryIso, loadAmount) {
-    let cities = []
-    $.ajax({
-        url: "php/getCountryCities.php",
-        type: 'POST',
-        dataType: 'json',
-        async: false,
-        data: {
-            iso: countryIso,
-            amount: loadAmount
-        },
-        success: function (result) {
-            if (result.status.name == "ok") {
-                cities = result.data.results
-
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-        }
-    })
-    return cities
-}
 
 
 
@@ -1592,17 +1545,17 @@ function getCityPoisPHP(cityName, tagName) {
 
 
 
-function getCountryBorderPHP(country) {
+function getCountryFromGeoJson(country) {
     result = ''
     $.ajax({
         dataType: "json",
-        url: "php/getCountryFromGeoJson.php",
+        url: "php/getCountriesFromGeoJson.php",
         async: false,
         data: {
-            countryName: country
+            countries: country
         },
-        success: function (border) {
-            result = border['data']
+        success: function (country) {
+            result = country['data'][0]
         }
     }).error(function (e) {
     });
@@ -1612,13 +1565,14 @@ function getCountryBorderPHP(country) {
 
 
 
-function getAllCountriesPHP() {
+function getAllCountriesPHP(countries) {
     result = ''
     $.ajax({
         dataType: "json",
-        url: "php/getAllCountriesFromGeoJson.php",
+        url: "php/getCountriesFromGeoJson.php",
         async: false,
         data: {
+            countries: countries
         },
         success: function (countries) {
             result = countries['data']
@@ -1656,116 +1610,6 @@ function getCountryFromPointPHP(point) {
 
 
 
-function loadAstroDataPHP(city) {
-    $.ajax({
-        url: "php/getAstroData.php",
-        type: 'POST',
-        dataType: 'json',
-        async: false,
-        data: {
-            lat: city.coordinates.latitude,
-            lng: city.coordinates.longitude
-        },
-        success: function (result) {
-            if (result.status.name == "ok") {
-
-                function formatTime(original) {
-                    let [originalHour, originalMin] = original.split(":")
-
-                    let hour = parseInt(originalHour.replace('0', '')) % 12;
-                    if (hour === 0) hour = 12;
-
-                    return hour + `:${originalMin}` + (original < 12 ? ' am' : ' pm');
-                }
-
-                $('#sunset').html(formatTime(result.data.sunset));
-                $('#sunrise').html(formatTime(result.data.sunrise));
-                $('#moonrise').html(formatTime(result.data.moonrise));
-                $('#moonset').html(formatTime(result.data.moonset));
-                $('#currentTime').html(formatTime(result.data.current_time.slice(0, 5)));
-                $('#dayLength').html(result.data.day_length.replace('0', ''));
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-        }
-    })
-};
-
-
-
-
-function loadCityWeatherDataPHP(city) {
-    $.ajax({
-        url: "php/getOpenWeatherData.php",
-        type: 'POST',
-        dataType: 'json',
-        async: false,
-        data: {
-            lat: city.coordinates.latitude,
-            lng: city.coordinates.longitude
-        },
-        success: function (result) {
-            if (result.status.name == "ok") {
-
-                function weatherIcon() {
-                    return result.data.weather[0].main === 'Haze' ? './images/Weather/Haze.png' :
-                        result.data.weather[0].main === 'Fog' ? './images/Weather/Fog.png' :
-                            result.data.weather[0].main === 'Rain' ? './images/Weather/Rain.png' :
-                                result.data.weather[0].main === 'Clear' ? './images/Weather/Sun.png' :
-                                    result.data.weather[0].main === 'Mist' ? './images/Weather/Mist.png' :
-                                        result.data.weather[0].main === 'Clouds' ? './images/Weather/Clouds.png' :
-                                            result.data.weather[0].main === 'Storm' ? './images/Weather/Storm.png' :
-                                                result.data.weather[0].main === 'Snow' ? './images/Weather/Snow.png' :
-                                                    '';
-                }
-
-                $('#clouds').html(result.data.clouds.all);
-                $('#humidity').html(result.data.main.humidity);
-                $('#temperature').html(result.data.main.temp);
-                $('#temperatureMin').html(result.data.main.temp_min);
-                $('#temperatureMax').html(result.data.main.temp_max);
-                $('#weather').html(result.data.weather[0].main);
-                $('#weatherDescription').html(result.data.weather[0].description);
-                $('#pressure').html(result.data.main.pressure);
-                $('#windSpeed').html(result.data.wind.speed);
-                $('#weatherConditionIcon').attr('src', `${weatherIcon()}`)
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log(errorThrown)
-        }
-    })
-};
-
-
-
-
-function getCountryDataPHP(country) {
-    $.ajax({
-        url: "php/getCountryData.php",
-        type: 'POST',
-        dataType: 'json',
-        async: false,
-        data: {
-            country: country
-        },
-        success: function (result) {
-            if (result.status.name == "ok") {
-                $('#population').html(Math.round((result.data[0].population) / 1000000));
-                $('#flag').attr('src', `${result.data[0].flags.png}`)
-                $('#searchFlag').attr('src', `${result.data[0].flags.png}`)
-                $('#flagBackground').attr('src', `${result.data[0].flags.png}`)
-                $('#currency').html(`${Object.values(result.data[0].currencies)[0].name} ${Object.values(result.data[0].currencies)[0].symbol}`);
-                $('#subregion').html(result.data[0].subregion);
-                $('#language').html(Object.values(result.data[0].languages)[0]);
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log(errorThrown)
-        }
-    })
-};
-
 
 
 
@@ -1787,32 +1631,6 @@ function getIssLocationPHP() {
     return location
 }
 
-
-
-
-function getCountryWeatherPHP(point, country, border) {
-    $.ajax({
-        url: "php/getOpenWeatherData.php",
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            lat: point.lat,
-            lng: point.lng
-        },
-        success: function (result) {
-
-            if (result.status.name == "ok") {
-                try {
-                    data = result.data
-                    GLOBAL_globalWeatherData.push([result.data, country, border])
-                } catch (err) {
-                }
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-        }
-    })
-}
 
 
 
