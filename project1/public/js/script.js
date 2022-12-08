@@ -39,7 +39,7 @@ function runApp() {
     if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(position => {
             userLocation.setLatLng([position.coords.latitude, position.coords.longitude])
-            let loadLocation = getCountryFromPointPHP([position.coords.latitude, position.coords.longitude]).country
+            let loadLocation = getCountryFromPoint([position.coords.latitude, position.coords.longitude]).country
             loadCountryData(loadLocation);
 
         })
@@ -563,7 +563,7 @@ $('#allBorders, #allBordersMobile').click(function () {
 //Search country from map hover
 
 $('#searchCenter').click(function () {
-    let locationData = getCountryFromPointPHP([map.getCenter().lat, map.getCenter().lng])
+    let locationData = getCountryFromPoint([map.getCenter().lat, map.getCenter().lng])
     let locationCountry = locationData.country
     loadCountryData(locationCountry);
 });
@@ -670,7 +670,7 @@ function getGlobalData() {
     let filteredCities = []
     let option = '';
 
-    let allCountries = getAllCountriesPHP('all')
+    let allCountries = getAllCountries('all')
 
     for (let i = 0; i < allCountries.length; i++) {
         option = allCountries[i];
@@ -700,15 +700,13 @@ function getGlobalData() {
             countries: allCountriesWithCenters
         },
         success: function (result) {
-            console.log(result.status.name)
             document.getElementById("loadingGlobal").style.display = "none"
 
-            if (result.status.name == "ok") {                
-                $(allCountries).each(function (key, country) {                    
-                    $(result['data']).each(function (key, countryData) {                       
+            if (result.status.name == "ok") {
+                $(allCountries).each(function (key, country) {
+                    $(result['data']).each(function (key, countryData) {
                         if (country.properties.name === countryData[1]) {
                             GLOBAL_globalWeatherData.push([countryData[0], countryData[1], country])
-                            console.log([countryData[0], countryData[1], country])
                         }
                     })
                 })
@@ -950,17 +948,20 @@ function loadCityPois(cityName, tagName, relocate) {
     updateMapPoiData(`#${tagName}PoiButton`)
     cityPoiMarkers.clearLayers()
     let pois = []
-    pois = getCityPoisPHP(cityName, tagName)
+    pois = getCityPois(cityName, tagName)
 
-    if (relocate) {
-        map.setView([pois[0].coordinates.latitude, pois[0].coordinates.longitude], 15)
-    }
+
 
     //Updates poi listings
     let select = document.getElementById("cityPoisData");
     select.innerHTML = ''
 
     if (pois[0]) {
+
+        if (relocate) {
+            map.setView([pois[0].coordinates.latitude, pois[0].coordinates.longitude], 15)
+        }
+
         for (let i = 0; i < pois.length; i++) {
 
             cityPoiMarkers.addLayer(cityPoiMarker(pois[i], i + 1))
@@ -1070,7 +1071,6 @@ function loadCityMarkers(citiesData, layer) {
     if (layer === 'less') {
         count = 0;
         for (let z = 0; z < 5; z++) {
-            console.log(count, z)
             lessCityMarkers.addLayer(addMarker(citiesData[z]))
         }
     }
@@ -1189,7 +1189,7 @@ function loadISSLocation() {
             chosenCountryCityMarker.clearLayers()
             lessCityMarkers.clearLayers()
 
-            let location = getIssLocationPHP()
+            let location = getIssLocation()
 
             let lat = location[0]
             let lng = location[1]
@@ -1200,7 +1200,7 @@ function loadISSLocation() {
             $('#astroLat').html(Math.round(lat * 1000) / 1000);
             $('#astroLng').html(Math.round(lng * 1000) / 1000);
 
-            let issOverLocation = getCountryFromPointPHP([lat, lng])
+            let issOverLocation = getCountryFromPoint([lat, lng])
 
             if (issOverLocation.body_of_water) {
                 $('#issOver').html(`${issOverLocation.body_of_water}`);
@@ -1244,18 +1244,11 @@ let moreLoaded = false;
 
 function updateMap() {
 
-    console.log(moreLoaded)
-
     //Updates map if in country mode
     if (GLOBAL_mode === 'country') {
 
-        // map.addLayer(moreCityMarkers)
-        // map.removeLayer(moreCityMarkers);
-        // map.addLayer(lessCityMarkers)
-        // map.removeLayer(lessCityMarkers);
-
         //Finds country currently hovering on
-        let centerCountry = getCountryFromPointPHP([map.getCenter().lat, map.getCenter().lng]).country
+        let centerCountry = getCountryFromPoint([map.getCenter().lat, map.getCenter().lng]).country
 
         //Updates map depending on wether hovering over new country
         if (centerCountry !== GLOBAL_countryChosen) {
@@ -1269,8 +1262,6 @@ function updateMap() {
             document.getElementById("centerReticle").style.display = "none"
             loadBorder('none', false, 'hover')
         }
-
-        console.log(GLOBAL_zoomLevel, map.getZoom())
 
         //ZOOM MODE 1
         if (map.getZoom() <= GLOBAL_zoomLevel - 2) {
@@ -1519,7 +1510,7 @@ function loadGlobalData(type) {
 
 
 
-function getCityPoisPHP(cityName, tagName) {
+function getCityPois(cityName, tagName) {
     let pois = []
     $.ajax({
         url: "php/getCityPois.php",
@@ -1565,7 +1556,7 @@ function getCountryFromGeoJson(country) {
 
 
 
-function getAllCountriesPHP(countries) {
+function getAllCountries(countries) {
     result = ''
     $.ajax({
         dataType: "json",
@@ -1585,7 +1576,7 @@ function getAllCountriesPHP(countries) {
 
 
 
-function getCountryFromPointPHP(point) {
+function getCountryFromPoint(point) {
     let data = []
     $.ajax({
         url: "php/getCountryFromPoint.php",
@@ -1613,7 +1604,7 @@ function getCountryFromPointPHP(point) {
 
 
 
-function getIssLocationPHP() {
+function getIssLocation() {
     let location = []
     $.ajax({
         url: "php/getISS.php",
