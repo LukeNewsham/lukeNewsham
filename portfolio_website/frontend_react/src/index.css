@@ -2,7 +2,6 @@
 
 :root {
   --font-base: "DM Sans", sans-serif;
-
   --primary-color: #edf2f8;
   --secondary-color: #313bac;
   --black-color: #030303;
@@ -17,4 +16,8 @@
   padding: 0;
   margin: 0;
   scroll-behavior: smooth;
+}
+
+html, body {
+  scroll-behavior: smooth;  
 }

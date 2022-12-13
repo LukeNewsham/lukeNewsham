@@ -8,7 +8,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "sanity start",
-    "build": "sanity build"
+    "build": "sanity build",
+    "sanity": "npx @sanity/cli start",
+    "bypass": "Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass"
   },
   "keywords": [
     "sanity"
