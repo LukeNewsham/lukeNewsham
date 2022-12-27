@@ -13,27 +13,33 @@ $root = $_SERVER['DOCUMENT_ROOT'];
 
 $fullUrl = $root . $url;
 
+$countries = [];
 $file = file_get_contents($fullUrl);
 
-$decode = json_decode($file, true)['features'];
-$countries = [];
-$chosenCountry = $_REQUEST['countries'];
+if ($file !== false) {
+	$decode = json_decode($file, true)['features'];	
+	$chosenCountry = $_REQUEST['countries'];
 
-foreach ($decode as $feature) {
-	$country = substr(json_encode($feature['properties']['name']), 1, -1);
-	if ($chosenCountry === 'all') {
-		array_push($countries, $feature);
-	} else {
-		if ($country === $chosenCountry) {
-			// $countries = $feature;
+	foreach ($decode as $feature) {
+		$country = substr(json_encode($feature['properties']['name']), 1, -1);
+		if ($chosenCountry === 'all') {
 			array_push($countries, $feature);
+		} else {
+			if ($country === $chosenCountry) {
+				array_push($countries, $feature);
+			}
+			;
 		}
 		;
 	}
 	;
 
+	$statusCode = '200';
+} else {
+	$statusCode = '404';
 }
-;
+
+
 
 function compare_country($a, $b)
 {
@@ -41,9 +47,7 @@ function compare_country($a, $b)
 }
 usort($countries, 'compare_country');
 
-$output['status']['code'] = "200";
-$output['status']['name'] = "ok";
-$output['status']['description'] = "success";
+$output['status']['code'] = $statusCode;
 $output['status']['returnedIn'] = intval((microtime(true) - $executionStartTime) * 1000) . " ms";
 $output['data'] = $countries;
 

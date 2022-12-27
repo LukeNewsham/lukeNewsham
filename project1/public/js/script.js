@@ -702,7 +702,7 @@ function getGlobalData() {
         success: function (result) {
             document.getElementById("loadingGlobal").style.display = "none"
 
-            if (result.status.name == "ok") {
+            if (result.status.code == "200") {
                 $(allCountries).each(function (key, country) {
                     $(result['data']).each(function (key, countryData) {
                         if (country.properties.name === countryData[1]) {
@@ -712,7 +712,8 @@ function getGlobalData() {
                 })
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function (errorThrown) {
+            console.log(errorThrown)
         }
     })
 }
@@ -783,10 +784,32 @@ function loadCountryData(countryChosen) {
 
         let resultData = await getAllCountryData(countryProp, isoProp, 40)
 
+        console.log(resultData)
+        let countryData = null;
+        let astrologyData = null;
+
+
         //save country data into variables
-        GLOBAL_chosenCountryCities = resultData.cities
-        let astrologyData = resultData.astrology
-        let countryData = resultData.country[0]
+        if (resultData.data.cities.status === '200') {
+            GLOBAL_chosenCountryCities = resultData.data.cities.data
+        } else {
+            console.log('No city data')
+        }
+
+        if (resultData.data.astrology.status === '200') {
+            astrologyData = resultData.data.astrology.data
+        } else {
+            console.log('No astrology data')
+        }
+
+        if (resultData.data.astrology.status === '200') {
+            countryData = resultData.data.country.data[0]
+        } else {
+            console.log('No country data')
+        }
+
+
+
 
         //update selected country data 
         function formatTime(original) {
@@ -977,7 +1000,6 @@ function loadCityPois(cityName, tagName, relocate) {
 
             let snippetElement = document.createElement("p");
             snippetElement.appendChild(document.createTextNode(`${pois[i].generated_snippet}`))
-            snippetElement.className = 'cityPoiTitle';
             snippetElement.id = `${pois[i].name}`
             imgElementDiv.appendChild(snippetElement);
 
@@ -1522,11 +1544,11 @@ function getCityPois(cityName, tagName) {
             tag: tagName
         },
         success: function (result) {
-            if (result.status.name == "ok") {
+            if (result.status.code == "200") {
                 pois = result.data.results
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function (errorThrown) {
             console.log(errorThrown)
         }
     })
@@ -1546,7 +1568,10 @@ function getCountryFromGeoJson(country) {
             countries: country
         },
         success: function (country) {
-            result = country['data'][0]
+            if (country.status.code == "200") {
+                result = country['data'][0]
+            }
+
         }
     }).error(function (e) {
     });
@@ -1588,11 +1613,12 @@ function getCountryFromPoint(point) {
             lng: point[1]
         },
         success: function (result) {
-            if (result.status.name == "ok") {
+            if (result.status.code == "200") {
                 data = result.data.results[0].components
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function (errorThrown) {
+            console.log(errorThrown)
         }
     })
     return data
@@ -1612,11 +1638,12 @@ function getIssLocation() {
         async: false,
         dataType: 'json',
         success: function (result) {
-            if (result.status.name == "ok") {
+            if (result.status.code == "200") {
                 location = [result.data.latitude, result.data.longitude]
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function (errorThrown) {
+            console.log(errorThrown)
         }
     })
     return location

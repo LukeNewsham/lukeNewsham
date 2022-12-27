@@ -19,15 +19,15 @@ $result = curl_exec($ch);
 //checks for errors 		
 if (isJSON($result)) {
 	$decode = json_decode($result, true);
+	$statusCode = '200';
 } else {
 	$decode = curl_error($ch);
+	$statusCode = '404';
 }
 
 curl_close($ch);
 
-$output['status']['code'] = "200";
-$output['status']['name'] = "ok";
-$output['status']['description'] = "success";
+$output['status']['code'] = $statusCode;
 $output['status']['returnedIn'] = intval((microtime(true) - $executionStartTime) * 1000) . " ms";
 $output['data'] = $decode;
 
