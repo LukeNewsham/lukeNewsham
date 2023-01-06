@@ -1,0 +1,32 @@
+a {
+    cursor: pointer;
+}
+
+#sidePanel {
+    max-width: 20rem;
+    background-color: lightblue;
+}
+
+#departmentPanel {
+    background-color: rgb(245, 245, 245);
+    display: none;
+    
+}
+
+#directoryPanel {
+    background-color: rgb(245, 245, 245);
+    max-height: 100vh;
+    /* display: none; */
+}
+
+.stat {
+    /* max-width: 20% !important; */
+}
+
+/* .mainPanelRow {
+    height: 40%;
+} */
+
+.boldText {
+    font-weight: 500 !important;
+}

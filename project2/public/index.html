@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="index.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+
+
+  <title>Admin Dashboard</title>
+</head>
+
+<body>
+
+  <div class="container-fluid" id="wrapper">
+
+
+    <!-- Manage Modal Start -->
+    <div id='modal' class="modal fade modal-lg">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1> Manage </h1>
+            <button class='btn-close' data-bs-dismiss="modal" data-bs-modal="#modal">
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <label for="firstName" class="form-label"> First name </label>
+              <input type="text" id="firstName" class="form-control">
+
+              <label for="lastName" class="form-label"> Last name </label>
+              <input type="text" id="lastName" class="form-control">
+
+              <label for="departmentOptions" class="form-label"> Department </label>
+
+              <select id="departmentsOptions" class="form-select">
+              </select>
+
+              <label for="email" class="form-label"> Email </label>
+              <input type="email" id="email" class="form-control">
+
+              <button> Update </button>
+            </form>
+
+          </div>
+          <div class="modal-footer"> Footer</div>
+        </div>
+      </div>
+    </div>
+    <!-- Manage Modal End -->
+
+
+    <div class="row">
+
+
+      <!-- Side Panel Start -->
+      <div id='sidePanel' class="col vh-100 ">
+
+        <div class="container m-2 mt-5">
+          <h1 id="homeButton"> Admin Dashboard</h1>
+
+          <ul id ='departmentsList' class="navbar-nav">
+          </ul>
+
+        </div>
+
+
+      </div>
+
+      <!-- Side Panel End -->
+
+
+
+
+
+
+
+
+      <!-- Department Directory Panel Start -->
+      <div id='directoryPanel' class="col p-5">
+
+        <div id='stats' class="row justify-content-between">
+          <div class="col stat bg-white m-2">
+            <p class="boldText"> Total Employees </p>
+            <p id='totalEmp'> </p>
+          </div>
+          <div class="col stat bg-white m-2">
+            <p class="boldText"> Newest Employee </p>
+            <p>
+              <span id='newestEmpFirst'> </span>
+              <span id='newestEmpLast'> </span>
+            </p>
+            <span id='newestEmpDep'> </span>
+            </p>
+          </div>
+          <div class="col stat bg-white m-2"></div>
+          <div class="col stat bg-white m-2"></div>
+        </div>
+
+        <div class="mainPanelRow h-auto row  mt-5">
+          <div class="col m-2 justify-items-center">
+
+            <!-- Buttons Start -->
+            <div class="container h-25 m-0 p-0">
+              <button id='addNewEmployee' class="btn btn-primary w-100">
+                <span> Add </span>
+              </button>
+            </div>
+            <!-- Buttons End -->
+
+          </div>
+          <div class="col h-25 bg-white m-2">
+          </div>
+        </div>
+
+
+        <div class="row mt-5  h-50">
+
+          <!-- Employee List Start -->
+          <div class="container h-100 bg-white overflow-auto">
+            <table class='table'>
+              <thead>
+                <th>
+                  Name
+                </th>
+                <th>
+                  Department
+                </th>
+                <th>
+                  Location
+                </th>
+                <th>
+                  E-Mail
+                </th>
+                <th>
+                  Manage
+                </th>
+
+              </thead>
+              <tbody id='employeeList'>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+          <!-- Employee List End -->
+
+
+
+        </div>
+
+
+
+
+
+
+
+      </div>
+      <!-- Department Directory Panel End -->
+
+
+
+
+
+    </div>
+
+
+  </div>
+
+
+
+
+
+  <!-- LOAD SCRIPTS ------------------------------------------- -->
+  <script type="application/javascript" src="./jquery-2.2.3.min.js" class="'icon"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script src='js/script.js'> </script>
+
+</body>
+
+</html>
