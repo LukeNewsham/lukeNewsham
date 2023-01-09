@@ -4,7 +4,8 @@ a {
 
 #sidePanel {
     max-width: 20rem;
-    background-color: lightblue;
+    background-color: rgb(30, 79, 123);
+    z-index: 10;
 }
 
 #departmentPanel {
@@ -19,14 +20,31 @@ a {
     /* display: none; */
 }
 
-.stat {
-    /* max-width: 20% !important; */
+
+tr {
+    cursor: pointer;
 }
 
-/* .mainPanelRow {
-    height: 40%;
-} */
+tr:hover {
+    background-color: rgb(230, 249, 255);
+    transition: 0.3s;
+}
 
-.boldText {
-    font-weight: 500 !important;
+.manage {
+    background-color: lightblue !important;
+}
+
+.navButton {
+    text-align: left !important;
+    color: white !important;    
+    /* border-left: solid 2px white !important; */
+    border-radius: 0 !important;
+}
+
+.navButton:hover {
+    background-color: rgb(255, 255, 255) !important;
+    font-weight: bold;
+    color: rgb(30, 79, 123) !important;
+    /* font-size: 15px; */
+    transition: 0.2s ease-in-out;
 }

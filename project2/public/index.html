@@ -19,35 +19,50 @@
 
 
     <!-- Manage Modal Start -->
-    <div id='modal' class="modal fade modal-lg">
+    <div id='modal' class="modal fade">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
         <div class="modal-content">
           <div class="modal-header">
-            <h1> Manage </h1>
-            <button class='btn-close' data-bs-dismiss="modal" data-bs-modal="#modal">
+            <h3 id="employeeName" class="m-3"> </h3>
+            <button id = 'addNewEmployee' class='btn-close' data-bs-dismiss="modal" data-bs-modal="#modal">
             </button>
           </div>
           <div class="modal-body">
-            <form>
-              <label for="firstName" class="form-label"> First name </label>
-              <input type="text" id="firstName" class="form-control">
+            <form id="formTest" class="p-4" novalidate>
 
-              <label for="lastName" class="form-label"> Last name </label>
-              <input type="text" id="lastName" class="form-control">
+              <label for="name" class = 'form-label'> Name </label>
+              <div class="input-group " id="name">
+                <input type="text" name ='firstName' id="firstName" class="form-control" placeholder="First Name" required>
+                <input type="text" name='lastName' id="lastName" class="form-control" placeholder="Last Name" required>
+              </div>
 
-              <label for="departmentOptions" class="form-label"> Department </label>
+              <label for="id" class="form-label mt-3"> ID </label>
+              <input type="number" name="id"  id="id" class="form-control" disabled>
 
-              <select id="departmentsOptions" class="form-select">
-              </select>
+              
 
-              <label for="email" class="form-label"> Email </label>
-              <input type="email" id="email" class="form-control">
+              
+              <label for="departmentOptions" class="form-label mt-3"> Department </label>
+              <select name="departmentOptions" id="departmentOptions" class="form-select" required>
+              </select>    
+              
+              <label for="jobTitle" class="form-label mt-3"> Job Title </label>
+              <input name="jobTitle" id="jobTitle" class="form-control">
+              </input> 
 
-              <button> Update </button>
+              <label for="email" class="form-label mt-3"> Email </label>
+              <input type="email" name="email"  id="email" class="form-control" required>
+
+              <button type="submit" class="btn btn-success mt-5" id="submitButton"> Update </button>
+              <div class="btn btn-danger mt-5"> Delete </div>
+              <!-- <button type="reset" class="btn btn-white mt-5" id="submitButton">  Clear </button> -->
+             
             </form>
 
+           
+
           </div>
-          <div class="modal-footer"> Footer</div>
+          <!-- <div class="modal-footer"> Footer</div> -->
         </div>
       </div>
     </div>
@@ -58,12 +73,12 @@
 
 
       <!-- Side Panel Start -->
-      <div id='sidePanel' class="col vh-100 ">
+      <div id='sidePanel' class="col vh-100 shadow ">
 
         <div class="container m-2 mt-5">
-          <h1 id="homeButton"> Admin Dashboard</h1>
+          <h2 id="homeButton"  class="text-white m-2"> Admin Dashboard</h2>
 
-          <ul id ='departmentsList' class="navbar-nav">
+          <ul id='departmentsList' class="navbar-nav">
           </ul>
 
         </div>
@@ -84,11 +99,11 @@
       <div id='directoryPanel' class="col p-5">
 
         <div id='stats' class="row justify-content-between">
-          <div class="col stat bg-white m-2">
+          <div class="col stat bg-white m-2 rounded shadow-sm">
             <p class="boldText"> Total Employees </p>
             <p id='totalEmp'> </p>
           </div>
-          <div class="col stat bg-white m-2">
+          <div class="col stat bg-white m-2 rounded shadow-sm">
             <p class="boldText"> Newest Employee </p>
             <p>
               <span id='newestEmpFirst'> </span>
@@ -97,23 +112,21 @@
             <span id='newestEmpDep'> </span>
             </p>
           </div>
-          <div class="col stat bg-white m-2"></div>
-          <div class="col stat bg-white m-2"></div>
+          <div class="col stat bg-white m-2 rounded shadow-sm"></div>
+          <div class="col stat bg-white m-2 rounded shadow-sm"></div>
         </div>
 
         <div class="mainPanelRow h-auto row  mt-5">
           <div class="col m-2 justify-items-center">
 
             <!-- Buttons Start -->
-            <div class="container h-25 m-0 p-0">
-              <button id='addNewEmployee' class="btn btn-primary w-100">
+            <div class="container h-25 w-25 m-0 p-0">
+              <button id='addNewEmployee' class="btn btn-primary  shadow-sm" data-bs-toggle= 'modal' data-bs-target='#modal'>
                 <span> Add </span>
               </button>
             </div>
             <!-- Buttons End -->
 
-          </div>
-          <div class="col h-25 bg-white m-2">
           </div>
         </div>
 
@@ -121,9 +134,12 @@
         <div class="row mt-5  h-50">
 
           <!-- Employee List Start -->
-          <div class="container h-100 bg-white overflow-auto">
-            <table class='table'>
+          <div class="container h-100 bg-white overflow-auto p-3 rounded shadow-sm">
+            <table class='table '>
               <thead>
+                <th>
+                  ID
+                </th>
                 <th>
                   Name
                 </th>
