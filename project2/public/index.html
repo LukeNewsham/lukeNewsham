@@ -7,86 +7,173 @@
   <link rel="stylesheet" type="text/css" href="index.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-
-
-
   <title>Admin Dashboard</title>
+
 </head>
 
 <body>
 
+  <!-- Container wrapping entire site -->
   <div class="container-fluid" id="wrapper">
 
 
-    <!-- Manage Modal Start -->
+
+
+
+
+    <!--------------------------------- Employee Modal Start --------------------------------->
     <div id='modal' class="modal fade">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
         <div class="modal-content">
+
+          <!-- Modal header for title and close -->
           <div class="modal-header">
-            <h3 id="employeeName" class="m-3"> </h3>
-            <button id = 'addNewEmployee' class='btn-close' data-bs-dismiss="modal" data-bs-modal="#modal">
+            <h3 id="formTitle" class="m-3"> Add New Department </h3>
+            <button class='btn-close' data-bs-dismiss="modal" data-bs-modal="#modal">
             </button>
           </div>
-          <div class="modal-body">
-            <form id="formTest" class="p-4" novalidate>
 
-              <label for="name" class = 'form-label'> Name </label>
+          <!-- Form to either add or manage an employee -->
+          <div class="modal-body">
+
+            <!-- Employee Form (Display 1) -->
+            <form id="employeeForm" class="p-4" novalidate>
+              <label for="name" class='form-label'> Name </label>
               <div class="input-group " id="name">
-                <input type="text" name ='firstName' id="firstName" class="form-control" placeholder="First Name" required>
+                <input type="text" name='firstName' id="firstName" class="form-control" placeholder="First Name"
+                  required>
                 <input type="text" name='lastName' id="lastName" class="form-control" placeholder="Last Name" required>
               </div>
-
-              <label for="id" class="form-label mt-3"> ID </label>
-              <input type="number" name="id"  id="id" class="form-control" disabled>
-
-              
-
-              
+              <!-- <label for="id" class="form-label mt-3"> ID </label> -->
+              <input type="number" name="id" id="id" class="form-control visually-hidden" readonly>
               <label for="departmentOptions" class="form-label mt-3"> Department </label>
               <select name="departmentOptions" id="departmentOptions" class="form-select" required>
-              </select>    
-              
+              </select>
               <label for="jobTitle" class="form-label mt-3"> Job Title </label>
               <input name="jobTitle" id="jobTitle" class="form-control">
-              </input> 
-
+              </input>
               <label for="email" class="form-label mt-3"> Email </label>
-              <input type="email" name="email"  id="email" class="form-control" required>
+              <input type="email" name="email" id="email" class="form-control" required>
 
-              <button type="submit" class="btn btn-success mt-5" id="submitButton"> Update </button>
-              <div class="btn btn-danger mt-5"> Delete </div>
-              <!-- <button type="reset" class="btn btn-white mt-5" id="submitButton">  Clear </button> -->
-             
+              <div id="emailTakenEmployee" class="d-none mt-3 text-danger">
+                <p> Email already taken. Please choose another </p>
+              </div>
+
+              <button type="submit" class="btn btn-success mt-5" id="submitEmployee"> Update </button>
+              <div class="btn btn-danger mt-5" id="deleteEmployee"> Delete </div>
             </form>
 
-           
+
+            <!-- Department Form (Display 2) -->
+            <form id="departmentForm" class="p-4" novalidate>
+              <label for="depName" class='form-label'> Name </label>
+              <input type="text" name='depName' id="depName" class="form-control" placeholder="Name" required>
+
+              <!-- <label for="depId" class='form-label mt-3'> Department ID </label> -->
+              <input type="number" name='depId' id="depId" class="form-control visually-hidden" readonly>
+
+              <label for="depLocations" class='form-label mt-3'> Location </label>
+              <select name="depLocations" id='depLocations' class="form-select" required>
+              </select>
+
+              <div id="depNameTaken" class="d-none mt-3 text-danger">
+                <p> Department name taken. Please choose another </p>
+              </div>
+
+              <button type="submit" class="btn btn-success mt-5" id="submitDepartment"> Add </button>
+              <div class="btn btn-danger mt-5" id="deleteDepartment"> Delete </div>
+            </form>
+
+            <!-- Location Form (Display 3) -->
+            <form id="locationForm" class="p-4" novalidate>
+              <label for="locName" class='form-label'> Name </label>
+              <input type="text" name='locName' id="locName" class="form-control" placeholder="Name" required>
+
+              <!-- <label for="locId" class='form-label mt-3'> Location ID </label> -->
+              <input type="number" name='locId' id="locId" class="form-control visually-hidden" readonly>
+
+              <div id="locNameTaken" class="d-none mt-3 text-danger">
+                <p> Location already added. Please choose another </p>
+              </div>
+
+              <button type="submit" class="btn btn-success mt-5" id="submitLocation"> Add </button>
+            </form>
+
+            <!-- Location Delete Form (Display 4) -->
+            <form id="deleteLocationForm" class="p-4" novalidate>
+
+              <!-- <label for="delLocId" class='form-label mt-3'> Chosen Location ID </label> -->
+              <input type="number" name='delLocId' id="delLocId" class="form-control visually-hidden" readonly>
+
+              <label for="locLocations" class='form-label mt-3'> Location </label>
+              <select name="locLocations" id='locLocations' class="form-select" required>
+              </select>
+
+              <!-- <label for="delLocIdMove" class='form-label mt-3 '> Move to ID </label> -->
+              <input type="number" name='delLocIdMove' id="delLocIdMove" class="form-control visually-hidden" readonly>
+
+              <label for="locLocationsMove" class='form-label mt-3'> Move departments to </label>
+              <select name="locLocationsMove" id='locLocationsMove' class="form-select" required>
+              </select>
+
+              <div class="btn btn-danger mt-5" id="deleteLocation"> Delete </div>
+            </form>
+
 
           </div>
-          <!-- <div class="modal-footer"> Footer</div> -->
+
         </div>
       </div>
     </div>
-    <!-- Manage Modal End -->
 
 
+
+
+
+
+
+
+
+
+
+    <!-- Single row in container to allow for columns -->
     <div class="row">
 
 
-      <!-- Side Panel Start -->
-      <div id='sidePanel' class="col vh-100 shadow ">
 
-        <div class="container m-2 mt-5">
-          <h2 id="homeButton"  class="text-white m-2"> Admin Dashboard</h2>
 
-          <ul id='departmentsList' class="navbar-nav">
+
+      <!--------------------------------- Row 1 Column 1: Side Panel Nav --------------------------------->
+
+      <div id='sidePanel' class="col vh-100 w- shadow">
+        <div class="container mt-5">
+
+
+          <div class="d-flex align-items-start justify-content-between">
+            <!-- Title and home button -->
+            <h2 id="homeButton" class="text-white "> Admin Dashboard</h2>
+            <img src="./images/close.png" alt="Close Icon" id="closeNav" class="closeIcon  ms-2 d-lg-none" />
+          </div>
+
+
+
+          <!-- Nav main titles -->
+          <ul id='dashboardNav' class="navbar-nav mt-5">
+
+            <!-- Company Directory Sub Nav -->
+            <li>
+              <h5 id="companyDirectoryHomeNav"
+                class="navbar navSection cursor-pointer border-bottom border-2 border-white p-2 text-light">
+                Company Directory
+              </h5>
+              <ul id='departmentsList' class="navbar-nav">
+              </ul>
+            </li>
+
           </ul>
-
         </div>
-
-
       </div>
 
-      <!-- Side Panel End -->
 
 
 
@@ -94,80 +181,118 @@
 
 
 
+      <!--------------------------------- Row 1 Column 2: Company Directory --------------------------------->
 
-      <!-- Department Directory Panel Start -->
-      <div id='directoryPanel' class="col p-5">
+      <div id='companyDirectoryDepartment' class="col vh-100 m-0 overflow-scroll ">
 
-        <div id='stats' class="row justify-content-between">
-          <div class="col stat bg-white m-2 rounded shadow-sm">
-            <p class="boldText"> Total Employees </p>
-            <p id='totalEmp'> </p>
+        <!-- Row 1 Column 2 Row 1: Page Title and Stats -->
+
+        <div id='titlePanel' class="row justify-content-between bg-white shadow-sm p-3 p-lg-4">
+
+          <div class="col stat bg-white d-flex align-items-center">
+            <img src="./images/menu.png" alt="Close Icon" id="navToggle" class="closeIcon me-4 d-lg-none" />
+            <div class="row">
+              <h3 id='pageTitle'> Company Directory
+                <h5 id='pageSubTitle'> Home </h5>
+              </h3>
+
+            </div>
           </div>
-          <div class="col stat bg-white m-2 rounded shadow-sm">
-            <p class="boldText"> Newest Employee </p>
-            <p>
-              <span id='newestEmpFirst'> </span>
-              <span id='newestEmpLast'> </span>
-            </p>
-            <span id='newestEmpDep'> </span>
-            </p>
+
+          <div id='stats' class="col d-none d-lg-block">
+            <div class="row">
+              <div class="col stat bg-white ">
+                <h5 class="boldText"> <span id='totalEmp'> </span> </h5>
+                <p class="p-0 m-0"> Employees </p>
+              </div>
+              <div class="col stat">
+                <h5 class="boldText"> <span id='newestEmp'> </span>
+                  <span id='newestEmpLast'> </span>
+                </h5>
+                <p class="p-0 m-0"> Newest Employee </p>
+              </div>
+
+
+            </div>
+
           </div>
-          <div class="col stat bg-white m-2 rounded shadow-sm"></div>
-          <div class="col stat bg-white m-2 rounded shadow-sm"></div>
+
+
+
         </div>
 
-        <div class="mainPanelRow h-auto row  mt-5">
-          <div class="col m-2 justify-items-center">
 
-            <!-- Buttons Start -->
-            <div class="container h-25 w-25 m-0 p-0">
-              <button id='addNewEmployee' class="btn btn-primary  shadow-sm" data-bs-toggle= 'modal' data-bs-target='#modal'>
-                <span> Add </span>
+
+
+
+        <!-- Row 1 Column 2 Row 2 (Display 1): Company Directory Department Home -->
+
+        <div id='companyDirectoryHome' class="row row-cols-sm-1 row-cols-xl-2 p-3 p-lg-5 mt-4 mt-lg-0">
+
+          <div class="col h-lg-100 p-4 ">
+
+            <div id='departmentsListTableContainer'
+              class="row overflow-scroll bg-white rounded shadow-sm mb-4 mb-lg-0 ">
+              <table class='table rounded overflow-scroll w-100 '>
+
+                <!-- Table Headers -->
+                <thead>
+                  <th id='depNameHeader' data-column="id" data-order="desc">
+                    Department
+                  </th>
+                  <th id='depLocationHeader' data-column="firstName" data-order="desc">
+                    Location <span> </span>
+                  </th>
+                  <th id='depEmployeesHeader' data-column="lastName" data-order="desc">
+                    Employees <span> </span>
+                  </th>
+                </thead>
+
+                <!-- Table Rows (Added by js) -->
+                <tbody id='departmentList'>
+                </tbody>
+
+              </table>
+
+            </div>
+
+
+            <div class="container d-flex m-0 mt-3 p-0">
+              <button id='addNewDepartment' class="btn btn-success mb-2 shadow-sm me-2" data-bs-toggle='modal'
+                data-bs-target='#modal'>
+                <span> Add Department</span>
+              </button>
+              <button id='addNewLocation' class="btn btn-success mb-2 shadow-sm me-2 ms-3" data-bs-toggle='modal'
+                data-bs-target='#modal'>
+                <span> Add Location </span>
+              </button>
+              <button id='deleteChosenLocation' class="btn btn-danger mb-2 shadow-sm" data-bs-toggle='modal'
+                data-bs-target='#modal'>
+                <span> Delete Location </span>
               </button>
             </div>
-            <!-- Buttons End -->
-
-          </div>
-        </div>
-
-
-        <div class="row mt-5  h-50">
-
-          <!-- Employee List Start -->
-          <div class="container h-100 bg-white overflow-auto p-3 rounded shadow-sm">
-            <table class='table '>
-              <thead>
-                <th>
-                  ID
-                </th>
-                <th>
-                  Name
-                </th>
-                <th>
-                  Department
-                </th>
-                <th>
-                  Location
-                </th>
-                <th>
-                  E-Mail
-                </th>
-                <th>
-                  Manage
-                </th>
-
-              </thead>
-              <tbody id='employeeList'>
-
-              </tbody>
-
-            </table>
-
+            <p class="m-0 p-0"> Or press a Department to manage </p>
           </div>
 
-          <!-- Employee List End -->
 
+          <div class="col p-4 mt-5 mt-lg-0">
 
+            <div class="row bg-white rounded shadow-sm mb-4 p-0 pt-3 pb-3 p-lg-4">
+              <label for="departmentsChart" class="container text-center m-2">
+                Department Employees
+              </label>
+              <canvas id="departmentsChart" style="max-height: 100%; width: auto">
+              </canvas>
+            </div>
+
+            <div class="row bg-white rounded shadow-sm  p-0 pt-3 pb-3 p-lg-4">
+              <label for="departmentsChart" class="container text-center mb-2">
+                Location Employees
+              </label>
+              <canvas id="locationsChart">
+              </canvas>
+            </div>
+          </div>
 
         </div>
 
@@ -176,25 +301,77 @@
 
 
 
+
+
+        <!-- Row 1 Column 2 Row 2 (Display 2): Company Directory Employee List -->
+
+        <div id='departmentCompanyDirectory' class="row h-75 row-cols-1 p-3 p-lg-5 mt-4 mt-lg-0">
+
+          <div class="col h-100">
+
+
+            <!-- Employee List Table -->
+            <div id="employeeListTableContainer" class="row overflow-scroll mh-100 bg-white rounded shadow-sm mb-4 mb-lg-0 ">
+              <table class='table rounded  '>
+
+                <!-- Table Headers -->
+                <thead>
+                  <th id='idHeader' data-column="id" data-order="desc" class="d-none d-md-table-cell">
+                    ID
+                  </th>
+                  <th id='firstNameHeader' data-column="firstName" data-order="desc">
+                    First Name
+                  </th>
+                  <th id='lastNameHeader' data-column="lastName" data-order="desc">
+                    Last Name
+                  </th>
+                  <th id='departmentHeader' data-column="department" data-order="desc" class="d-none d-md-table-cell">
+                    Department
+                  </th>
+                  <th id='locationHeader' data-column="location" data-order="desc" class="d-none d-xl-table-cell">
+                    Location
+                  </th>
+                  <th id='jobTitleHeader' data-column="jobTitle" data-order="desc" class="d-none d-xl-table-cell">
+                    Job Title
+                  </th>
+                  <th id='emailHeader' data-column="email" data-order="desc" class="d-none d-xl-table-cell">
+                    E-Mail
+                  </th>
+                </thead>
+
+                <!-- Table Rows (Added by js) -->
+                <tbody id='employeeList'>
+                </tbody>
+
+              </table>
+            </div>
+
+            <!-- Add New Employee -->
+            <div class="container d-flex m-0  mt-3 mb-2 p-0">
+              <button id='addNewEmployee' class="btn btn-success mb-2 shadow-sm" data-bs-toggle='modal'
+                data-bs-target='#modal'>
+                Add Employee
+              </button>
+              <p class="ms-3"> Or press an Employee to manage </p>
+            </div>
+
+
+
+
+          </div>
+
+        </div>
 
       </div>
-      <!-- Department Directory Panel End -->
-
-
-
-
 
     </div>
 
-
   </div>
-
-
-
-
 
   <!-- LOAD SCRIPTS ------------------------------------------- -->
   <script type="application/javascript" src="./jquery-2.2.3.min.js" class="'icon"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
     crossorigin="anonymous"></script>

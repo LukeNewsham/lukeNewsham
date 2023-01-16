@@ -2,22 +2,38 @@ a {
     cursor: pointer;
 }
 
+img {
+    height: 1.5rem;
+    width: 1.5rem;
+    cursor: pointer;
+}
+
 #sidePanel {
     max-width: 20rem;
+    position: absolute;
     background-color: rgb(30, 79, 123);
-    z-index: 10;
+    z-index: 100;
+    left: -580px;
 }
 
-#departmentPanel {
-    background-color: rgb(245, 245, 245);
-    display: none;
-    
+#companyDirectoryHomeNav {
+    cursor: pointer 
 }
 
-#directoryPanel {
+#companyDirectoryDepartment {
     background-color: rgb(245, 245, 245);
-    max-height: 100vh;
-    /* display: none; */
+    /* max-height: 100vh !important; */
+}
+
+#dashboardNav {
+    border-left: solid white 2px;
+}
+
+table thead tr th {
+    /* Important */
+    position: sticky;
+    z-index: 90;
+    top: 0;
 }
 
 
@@ -26,8 +42,15 @@ tr {
 }
 
 tr:hover {
-    background-color: rgb(230, 249, 255);
-    transition: 0.3s;
+    background-color: rgb(238, 249, 255);
+    transition: 0.3s ease-in-out;
+    /* font-weight: bold !important; */
+}
+
+th {
+    background-color: rgb(86, 141, 190) !important;
+    min-width: fit-content;
+    color: white !important
 }
 
 .manage {
@@ -36,7 +59,14 @@ tr:hover {
 
 .navButton {
     text-align: left !important;
-    color: white !important;    
+    color: white !important;
+    /* border-left: solid 2px white !important; */
+    border-radius: 0 !important;
+}
+
+.navButton {
+    text-align: left !important;
+    color: white !important;
     /* border-left: solid 2px white !important; */
     border-radius: 0 !important;
 }
@@ -47,4 +77,67 @@ tr:hover {
     color: rgb(30, 79, 123) !important;
     /* font-size: 15px; */
     transition: 0.2s ease-in-out;
+}
+
+
+.navSection:hover {
+    background-color: rgb(255, 255, 255) !important;
+    font-weight: bold;
+    color: rgb(30, 79, 123) !important;
+    /* font-size: 15px; */
+    transition: 0.2s ease-in-out;
+
+}
+
+
+#employeeListTableContainer::-webkit-scrollbar-thumb {
+    background-color: rgb(86, 141, 190);
+    opacity: 50%;
+    border-radius: 1rem;
+}
+
+#employeeListTableContainer::-webkit-scrollbar  {
+    width: 0.4rem;
+}
+
+#departmentsListTableContainer::-webkit-scrollbar {
+    width: 0rem;
+}
+
+#addNewEmployee {
+    /* border: 1px solid white !important; */
+    /* padding: 0; */
+}
+
+
+#departmentCompanyDirectory {
+    display: none;
+}
+
+
+#stats {
+    display: none;
+}
+
+
+#employeeForm {
+    display: none;
+}
+
+
+
+@media (min-width: 992px) {
+    #sidePanel {
+        position: static !important;
+        left: 0rem;
+    }
+    
+}
+
+
+
+@media (max-width: 576px) {
+    #sidePanel {
+        min-width: 100vw !important;
+    }
 }

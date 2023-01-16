@@ -1,7 +1,8 @@
 <?php
 
 	// example use from browser
-	// http://localhost/companydirectory/libs/php/insertDepartment.php?name=New%20Department&locationID=<id>
+	// use insertDepartment.php first to create new dummy record and then specify it's id in the command below
+	// http://localhost/companydirectory/libs/php/deleteDepartmentByID.php?id=<id>
 
 	// remove next two lines for production
 	
@@ -9,9 +10,7 @@
 	error_reporting(E_ALL);
 
 	$executionStartTime = microtime(true);
-	
-	// this includes the login details
-	
+
 	include("config.php");
 
 	header('Content-Type: application/json; charset=UTF-8');
@@ -32,14 +31,31 @@
 
 		exit;
 
-	}	
+	};
 
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
 	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
-	$query = $conn->prepare('INSERT INTO department (name, locationID) VALUES(?,?)');
+	$id = $_REQUEST['id'];
+	$newId = $_REQUEST['newId'];
 
-	$query->bind_param("si", $_REQUEST['name'], $_REQUEST['locationID']);
+	$preQuery = $conn->prepare('UPDATE department SET locationID = ? WHERE locationID = ? ');
+	$preQuery->bind_param("ii", $newId, $id);
+
+	$preQuery->execute();
+
+	mysqli_close($conn);
+
+
+
+
+
+	$conn = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
+	
+
+	$query = $conn->prepare('DELETE FROM location WHERE id = ?');
+	
+	$query->bind_param("i", $id);
 
 	$query->execute();
 	
