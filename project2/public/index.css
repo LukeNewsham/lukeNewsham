@@ -8,6 +8,35 @@ img {
     cursor: pointer;
 }
 
+table thead tr th {
+    position: sticky;
+    z-index: 90;
+    top: 0;
+}
+
+tr {
+    cursor: pointer;
+}
+
+td {    
+    padding-left: 1.5rem !important;
+}
+
+tr:hover {
+    background-color: rgb(238, 249, 255);
+    transition: 0.3s ease-in-out;
+}
+
+th {
+    font-weight: normal;
+    background-color: rgb(86, 141, 190) !important;
+    padding-left: 1.5rem !important;
+}
+
+#pageDepartment, #companyDirectoryDepartments, #companyDirectoryEmployees, #companyDirectoryLocations, #stats, #employeeForm {
+    display: none;
+}
+
 #sidePanel {
     max-width: 20rem;
     position: absolute;
@@ -16,122 +45,48 @@ img {
     left: -580px;
 }
 
-#companyDirectoryHomeNav {
+#homeNav {
     cursor: pointer 
 }
 
-#companyDirectoryDepartment {
+#companyDirectory {
     background-color: rgb(245, 245, 245);
-    /* max-height: 100vh !important; */
 }
 
-#dashboardNav {
-    border-left: solid white 2px;
+#closeNav {
+    font-size: 2rem !important;
 }
 
-table thead tr th {
-    /* Important */
-    position: sticky;
-    z-index: 90;
-    top: 0;
-}
-
-
-tr {
-    cursor: pointer;
-}
-
-tr:hover {
-    background-color: rgb(238, 249, 255);
-    transition: 0.3s ease-in-out;
-    /* font-weight: bold !important; */
-}
-
-th {
-    background-color: rgb(86, 141, 190) !important;
-    min-width: fit-content;
-    color: white !important
-}
-
-.manage {
-    background-color: lightblue !important;
-}
-
-.navButton {
-    text-align: left !important;
-    color: white !important;
-    /* border-left: solid 2px white !important; */
-    border-radius: 0 !important;
-}
-
-.navButton {
-    text-align: left !important;
-    color: white !important;
-    /* border-left: solid 2px white !important; */
-    border-radius: 0 !important;
-}
-
-.navButton:hover {
-    background-color: rgb(255, 255, 255) !important;
-    font-weight: bold;
-    color: rgb(30, 79, 123) !important;
-    /* font-size: 15px; */
-    transition: 0.2s ease-in-out;
-}
-
-
-.navSection:hover {
-    background-color: rgb(255, 255, 255) !important;
-    font-weight: bold;
-    color: rgb(30, 79, 123) !important;
-    /* font-size: 15px; */
-    transition: 0.2s ease-in-out;
-
-}
-
-
-#employeeListTableContainer::-webkit-scrollbar-thumb {
+#employeeListTableContainer::-webkit-scrollbar-thumb,#departmentsListTableContainer::-webkit-scrollbar-thumb, #locationsListTableContainer::-webkit-scrollbar-thumb {
     background-color: rgb(86, 141, 190);
     opacity: 50%;
-    border-radius: 1rem;
 }
 
-#employeeListTableContainer::-webkit-scrollbar  {
+#employeeListTableContainer::-webkit-scrollbar, #departmentsListTableContainer::-webkit-scrollbar, #locationsListTableContainer::-webkit-scrollbar  {
     width: 0.4rem;
 }
 
-#departmentsListTableContainer::-webkit-scrollbar {
-    width: 0rem;
+#companyDirectoryHome::-webkit-scrollbar  {
+    width: 0rem;    
 }
 
-#addNewEmployee {
-    /* border: 1px solid white !important; */
-    /* padding: 0; */
+.navButton:hover, .navSection:hover {
+    background-color: rgb(255, 255, 255) !important;
+    font-weight: bold;
+    color: rgb(30, 79, 123) !important;
+    transition: 0.2s ease-in-out;
 }
 
-
-#departmentCompanyDirectory {
-    display: none;
+.highlighted {
+    font-weight: bolder !important;
 }
-
-
-#stats {
-    display: none;
-}
-
-
-#employeeForm {
-    display: none;
-}
-
 
 
 @media (min-width: 992px) {
     #sidePanel {
         position: static !important;
         left: 0rem;
-    }
-    
+    }    
 }
 
 

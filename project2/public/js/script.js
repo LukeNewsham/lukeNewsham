@@ -2,6 +2,7 @@
 
 let GLOBAL_departments = []
 let GLOBAL_locations = []
+let GLOBAL_employees = []
 
 let GLOBAL_chosenDepartment = 0
 
@@ -16,7 +17,6 @@ let GLOBAL_locationAddUpdate = ''
 let employeeForm = document.getElementById('employeeForm')
 let departmentForm = document.getElementById('departmentForm')
 let locationForm = document.getElementById('locationForm')
-let DeleteLocationForm = document.getElementById('deleteLocationForm')
 
 let departmentsXValues = [];
 let departmentsYValues = [];
@@ -55,24 +55,13 @@ let locationsChart;
 
 // Load all database data (run on first load) ----------------------------------------
 
-function loadDatabase() {
+function loadDatabase(departmentSort, locationSort) {
 
-    //Variables to be used across CRUD operations
-    let employees = []
+    //Reset chosen department as all
+    GLOBAL_chosenDepartment = 0
+    getEmployees(GLOBAL_chosenDepartment)
 
-    // loadDatabase CRUD 1: Get employees to be sorted into departments on home page
-    $.ajax({
-        dataType: "json",
-        url: 'php/getAll.php',
-        async: false,
-        success: function (result) {
-            if (result.status.code == "200") {
-                employees = result.data
-            }
-
-        }
-    }).error(function (e) {
-    });
+    let employees = GLOBAL_employees
 
     // loadDatabase CRUD 2: Get departments and add data throughout site
     $.ajax({
@@ -86,13 +75,26 @@ function loadDatabase() {
                 let departments = result.data
                 departments.unshift({ id: '0', name: 'All', locationID: '0' })
 
+                //Sort if sort has an option
+                if (departmentSort) {
+                    let columnData = departmentSort.column
+                    if (departmentSort.column === 'id') {
+                        columnData = parseInt(columnData)
+                    }
+                    if (departmentSort.order === 'asc') {
+                        departments.sort((a, b) => a[columnData] > b[columnData] ? 1 : -1)
+                    } else {
+                        departments.sort((a, b) => a[columnData] < b[columnData] ? 1 : -1)
+                    }
+                }
+
                 //Select all lists for departments and reset
-                let selectDepartmentsList = document.getElementById("departmentsList")
-                selectDepartmentsList.innerHTML = ''
                 let selectDepartmentOptions = document.getElementById("departmentOptions")
                 selectDepartmentOptions.innerHTML = ''
                 let select = document.getElementById("departmentList")
                 select.innerHTML = ''
+                let selectDepartmentsFilter = document.getElementById("departmentsFilter")
+                selectDepartmentsFilter.innerHTML = ''
 
 
                 //Reset values for charts
@@ -100,52 +102,24 @@ function loadDatabase() {
                 departmentsYValues = []
                 locationsXValues = []
                 locationsYValues = []
+                GLOBAL_departments = []
+                GLOBAL_locations = []
 
 
                 // For each department
                 for (let i = 0; i < departments.length; i++) {
 
-
-
-                    //Function to change page for nav buttons
-                    this.clickFunction = function () {
-                        $('#companyDirectoryHome').css('display', 'none')
-                        $('#departmentCompanyDirectory').css('display', 'block')
-                        $('#pageSubTitle').html(`${departments[i].name}`)
-                        $('#pageTitle').html(`Company Directory`)
-                        $('#addDepartmentType').html(`${departments[i].name}`)
-                        $('#stats').css('display', 'block')
-
-                        if ($('#sidePanel').css("position") === "absolute") {
-                            navOpen = false;
-                            $('#sidePanel').animate({ 'left': '-580px' })
-                        }
-
-                        // Update chosen department with ID and reload employees
-                        GLOBAL_chosenDepartment = departments[i].id
-                        getEmployees(GLOBAL_chosenDepartment)
-                    }
-
-                    // Load navbar link for department
-                    let listItem = document.createElement("li");
-                    listItem.id = `${departments[i].name}`
-                    listItem.className = 'navbar-item'
-                    listItem.addEventListener('click', this.clickFunction);
-
-                    let link = document.createElement("button");
-                    let linkHtml = document.createTextNode(`${departments[i].name}`)
-                    link.className = 'btn mt-1 w-100 text-left navButton'
-                    link.appendChild(linkHtml)
-
-                    listItem.appendChild(link);
-
-                    selectDepartmentsList.appendChild(listItem);
+                    // Add department option to departments filter 
+                    let option = document.createElement('option')
+                    let optionHtml = document.createTextNode(`${departments[i].name}`)
+                    option.appendChild(optionHtml)
+                    selectDepartmentsFilter.appendChild(option)
 
                     //Filter out employees which are in department to be added to location later on
                     let employeesInDep = employees.filter(employee => employee.departmentID === departments[i].id)
 
                     // For all departments in database (removing 'all')
-                    if (i !== 0) {
+                    if (departments[i].id !== '0') {
 
                         //Add department to global array
                         GLOBAL_departments.push(departments[i])
@@ -172,6 +146,12 @@ function loadDatabase() {
                         row.className = 'departmentRow'
                         row.setAttribute('data-bs-toggle', 'modal')
                         row.setAttribute('data-bs-target', '#modal')
+
+
+                        let idCol = document.createElement("td");
+                        let idColHtml = document.createTextNode(`${departments[i].id}`)
+                        idCol.appendChild(idColHtml)
+                        row.appendChild(idCol);
                         row.setAttribute('data-id', `${departments[i].id}`)
 
                         let depCol = document.createElement("td");
@@ -212,32 +192,80 @@ function loadDatabase() {
 
                 let locations = result.data
 
+                //Sort if sort has an option
+                if (locationSort) {
+                    let columnData = locationSort.column
+                    if (locationSort.column === 'id') {
+                        columnData = parseInt(locationSort.column)
+                    }
+                    if (locationSort.order === 'asc') {
+                        locations.sort((a, b) => a[columnData] > b[columnData] ? 1 : -1)
+                    } else {
+                        locations.sort((a, b) => a[columnData] < b[columnData] ? 1 : -1)
+                    }
+                }
+
                 let colorNum = 20
 
                 let selectLocationOptions = document.getElementById("depLocations")
                 selectLocationOptions.innerHTML = ''
 
-                let selectDeleteLocationOptions = document.getElementById("locLocations")
-                selectDeleteLocationOptions.innerHTML = ''
-
                 let selectDeleteMoveLocationOptions = document.getElementById("locLocationsMove")
                 selectDeleteMoveLocationOptions.innerHTML = ''
+
+                let select = document.getElementById("locationsList")
+                select.innerHTML = ''
 
 
                 //For all locations
                 for (i = 0; i < locations.length; i++) {
+
+                    //Filter out employees which are in location
+                    let employeesInLoc = employees.filter(employee => employee.location === locations[i].name)
+
+                    //Filter out departments which are in location
+                    let departmentsInLoc = GLOBAL_departments.filter(department => department.location === locations[i].name)
+                    departmentsInLoc.forEach(dep => {
+                        departmentsInLocNames.push(`  ${dep.name}`)
+                    })
+
+                    // Add location row and column data to locations table
+                    let row = document.createElement("tr");
+                    row.className = 'locationRow'
+                    row.setAttribute('data-bs-toggle', 'modal')
+                    row.setAttribute('data-bs-target', '#modal')
+                    row.setAttribute('data-id', `${locations[i].id}`)
+
+                    let idCol = document.createElement("td");
+                    let idColHtml = document.createTextNode(`${locations[i].id}`)
+                    idCol.appendChild(idColHtml)
+                    row.appendChild(idCol);
+                    row.setAttribute('data-id', `${locations[i].id}`)
+
+                    let nameCol = document.createElement("td");
+                    let nameColHtml = document.createTextNode(`${locations[i].name}`)
+                    nameCol.appendChild(nameColHtml)
+                    row.appendChild(nameCol);
+                    row.setAttribute('data-name', `${locations[i].name}`)
+
+                    let departmentsCol = document.createElement("td");
+                    let departmentsColHtml = document.createTextNode(`(${departmentsInLoc.length}) ${departmentsInLocNames}`)
+                    departmentsCol.appendChild(departmentsColHtml)
+                    row.appendChild(departmentsCol);
+
+                    let employeesCol = document.createElement("td");
+                    let employeesColHtml = document.createTextNode(`${employeesInLoc.length}`)
+                    employeesCol.appendChild(employeesColHtml)
+                    row.appendChild(employeesCol);
+                    row.setAttribute('data-employees', `${employeesInLoc.length}`)
+
+                    select.appendChild(row);
 
                     //Add location to location select in department form                    
                     let option = document.createElement('option')
                     let optionHtml = document.createTextNode(`${locations[i].name}`)
                     option.appendChild(optionHtml)
                     selectLocationOptions.appendChild(option)
-
-                    //Add location to location select in delete location form                    
-                    let optionDel = document.createElement('option')
-                    let optionDelHtml = document.createTextNode(`${locations[i].name}`)
-                    optionDel.appendChild(optionDelHtml)
-                    selectDeleteLocationOptions.appendChild(optionDel)
 
                     //Add location to location select move in delete location form                    
                     let optionDelMove = document.createElement('option')
@@ -261,7 +289,6 @@ function loadDatabase() {
                             if (locationsYValues[i] === undefined) {
                                 locationsYValues[i] = 1
                                 colorNum = colorNum + 40
-                                console.log(colorNum)
                                 locationsBarColors[i] = `rgb(40, ${colorNum}, 240)`
                             } else {
                                 locationsYValues[i] = locationsYValues[i] + 1
@@ -325,9 +352,7 @@ function loadDatabase() {
         }
     });
 
-    //Reset chosen department as all
-    GLOBAL_chosenDepartment = 0
-    getEmployees(GLOBAL_chosenDepartment)
+
 }
 
 loadDatabase()
@@ -358,7 +383,7 @@ loadDatabase()
 //Functions to reload specific database data ----------------------------------------
 
 //Load employees for a chosen department, including the option to sort data
-function getEmployees(id, sort) {
+function getEmployees(id, sort, search) {
 
     let URL = `php/getAllFromDepartment.php?id=${id}`
 
@@ -377,12 +402,14 @@ function getEmployees(id, sort) {
             if (result.status.code == "200") {
 
                 let employees = result.data
+                GLOBAL_employees = employees
 
                 //If there are no employees
                 if (result.data.length === 0) {
-                    $('#totalEmp').html(employees.length);
-                    $('#newestEmp').html('No Employees');
-                    $('#newestEmpLast').html('');
+                    $('#total').html(employees.length);
+                    $('#totalWhat').html('Employees');
+                    $('#newest').html('No Employees');
+                    $('#newestLast').html('');
                     $('#newestEmpDep').html('');
                     let select = document.getElementById("employeeList")
                     select.innerHTML = ''
@@ -390,22 +417,36 @@ function getEmployees(id, sort) {
                 }
 
                 //Update page details
-                $('#totalEmp').html(employees.length);
-                $('#newestEmp').html(employees.slice(-1).pop().firstName);
-                $('#newestEmpLast').html(employees.slice(-1).pop().lastName);
-                $('#newestEmpDep').html(employees.slice(-1).pop().department);
+                $('#stat2').css('display', 'block')
+                $('#total').html(employees.length);
+
+                $('#newest').html(employees.slice(-1).pop().firstName);
+                $('#newestWhat').html(employees.slice(-1).pop().firstName);
+                $('#newestLast').html(employees.slice(-1).pop().lastName);
 
                 //Reset select options for form
                 let select = document.getElementById("employeeList")
                 select.innerHTML = ''
 
-                //If sort has data, sort data
+                //Sort data if sort has an option
                 if (sort) {
-                    if (sort.order === 'asc') {
-                        employees.sort((a, b) => a[sort.column] > b[sort.column] ? 1 : -1)
-                    } else {
-                        employees.sort((a, b) => a[sort.column] < b[sort.column] ? 1 : -1)
+                    let columnData = sort.column
+                    if (sort.column === 'id') {
+                        columnData = parseInt(columnData)
                     }
+                    if (sort.order === 'asc') {
+                        employees.sort((a, b) => a[columnData] > b[columnData] ? 1 : -1)
+                    } else {
+                        employees.sort((a, b) => a[columnData] < b[columnData] ? 1 : -1)
+                    }
+                }
+
+                if (search) {
+                    employees = employees.filter(emp => {
+                        if (emp.firstName.toLowerCase().startsWith(search.toLowerCase()) || emp.lastName.toLowerCase().startsWith(search.toLowerCase())) {
+                            return true
+                        }
+                    })
                 }
 
                 //For each employee
@@ -434,11 +475,18 @@ function getEmployees(id, sort) {
                     let firstNameCol = document.createElement("td");
                     let firstNameColHtml = document.createTextNode(`${employees[i].firstName}`)
                     firstNameCol.appendChild(firstNameColHtml)
+                    if (search && employees[i].firstName.toLowerCase().startsWith(search.toLowerCase())) {
+                        firstNameCol.className = 'highlighted'
+                    }
                     row.appendChild(firstNameCol);
                     row.setAttribute('data-firstname', `${employees[i].firstName}`)
 
+
                     let lastNameCol = document.createElement("td");
                     let lastNameColHtml = document.createTextNode(`${employees[i].lastName}`)
+                    if (search && employees[i].lastName.toLowerCase().startsWith(search.toLowerCase())) {
+                        lastNameCol.className = 'highlighted'
+                    }
                     lastNameCol.appendChild(lastNameColHtml)
                     row.appendChild(lastNameCol);
                     row.setAttribute('data-lastname', `${employees[i].lastName}`)
@@ -567,7 +615,7 @@ function deleteDepartment(id) {
 
 
 //Update or Add location
-function updateOrAddLocation(name) {
+function updateOrAddLocation(name, id) {
 
     let URL = "php/postUpdatedLocation.php"
 
@@ -582,6 +630,7 @@ function updateOrAddLocation(name) {
         type: 'POST',
         dataType: 'json',
         data: {
+            id: id.value,
             name: name.value
         },
         success: function (result) {
@@ -720,13 +769,16 @@ function deleteEmployee(id) {
 
 //Event listeners ----------------------------------------
 
-//Change page data for Company Directory Home
-$("#companyDirectoryHomeNav").click(function () {
+//Change page data for Home
+$("#homeNav").click(function () {
     $('#companyDirectoryHome').css('display', 'flex')
-    $('#departmentCompanyDirectory').css('display', 'none')
+    $('#companyDirectoryEmployees').css('display', 'none')
+    $('#companyDirectoryDepartments').css('display', 'none')
+    $('#companyDirectoryLocations').css('display', 'none')
     $('#stats').css('display', 'none')
     $('#pageSubTitle').html(`Home`)
-    $('#pageTitle').html(`Company Directory`)
+    $('#pageDepartment').css('display', 'none')
+    $('#pageDepartment').html('- All')
 
     if ($('#sidePanel').css("position") === "absolute") {
         navOpen = false;
@@ -736,8 +788,117 @@ $("#companyDirectoryHomeNav").click(function () {
     loadDatabase()
 })
 
+//Change page data for Employees
+$("#employeesNav").click(function () {
+
+    $('#companyDirectoryHome').css('display', 'none')
+    $('#companyDirectoryEmployees').css('display', 'block')
+    $('#companyDirectoryDepartments').css('display', 'none')
+    $('#companyDirectoryLocations').css('display', 'none')
+
+    $('#pageTitle').html(`Company Directory`)
+    $('#pageSubTitle').html(`Employees`)
+    $('#pageDepartment').css('display', 'inline-block')
+
+    if ($('#sidePanel').css("position") === "absolute") {
+        navOpen = false;
+        $('#sidePanel').animate({ 'left': '-580px' })
+    }
+
+    // Update chosen department with ID and reload employees
+    getEmployees(0)
+})
+
+//Change page data for Departments
+$("#departmentsNav").click(function () {
+
+    let totalDepartments = GLOBAL_departments.length
+
+    $('#stat2').css('display', 'none')
+    $('#total').html(totalDepartments);
+    $('#totalWhat').html('Departments');
+    $('#newest').html('');
+    $('#newestLast').html('');
+
+    $('#companyDirectoryHome').css('display', 'none')
+    $('#companyDirectoryEmployees').css('display', 'none')
+    $('#companyDirectoryDepartments').css('display', 'block')
+    $('#companyDirectoryLocations').css('display', 'none')
+
+    $('#pageTitle').html(`Company Directory`)
+    $('#pageSubTitle').html(`Departments`)
+    $('#pageDepartment').css('display', 'none')
+
+    if ($('#sidePanel').css("position") === "absolute") {
+        navOpen = false;
+        $('#sidePanel').animate({ 'left': '-580px' })
+    }
+})
+
+//Change page data for Locations
+$("#locationsNav").click(function () {
+
+    let totalLocations = GLOBAL_locations.length
+
+    $('#stat2').css('display', 'none')
+    $('#total').html(totalLocations);
+    $('#totalWhat').html('Locations');
+    $('#newest').html('');
+    $('#newestLast').html('');
+
+    $('#companyDirectoryHome').css('display', 'none')
+    $('#companyDirectoryEmployees').css('display', 'none')
+    $('#companyDirectoryDepartments').css('display', 'none')
+    $('#companyDirectoryLocations').css('display', 'block')
+
+    $('#pageTitle').html(`Company Directory`)
+    $('#pageSubTitle').html(`Locations`)
+    $('#pageDepartment').css('display', 'none')
+
+    if ($('#sidePanel').css("position") === "absolute") {
+        navOpen = false;
+        $('#sidePanel').animate({ 'left': '-580px' })
+    }
+})
+
+
+
+
+
+//Change form data to add a new employee
+$("#addNewEmployee, #addNewEmployeeSC").click(function () {
+    $('#locationForm').css('display', 'none')
+    $('#employeeForm').css('display', 'block')
+    $('#departmentForm').css('display', 'none')
+    $('#deleteLocationForm').css('display', 'none')
+
+    $('#emailTakenEmployee').removeClass('d-block').addClass('d-none')
+    $('#formTitle').html('Add New Employee');
+    $('#submitEmployee').html('Add');
+    $('#deleteEmployee').css('display', 'none');
+    employeeForm.elements['firstName'].value = ''
+    employeeForm.elements['lastName'].value = ''
+    employeeForm.elements['email'].value = ''
+    employeeForm.elements['jobTitle'].value = ''
+    employeeForm.elements['departmentOptions'].value = `${$('#pageDepartment').html()}`
+    employeeForm.elements['id'].value = GLOBAL_hightestEmployeeID + 1
+
+    employeeForm.classList.remove('was-validated')
+    GLOBAL_employeeAddUpdate = 'add'
+})
+
+
+//Delete employee from current form data
+$("#deleteEmployee").click(function () {
+    let deletedId = employeeForm.elements['id'].value
+    $('#modal').modal('hide');
+    deleteEmployee(deletedId)
+})
+
+
+
 //Change form data to add a new department
-$("#addNewDepartment").click(function () {
+$("#addNewDepartment, #addNewDepartmentSC").click(function () {
     $('#locationForm').css('display', 'none')
     $('#employeeForm').css('display', 'none')
     $('#departmentForm').css('display', 'block')
@@ -754,12 +915,24 @@ $("#addNewDepartment").click(function () {
     GLOBAL_departmentAddUpdate = 'add'
 })
 
+
+//Delete department from current form data
+$("#deleteDepartment").click(function () {
+    let deletedId = departmentForm.elements['depId'].value
+    $('#modal').modal('hide');
+    deleteDepartment(deletedId)
+})
+
+
 //Change form data to add a new location
-$("#addNewLocation").click(function () {
+$("#addNewLocation, #addNewLocationSC").click(function () {
     $('#locationForm').css('display', 'block')
     $('#employeeForm').css('display', 'none')
     $('#departmentForm').css('display', 'none')
     $('#deleteLocationForm').css('display', 'none')
+
+    $('#locDeleteInputs').css('display', 'none')
+    $('#noMoveSelected').removeClass('d-block').addClass('d-none')
 
     $('#emailTakenLocation').removeClass('d-block').addClass('d-none')
     $('#formTitle').html('Add New Location');
@@ -772,158 +945,22 @@ $("#addNewLocation").click(function () {
     GLOBAL_locationAddUpdate = 'add'
 })
 
-//Delete location from name
-$("#deleteChosenLocation").click(function () {
-    $('#locationForm').css('display', 'none')
-    $('#employeeForm').css('display', 'none')
-    $('#departmentForm').css('display', 'none')
-    $('#deleteLocationForm').css('display', 'block')
-
-    $('#formTitle').html('Delete a Location');
-    $('#submitLocation').css('display', 'none');
-    $('#deleteLocation').css('display', 'block');
-
-    let name = $("#locLocations")[0].value
-
-    $("#locLocationsMove option").each(function () {
-        if ($(this).val() === name) {
-            $(this).hide()
-        } else {
-            $(this).show()
-        }
-    });
-    $("#locLocationsMove")[0].value = ''
-
-    let foundLocation = GLOBAL_locations.find(loc => loc.name === name)
-    let int = parseInt(foundLocation.id)
-    $("#delLocId")[0].value = int
-
-    locationForm.classList.remove('was-validated')
-    GLOBAL_locationAddUpdate = 'add'
-})
-
-
-
-
-$("#locLocations").change(function () {
-    let name = $("#locLocations")[0].value
-
-    $("#locLocationsMove option").each(function () {
-        if ($(this).val() === name) {
-            $(this).hide()
-        } else {
-            $(this).show()
-        }
-    });
-    $("#locLocationsMove")[0].value = ''
-    $("#delLocIdMove")[0].value = ''
-
-    let foundLocation = GLOBAL_locations.find(loc => loc.name === name)
-    let int = parseInt(foundLocation.id)
-    $("#delLocId")[0].value = int
-})
-
-$("#locLocationsMove").change(function () {
-
-    let name = $("#locLocationsMove")[0].value
-
-    let foundLocation = GLOBAL_locations.find(loc => loc.name === name)
-    let int = parseInt(foundLocation.id)
-    $("#delLocIdMove")[0].value = int
-
-
-})
-
-
-
-//Change form data to add a new employee
-$("#addNewEmployee").click(function () {
-    $('#locationForm').css('display', 'none')
-    $('#employeeForm').css('display', 'block')
-    $('#departmentForm').css('display', 'none')
-    $('#deleteLocationForm').css('display', 'none')
-
-    $('#emailTakenEmployee').removeClass('d-block').addClass('d-none')
-    $('#formTitle').html('Add New Employee');
-    $('#submitEmployee').html('Add');
-    $('#deleteEmployee').css('display', 'none');
-    employeeForm.elements['firstName'].value = ''
-    employeeForm.elements['lastName'].value = ''
-    employeeForm.elements['email'].value = ''
-    employeeForm.elements['jobTitle'].value = ''
-    employeeForm.elements['departmentOptions'].value = `${$('#pageSubTitle').html()}`
-    employeeForm.elements['id'].value = GLOBAL_hightestEmployeeID + 1
-
-    employeeForm.classList.remove('was-validated')
-    GLOBAL_employeeAddUpdate = 'add'
-})
-
-//Delete department from current form data
-$("#deleteDepartment").click(function () {
-    let deletedId = departmentForm.elements['depId'].value
-    $('#modal').modal('hide');
-    deleteDepartment(deletedId)
-})
-
-//Delete employee from current form data
-$("#deleteEmployee").click(function () {
-    let deletedId = employeeForm.elements['id'].value
-    $('#modal').modal('hide');
-    deleteEmployee(deletedId)
-})
 
 //Delete location from current form data
 $("#deleteLocation").click(function () {
-    let deletedId = DeleteLocationForm.elements['delLocId'].value
-    let newId = DeleteLocationForm.elements['delLocIdMove'].value
-    $('#modal').modal('hide');
-    console.log(newId)
-    deleteLocation(deletedId, newId)
-})
-
-//Sort employee table data
-$("th").click(function () {
-    let column = $(this).data('column')
-    let order = $(this).data('order')
-
-    if (order === 'desc') {
-        $(this).data('order', 'asc')
-        getEmployees(GLOBAL_chosenDepartment, { column, order })
+    let deletedId = locationForm.elements['locId'].value
+    let newDepId = locationForm.elements['locLocationsMoveId'].value
+    if (newDepId !== '') {
+        $('#modal').modal('hide');
+        deleteLocation(deletedId, newDepId)
     } else {
-        $(this).data('order', 'desc')
-        getEmployees(GLOBAL_chosenDepartment, { column, order })
+        $('#noMoveSelected').removeClass('d-none').addClass('d-block')
     }
 })
 
 
-//Change form data to update a department
-$('body').on('click', ".departmentRow", function () {
-
-    //If not a header
-    if ($(this).children('th').first().length === 0) {
-
-        let id = $(this).data('id')
-        let location = $(this).data('location')
-        let name = $(this).data('dep')
 
 
-        $('#employeeForm').css('display', 'none')
-        $('#locationForm').css('display', 'none')
-        $('#departmentForm').css('display', 'block')
-        $('#deleteLocationForm').css('display', 'none')
-
-        $('#depNameTaken').removeClass('d-block').addClass('d-none')
-        $('#formTitle').html('Manage Department');
-        $('#submitDepartment').html('Update');
-        $('#deleteDepartment').css('display', 'inline-block');
-        departmentForm.elements['depId'].value = id
-        departmentForm.elements['depLocations'].value = location
-        departmentForm.elements['depName'].value = name
-
-        departmentForm.classList.remove('was-validated')
-        GLOBAL_departmentAddUpdate = 'update'
-    }
-})
 
 //Change form data to update an employee
 $('body').on('click', ".employeeRow", function () {
@@ -939,10 +976,11 @@ $('body').on('click', ".employeeRow", function () {
         let email = $(this).data('email')
 
         $('#emailTakenEmployee').removeClass('d-block').addClass('d-none')
+
+
         $('#employeeForm').css('display', 'block')
         $('#locationForm').css('display', 'none')
         $('#departmentForm').css('display', 'none')
-        $('#deleteLocationForm').css('display', 'none')
 
         $('#formTitle').html('Manage Employee');
         $('#submitEmployee').html('Update');
@@ -960,24 +998,91 @@ $('body').on('click', ".employeeRow", function () {
 })
 
 
-let navOpen = false;
-$('body').on('click', "#navToggle", function () {
-    console.log(navOpen)
-    if (!navOpen) {
-        $('#sidePanel').animate({ 'left': '0' })
-        navOpen = true;
-    } else {
-        navOpen = false;
-        $('#sidePanel').animate({ 'left': '-580px' })
+
+//Change form data to update a department
+$('body').on('click', ".departmentRow", function () {
+
+    //If not a header
+    if ($(this).children('th').first().length === 0) {
+
+        let id = $(this).data('id')
+        let location = $(this).data('location')
+        let name = $(this).data('dep')
+
+
+        $('#employeeForm').css('display', 'none')
+        $('#locationForm').css('display', 'none')
+        $('#departmentForm').css('display', 'block')
+
+        $('#depNameTaken').removeClass('d-block').addClass('d-none')
+        $('#formTitle').html('Manage Department');
+        $('#submitDepartment').html('Update');
+        $('#deleteDepartment').css('display', 'inline-block');
+        departmentForm.elements['depId'].value = id
+        departmentForm.elements['depLocations'].value = location
+        departmentForm.elements['depName'].value = name
+
+        departmentForm.classList.remove('was-validated')
+        GLOBAL_departmentAddUpdate = 'update'
     }
 })
 
-$('body').on('click', "#closeNav", function () {
-    $('#sidePanel').animate({ 'left': '-580px' })
-    navOpen = false;
+
+//Change form data to update a location
+$('body').on('click', ".locationRow", function () {
+
+    //If not a header
+    if ($(this).children('th').first().length === 0) {
+
+        let id = $(this).data('id')
+        let location = $(this).data('name')
+
+        $("#locLocationsMove option").each(function () {
+            if ($(this).val() === location) {
+                $(this).hide()
+            } else {
+                $(this).show()
+            }
+        });
+
+        $('#employeeForm').css('display', 'none')
+        $('#locationForm').css('display', 'block')
+        $('#departmentForm').css('display', 'none')
+
+        $('#locDeleteInputs').css('display', 'block')
+        $('#noMoveSelected').removeClass('d-block').addClass('d-none')
+
+        $('#locNameTaken').removeClass('d-block').addClass('d-none')
+        $('#formTitle').html('Manage Location');
+        $('#submitLocation').html('Update');
+        $('#deleteLocation').css('display', 'inline-block');
+        locationForm.elements['locId'].value = id
+        locationForm.elements['locName'].value = location
+        locationForm.elements['locLocationsMove'].value = ''
+        locationForm.elements['locLocationsMoveId'].value = ''
+
+        locationForm.classList.remove('was-validated')
+        GLOBAL_locationAddUpdate = 'update'
+    }
 })
 
 
+
+
+
+//When the employee form is submitted
+employeeForm.addEventListener('submit', e => {
+    if (!employeeForm.checkValidity()) {
+        e.preventDefault()
+    } else {
+        e.preventDefault()
+
+        //Send form data to crud function
+        let formData = $('#employeeForm').serializeArray()
+        updateOrAddEmployee(formData[0], formData[1], formData[2], formData[3], formData[4], formData[5])
+    }
+    employeeForm.classList.add('was-validated')
+})
 
 
 //When the department form is submitted
@@ -996,29 +1101,156 @@ departmentForm.addEventListener('submit', e => {
 
 //When the location form is submitted
 locationForm.addEventListener('submit', e => {
+
+    let formData = $('#locationForm').serializeArray()
+    console.log(formData)
+
+
     if (!locationForm.checkValidity()) {
         e.preventDefault()
     } else {
         e.preventDefault()
 
         //Send form data to crud function
-        let formData = $('#locationForm').serializeArray()
         updateOrAddLocation(formData[0], formData[1])
     }
     locationForm.classList.add('was-validated')
 })
 
-//When the employee form is submitted
 
-employeeForm.addEventListener('submit', e => {
-    if (!employeeForm.checkValidity()) {
-        e.preventDefault()
+
+
+
+
+
+
+
+//Function for typing new location name for add location
+$("#locName").keyup(function () {
+    let name = $("#locName")[0].value
+    let id = $("#locId")[0].value
+    let foundLocation = GLOBAL_locations.find(loc => loc.id === id)
+
+    $("#locLocationsMove option").each(function () {
+        if ($(this).val() === name) {
+            $(this).hide()
+        } else {
+            $(this).show()
+        }
+    });
+
+    let int = parseInt(foundLocation.id)
+    $("#locNameId")[0].value = int
+})
+
+
+//Function for typing in employee search
+$("#searchEmployee").keyup(function () {
+    let search = $("#searchEmployee")[0].value
+    getEmployees(GLOBAL_chosenDepartment, false, search)
+})
+
+
+//Function for selecting location to move departments to
+$("#locLocationsMove").change(function () {
+    let name = $("#locLocationsMove")[0].value
+
+    let foundLocation = GLOBAL_locations.find(loc => loc.name === name)
+    let int = parseInt(foundLocation.id)
+    $("#locLocationsMoveId")[0].value = int
+})
+
+
+//Function to apply department filter
+$("#departmentsFilter").change(function () {
+    let name = $("#departmentsFilter")[0].value
+
+    if (name === 'All') {
+        GLOBAL_chosenDepartment = 0
+        $('#pageDepartment').html(`- All`)
+        $('#addDepartmentType').html(`All`)
+        $('#totalWhat').html(`All Employees`);
+
     } else {
-        e.preventDefault()
-
-        //Send form data to crud function
-        let formData = $('#employeeForm').serializeArray()
-        updateOrAddEmployee(formData[0], formData[1], formData[2], formData[3], formData[4], formData[5])
+        department = GLOBAL_departments.find(dep => dep.name === name)
+        GLOBAL_chosenDepartment = department.id
+        $('#pageDepartment').html(`- ${department.name}`)
+        $('#addDepartmentType').html(`${department.name}`)
     }
-    employeeForm.classList.add('was-validated')
+
+    getEmployees(GLOBAL_chosenDepartment)
+})
+
+
+//Sort table data
+$("th").click(function () {
+
+    $("th span").html('')
+    $("th").css('font-weight', 'normal')
+
+    let column = $(this).data('column')
+    let order = $(this).data('order')
+    let id = $(this).attr('id')
+
+
+    if ($(this).data('table') === 'employees') {
+        $(`#${id}`).css('font-weight', '700')
+        console.log('employees')
+        if (order === 'desc') {
+            $(`#${id} span`).html(' ⇧')
+            $(this).data('order', 'asc')
+            getEmployees(GLOBAL_chosenDepartment, { column, order })
+        } else {
+            $(`#${id} span`).html(' ⇩')
+            $(this).data('order', 'desc')
+            getEmployees(GLOBAL_chosenDepartment, { column, order })
+        }
+    }
+
+    if ($(this).data('table') === 'departments') {
+        $(`#${id}`).css('font-weight', '700')
+        console.log('departments')
+        if (order === 'desc') {
+            $(`#${id} span`).html(' ⇧')
+            $(this).data('order', 'asc')
+            loadDatabase({ column, order }, false)
+        } else {
+            $(`#${id} span`).html(' ⇩')
+            $(this).data('order', 'desc')
+            loadDatabase({ column, order }, false)
+        }
+    }
+
+    if ($(this).data('table') === 'locations') {
+        $(`#${id}`).css('font-weight', '700')
+        console.log('locations')
+        if (order === 'desc') {
+            $(`#${id} span`).html(' ⇧')
+            $(this).data('order', 'asc')
+            loadDatabase(false, { column, order })
+        } else {
+            $(`#${id} span`).html(' ⇩')
+            $(this).data('order', 'desc')
+            loadDatabase(false, { column, order })
+        }
+    }
+})
+
+
+
+//Function to change nav bar open close for smaller devices
+let navOpen = false;
+$('body').on('click', "#navToggle", function () {
+    console.log(navOpen)
+    if (!navOpen) {
+        $('#sidePanel').animate({ 'left': '0' })
+        navOpen = true;
+    } else {
+        navOpen = false;
+        $('#sidePanel').animate({ 'left': '-580px' })
+    }
+})
+$('body').on('click', "#closeNav", function () {
+    $('#sidePanel').animate({ 'left': '-580px' })
+    navOpen = false;
 })
