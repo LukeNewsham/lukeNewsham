@@ -39,23 +39,43 @@
 	$id = mysqli_real_escape_string($conn, $_REQUEST['id']);
 	$newId = mysqli_real_escape_string($conn, $_REQUEST['newId']);
 
-	$preQuery = $conn->prepare('UPDATE department SET locationID = ? WHERE locationID = ? ');
-	$preQuery->bind_param("ii", $newId, $id);
-
-	$preQuery->execute();
+	if ($newId <> 'none') {
+		$preQuery = $conn->prepare('UPDATE department SET locationID = ? WHERE locationID = ? ');
+		$preQuery->bind_param("ii", $newId, $id);
+		$preQuery->execute();		
+	}	
 
 	mysqli_close($conn);
 
+	$conn = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
 
+
+	$preQuery2 = $conn->prepare('SELECT * FROM department WHERE locationID = ?');
+	$preQuery2->bind_param("i", $id);
+	$preQuery2->execute();
+	$preQuery2->bind_result($resultId, $resultName, $resultLocationID);
+	$preQuery2->fetch();
+
+	if (null <> $resultName) {
+		$output['status']['code'] = "400";
+		$output['status']['name'] = "executed";
+		$output['status']['description'] = "Department attached to location";
+		$output['data'] = [$resultId, $resultName, $resultLocationID];
+		mysqli_close($conn);
+		echo json_encode($output);
+		exit;	
+	}
+
+	mysqli_close($conn);
 
 	$conn = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
-	
 
 	$query = $conn->prepare('DELETE FROM location WHERE id = ?');
 	
 	$query->bind_param("i", $id);
 
 	$query->execute();
+	
 	
 	if (false === $query) {
 
@@ -76,7 +96,7 @@
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data'] = [];
+	$output['data'] = [$newId, $resultId, $resultName, $resultLocationID];
 	
 	mysqli_close($conn);
 

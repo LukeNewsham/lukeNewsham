@@ -39,18 +39,38 @@
 	$id = mysqli_real_escape_string($conn, $_REQUEST['id']);
 	$newId = mysqli_real_escape_string($conn, $_REQUEST['newId']);
 
-	$preQuery = $conn->prepare('UPDATE personnel SET departmentID = ? WHERE departmentID = ? ');
-	$preQuery->bind_param("ii", $newId, $id);
+	if ($newId <> 'none') { 
 
-	$preQuery->execute();
+		$preQuery = $conn->prepare('UPDATE personnel SET departmentID = ? WHERE departmentID = ? ');
+		$preQuery->bind_param("ii", $newId, $id);	
+		$preQuery->execute();
+	
+		
+	}
+
+	mysqli_close($conn);	
+	
+	$conn = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
+
+	$preQuery2 = $conn->prepare('SELECT * FROM personnel WHERE departmentID = ?');
+	$preQuery2->bind_param("i", $id);
+	$preQuery2->execute();
+	$preQuery2->bind_result($resultId, $resultFirst, $resultLast, $resultJob, $resultEmail, $resultDepartmentID);
+	$preQuery2->fetch();
+
+	if (null <> $resultFirst) { 
+		$output['status']['code'] = "400";
+		$output['status']['name'] = "executed";
+		$output['status']['description'] = "Employee attached to department";
+		$output['data'] = [$resultId, $resultFirst, $resultLast, $resultJob, $resultEmail, $resultDepartmentID];
+		mysqli_close($conn);
+		echo json_encode($output);
+		exit;	
+	}
 
 	mysqli_close($conn);
 
-
-
 	$conn = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
-
-
 
 	$query = $conn->prepare('DELETE FROM department WHERE id = ?');
 	

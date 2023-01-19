@@ -173,7 +173,7 @@ function loadDatabase(departmentSort, locationSort) {
                         employeesCol.appendChild(employeesColHtml)
                         row.appendChild(employeesCol);
                         row.setAttribute('data-employees', `${employeesInDep.length}`)
-                   
+
                         let optionDelMove = document.createElement('option')
                         let optionDelMoveHtml = document.createTextNode(`${departments[i].name}`)
                         optionDelMove.appendChild(optionDelMoveHtml)
@@ -223,11 +223,13 @@ function loadDatabase(departmentSort, locationSort) {
                 let select = document.getElementById("locationsList")
                 select.innerHTML = ''
 
-                let departmentsInLocNames = []
+
 
 
                 //For all locations
                 for (i = 0; i < locations.length; i++) {
+
+                    let departmentsInLocNames = []
 
                     //Filter out employees which are in location
                     let employeesInLoc = employees.filter(employee => employee.location === locations[i].name)
@@ -262,6 +264,7 @@ function loadDatabase(departmentSort, locationSort) {
                     let departmentsColHtml = document.createTextNode(`(${departmentsInLoc.length}) ${departmentsInLocNames}`)
                     departmentsCol.appendChild(departmentsColHtml)
                     row.appendChild(departmentsCol);
+                    row.setAttribute('data-departments', `${departmentsInLoc.length}`)
 
                     let employeesCol = document.createElement("td");
                     let employeesColHtml = document.createTextNode(`${employeesInLoc.length}`)
@@ -399,7 +402,6 @@ function getEmployees(id, sort, search) {
 
     //If id is 0 (for 'all', not a real department id within the database), load all employees
     if (id === '0' || id === 0) {
-        console.log('getting all')
         URL = 'php/getAll.php'
     }
 
@@ -594,7 +596,6 @@ function updateOrAddDepartment(name, depId, location) {
                 loadDatabase()
                 $('#modal').modal('hide');
             } else {
-                console.log('Location already added')
                 $('#depNameTaken').removeClass('d-none').addClass('d-block')
                 departmentForm.classList.remove('was-validated')
 
@@ -615,7 +616,11 @@ function deleteDepartment(id, newId) {
         success: function (result) {
             if (result.status.code == "200") {
                 //Reload database with the updated data
+                $('#modal').modal('hide');
                 loadDatabase()
+            } else {
+                $('#depGotEmployees').removeClass('d-none').addClass('d-block')
+                departmentForm.classList.remove('was-validated')
             }
         }
     }).error(function (e) {
@@ -667,9 +672,14 @@ function deleteLocation(id, newId) {
         type: 'DELETE',
         success: function (result) {
             if (result.status.code == "200") {
+                console.log(result.data)
 
                 //Reload database with the updated data
                 loadDatabase()
+                $('#modal').modal('hide');
+            } else {
+                $('#locGotDepartments').removeClass('d-none').addClass('d-block')
+                locationForm.classList.remove('was-validated')
             }
         }
     }).error(function (e) {
@@ -735,6 +745,7 @@ function deleteEmployee(id) {
 
                 //Update employee list only to stay on department page
                 getEmployees(GLOBAL_chosenDepartment)
+                $('#modal').modal('hide');
             }
         }
     }).error(function (e) {
@@ -818,11 +829,13 @@ $("#employeesNav").click(function () {
     }
 
     // Update chosen department with ID and reload employees
-    getEmployees(0)
+    loadDatabase()
 })
 
 //Change page data for Departments
 $("#departmentsNav").click(function () {
+
+    loadDatabase()
 
     let totalDepartments = GLOBAL_departments.length
 
@@ -845,10 +858,14 @@ $("#departmentsNav").click(function () {
         navOpen = false;
         $('#sidePanel').animate({ 'left': '-580px' })
     }
+
+   
 })
 
 //Change page data for Locations
 $("#locationsNav").click(function () {
+
+    loadDatabase()
 
     let totalLocations = GLOBAL_locations.length
 
@@ -871,6 +888,8 @@ $("#locationsNav").click(function () {
         navOpen = false;
         $('#sidePanel').animate({ 'left': '-580px' })
     }
+
+    
 })
 
 
@@ -902,8 +921,7 @@ $("#addNewEmployee, #addNewEmployeeSC").click(function () {
 
 //Delete employee from current form data
 $("#deleteEmployee").click(function () {
-    let deletedId = employeeForm.elements['id'].value
-    $('#modal').modal('hide');
+    let deletedId = employeeForm.elements['id'].value    
     deleteEmployee(deletedId)
 })
 
@@ -935,11 +953,17 @@ $("#deleteDepartment").click(function () {
     let newDepId = departmentForm.elements['depDepartmentsMoveId'].value
 
     if (newDepId !== '') {
-        $('#modal').modal('hide');
         deleteDepartment(deletedId, newDepId)
     } else {
         $('#noMoveSelectedDep').removeClass('d-none').addClass('d-block')
     }
+})
+
+//Delete location from current form data
+$("#deleteDepartmentNoEmployees").click(function () {
+    console.log('pressed')
+    let deletedId = departmentForm.elements['depId'].value
+    deleteDepartment(deletedId, 'none')
 })
 
 
@@ -970,11 +994,16 @@ $("#deleteLocation").click(function () {
     let deletedId = locationForm.elements['locId'].value
     let newLocId = locationForm.elements['locLocationsMoveId'].value
     if (newLocId !== '') {
-        $('#modal').modal('hide');
         deleteLocation(deletedId, newLocId)
     } else {
         $('#noMoveSelected').removeClass('d-none').addClass('d-block')
     }
+})
+
+//Delete location from current form data
+$("#deleteLocationNoDepartments").click(function () {
+    let deletedId = locationForm.elements['locId'].value
+    deleteLocation(deletedId, 'none')
 })
 
 
@@ -1027,8 +1056,16 @@ $('body').on('click', ".departmentRow", function () {
         let id = $(this).data('id')
         let location = $(this).data('location')
         let name = $(this).data('dep')
+        let employees = $(this).data('employees')
 
-        console.log($("#depDepartmentsMove option"))
+        if (employees === 0) {
+            $('#depDeleteInputs').css('display', 'none')
+            $('#deleteDepartmentNoEmployees').css('display', 'inline-block');
+        } else {
+            $('#depDeleteInputs').css('display', 'block')
+            $('#deleteDepartmentNoEmployees').css('display', 'none');
+        }
+
 
         $("#depDepartmentsMove option").each(function () {
             if ($(this).val() === name) {
@@ -1042,7 +1079,6 @@ $('body').on('click', ".departmentRow", function () {
         $('#employeeForm').css('display', 'none')
         $('#locationForm').css('display', 'none')
         $('#departmentForm').css('display', 'block')
-        $('#depDeleteInputs').css('display', 'block')
 
         $('#depNameTaken').removeClass('d-block').addClass('d-none')
         $('#formTitle').html('Manage Department');
@@ -1068,9 +1104,18 @@ $('body').on('click', ".locationRow", function () {
 
         let id = $(this).data('id')
         let location = $(this).data('name')
+        let departments = $(this).data('departments')
+
+        if (departments === 0) {
+            $('#locDeleteInputs').css('display', 'none')
+            $('#deleteLocationNoDepartments').css('display', 'inline-block');
+        } else {
+            $('#locDeleteInputs').css('display', 'block')
+            $('#deleteLocationNoDepartments').css('display', 'none');
+        }
 
 
-        $("#locLocationsMove option").each(function () {            
+        $("#locLocationsMove option").each(function () {
             if ($(this).val() === location) {
                 $(this).hide()
             } else {
@@ -1082,9 +1127,8 @@ $('body').on('click', ".locationRow", function () {
         $('#locationForm').css('display', 'block')
         $('#departmentForm').css('display', 'none')
 
-        $('#locDeleteInputs').css('display', 'block')
-        $('#noMoveSelected').removeClass('d-block').addClass('d-none')
 
+        $('#noMoveSelected').removeClass('d-block').addClass('d-none')
         $('#locNameTaken').removeClass('d-block').addClass('d-none')
         $('#formTitle').html('Manage Location');
         $('#submitLocation').html('Update');

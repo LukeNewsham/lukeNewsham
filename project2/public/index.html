@@ -78,7 +78,13 @@
               <div id="depNameTaken" class="d-none mt-3 text-danger">
                 <p> Department name taken. Please choose another </p>
               </div>
+              <div id="depGotEmployees" class="d-none mt-3 text-danger">
+                <p> Department includes employees. Please refresh. </p>
+              </div>
               <button type="submit" class="btn btn-success mt-3 mb-3" id="submitDepartment"> Add </button>
+              <div class="btn btn-danger" id="deleteDepartmentNoEmployees"> Delete </div>
+              
+
 
               <!-- Delete additional inputs -->
               <div id="depDeleteInputs" class="mt-4 border-top">
@@ -104,7 +110,12 @@
               <div id="locNameTaken" class="d-none mt-3 text-danger">
                 <p> Location already added. Please choose another </p>
               </div>
+              <div id="locGotDepartments" class="d-none mt-3 text-danger">
+                <p> Location includes departments. Please refresh. </p>
+              </div>
               <button type="submit" class="btn btn-success mt-3 mb-3" id="submitLocation"> Add </button>
+              <div class="btn btn-danger" id="deleteLocationNoDepartments"> Delete </div>
+              
 
               <!-- Delete additional inputs -->
               <div id="locDeleteInputs" class="mt-4 border-top">
@@ -195,7 +206,7 @@
               <h5> <span id='pageSubTitle'> Home </span> <span id='pageDepartment'> All </span> </h5>
             </div>
           </div>
-          <div id='stats' class="col d-none d-lg-block ">
+          <div id='stats' class="col d-none d-lg-block pe-5">
             <div class="row">
               <div class="col stat text-end" id="stat1">
                 <h5 class="boldText" id='total'> </h5>
