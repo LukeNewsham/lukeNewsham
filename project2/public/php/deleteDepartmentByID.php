@@ -35,10 +35,26 @@
 
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
 	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
+	
+	$id = mysqli_real_escape_string($conn, $_REQUEST['id']);
+	$newId = mysqli_real_escape_string($conn, $_REQUEST['newId']);
+
+	$preQuery = $conn->prepare('UPDATE personnel SET departmentID = ? WHERE departmentID = ? ');
+	$preQuery->bind_param("ii", $newId, $id);
+
+	$preQuery->execute();
+
+	mysqli_close($conn);
+
+
+
+	$conn = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
+
+
 
 	$query = $conn->prepare('DELETE FROM department WHERE id = ?');
 	
-	$query->bind_param("i", $_REQUEST['id']);
+	$query->bind_param("i", $id);
 
 	$query->execute();
 	

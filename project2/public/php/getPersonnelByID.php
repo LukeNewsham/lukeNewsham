@@ -35,9 +35,11 @@
 	// first query - SQL statement accepts parameters and so is prepared to avoid SQL injection.
 	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
+	$id = mysqli_real_escape_string($conn, $_REQUEST['id']);
+
 	$query = $conn->prepare('SELECT `id`, `firstName`, `lastName`, `email`, `jobTitle`, `departmentID` FROM `personnel` WHERE `id` = ?');
 
-	$query->bind_param("i", $_REQUEST['id']);
+	$query->bind_param("i", $id);
 
 	$query->execute();
 	

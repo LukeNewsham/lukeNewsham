@@ -38,7 +38,7 @@ if (mysqli_connect_errno()) {
 // $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
 
-$name = $_REQUEST['name'];
+$name = mysqli_real_escape_string($conn, $_REQUEST['name']);
 
 $queryCheck = $conn->prepare('SELECT * FROM location WHERE name = ? ');
 $queryCheck->bind_param("s", $name);

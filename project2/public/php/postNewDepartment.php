@@ -37,8 +37,8 @@ if (mysqli_connect_errno()) {
 // SQL statement accepts parameters and so is prepared to avoid SQL injection.
 // $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
-$location = $_REQUEST['locationID'];
-$name = $_REQUEST['name'];
+$location = mysqli_real_escape_string($conn, $_REQUEST['locationID']);
+$name = mysqli_real_escape_string($conn, $_REQUEST['name']);
 
 
 

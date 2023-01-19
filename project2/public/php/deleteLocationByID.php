@@ -36,8 +36,8 @@
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
 	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
-	$id = $_REQUEST['id'];
-	$newId = $_REQUEST['newId'];
+	$id = mysqli_real_escape_string($conn, $_REQUEST['id']);
+	$newId = mysqli_real_escape_string($conn, $_REQUEST['newId']);
 
 	$preQuery = $conn->prepare('UPDATE department SET locationID = ? WHERE locationID = ? ');
 	$preQuery->bind_param("ii", $newId, $id);
@@ -45,8 +45,6 @@
 	$preQuery->execute();
 
 	mysqli_close($conn);
-
-
 
 
 

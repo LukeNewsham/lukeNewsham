@@ -36,8 +36,8 @@ if (mysqli_connect_errno()) {
 // SQL statement accepts parameters and so is prepared to avoid SQL injection.
 // $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
-$id = $_REQUEST['id'];
-$name = $_REQUEST['name'];
+$id = mysqli_real_escape_string($conn, $_REQUEST['id']);
+$name = mysqli_real_escape_string($conn, $_REQUEST['name']);
 
 $queryCheck = $conn->prepare('SELECT * FROM location WHERE name = ? ');
 $queryCheck->bind_param("s", $name);
