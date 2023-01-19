@@ -71,8 +71,8 @@ mysqli_close($conn);
 
 $conn = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
 
-$query = $conn->prepare('INSERT INTO personnel (id, firstName, lastName, jobTitle, email, departmentID) VALUES (?, ?, ?, ?, ?, ?)');
-$query->bind_param("issssi", $id, $firstName, $lastName, $jobTitle, $email, $department);
+$query = $conn->prepare('INSERT INTO personnel (firstName, lastName, jobTitle, email, departmentID) VALUES (?, ?, ?, ?, ?)');
+$query->bind_param("ssssi", $firstName, $lastName, $jobTitle, $email, $department);
 
 $query->execute();
 

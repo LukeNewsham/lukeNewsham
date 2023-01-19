@@ -937,12 +937,13 @@ $("#addNewDepartment, #addNewDepartmentSC").click(function () {
     $('#depDeleteInputs').css('display', 'none')
     $('#depNameTaken').removeClass('d-block').addClass('d-none')
     $('#formTitle').html('Add New Department');
+    $('#deleteDepartmentNoEmployees').css('display', 'none');
     $('#submitDepartment').html('Add');
     $('#deleteDepartment').css('display', 'none');
     departmentForm.elements['depName'].value = ''
     departmentForm.elements['depId'].value = GLOBAL_hightestDepartmentID + 1
 
-    employeeForm.classList.remove('was-validated')
+    departmentForm.classList.remove('was-validated')
     GLOBAL_departmentAddUpdate = 'add'
 })
 
@@ -981,6 +982,7 @@ $("#addNewLocation, #addNewLocationSC").click(function () {
     $('#formTitle').html('Add New Location');
     $('#submitLocation').html('Add');
     $('#deleteLocation').css('display', 'none');
+    $('#deleteLocationNoDepartments').css('display', 'none');
     locationForm.elements['locName'].value = ''
     locationForm.elements['locId'].value = GLOBAL_hightestLocationID + 1
 
