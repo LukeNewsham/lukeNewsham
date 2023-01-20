@@ -1,29 +1,10 @@
-h1 {
-    font-size: 2.75rem;
-    font-weight: 800;
-    text-align: center;
-    color: var(--black-color);
-    text-transform: capitalize;
-
-    span {
-        color: var(--secondary-color);
-    }
-
-    @media screen and (min-width: 2000px) {
-        font-size: 4rem;
-    }
-
-    @media screen and (max-width: 450px) {
-        font-size: 2rem;
-    }
-}
-
 h2 {
     font-size: 2.75rem;
     font-weight: 800;
     text-align: center;
     color: var(--black-color);
     text-transform: capitalize;
+    margin-top: 7rem;
 
     span {
         color: var(--secondary-color);
@@ -49,18 +30,25 @@ p {
     }
 }
 
+.icon {
+    height: 100%;
+}
+
 .app {
     background-color: var(--primary-color);
     font-family: var(--font-base);
 }
 
 .container {
+    position: relative;
     width: 100%;
     min-height: 100vh;
     display: flex;
     flex-direction: row;
     scroll-behavior: smooth;
     align-items: center;
+
+    
 }
 
 .flex {
@@ -72,14 +60,19 @@ p {
 .wrapper {
     flex: 1;
     width: 100%;
-    flex-direction: column;
-    padding: 4rem 2rem;
+    flex-direction: column;  
+
 
     @media screen and (max-width: 450px) {
         padding: 4rem 1rem 2rem;
     }
 }
 
+.wave {
+    position: absolute;
+    bottom: -7rem;
+    z-index: 2;
+}
 
 
 .bold-text {
@@ -149,6 +142,9 @@ p {
 }
 
 .navigation {
+    position: absolute;
+    left: 10px;
+    z-index: 10;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -183,9 +179,10 @@ p {
     // }
 }
 
-.whitebg {
-    background-color: white;
-}
+
+
+
+
 
 @media screen and (max-width: 500px) {
 
@@ -198,3 +195,4 @@ p {
         padding: 2rem;
     }
 }
+

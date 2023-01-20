@@ -1,16 +1,13 @@
-#home {
-    position: relative;
-    background-color: rgb(240, 240, 240);
-
-}
-
-
 .header {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     flex: 1;
     width: 100%;
     height: 100%;
     flex-direction: row;
-    padding: 6rem 2rem 0;
+    background-color: white;
 
     @media screen and (min-width: 2000px) {
         padding-top: 8rem;
@@ -25,64 +22,51 @@
     }
 }
 
+
+
 .header-info {
-    flex: 0.65;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    height: 100%;
-
-    @media screen and (max-width: 2000px) {
-        width: 100%;
-        margin-right: 0rem;
-    }
-
+    position: absolute;
+    top: 30%;
+    left: 10rem;
+    z-index: 10;
+    width: 100%;
 }
 
 
 .header-badge {
-    width: 100%;
     display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
     flex-direction: column;
+    width: 30%;
 
-    .badge-cmp,
-    .tag-cmp {
-        padding: 1rem 2rem;
-        border: var(--white-color);
-        border-radius: 1rem;
-        flex-direction: row;
-        width: auto;
-        box-shadow: 0 0 20px rgba(128, 128, 128, 0.51);
-
-    }
-
-    .tag-cmp {
-        flex-direction: column;
-        margin-top: 3rem;
+    .helloPt1 {
+        h1 {
+            font-size: 4rem;
+            font-weight: bolder;
+            color: var(--black-color);
+            text-transform: capitalize;
+        
+            span {
+                color: var(--secondary-color);
+            }
+        
+            @media screen and (max-width: 450px) {
+                font-size: 2rem;
+            }
+        }
 
         p {
-            width: 100%;
-            text-transform: uppercase;
-            text-align: right;
+            font-size: 1rem !important;
+            font-weight: 600;
+
         }
 
 
     }
 
-    span {
-        font-size: 2.5rem;
+    .helloPt2 {
+        margin-top: 2rem;
+        font-size: 1rem;
 
-        @media screen and (min-width: 2000px) {
-            font-size: 5rem;
-        }
-    }
-
-    @media screen and (max-width: 1200px) {
-        justify-content: flex-start;
-        align-items: flex-start;
     }
 
 }
@@ -146,15 +130,11 @@
 }
 
 .header-img {
-    flex: 1;
-    height: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    position: relative;
+    height: 100vh;
+    margin: 0;
 
     img {
-        width: 100%;
+        height: 100vh;
         object-fit: contain;
         z-index: 1;
     }
@@ -169,8 +149,6 @@
         height: 90%;
     }
 
-    @media screen and (max-width: 1200px) {
-        margin: 2rem 0;
-        
-    }
+    
 }
+

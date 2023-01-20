@@ -5,10 +5,22 @@
   --primary-color: #edf2f8;
   --secondary-color: #313bac;
   --black-color: #030303;
-  --lightGray-color: #e4e4e4;
+  --lightGray-color: #f6f6f6;
   --gray-color: #6b7688;
   --brown-color: #46364a;
   --white-color: #ffffff;
+}
+
+.whitebg {
+  background-color: white;
+}
+
+.secondarybg {
+  background-color: var(--secondary-color);
+}
+
+.graybg {
+  background-color: var(--lightGray-color);
 }
 
 * {
@@ -16,6 +28,7 @@
   padding: 0;
   margin: 0;
   scroll-behavior: smooth;
+  font-family: var(--font-base);
 }
 
 html, body {
