@@ -1100,6 +1100,7 @@ $('body').on('click', ".departmentRow", function () {
 
 //Change form data to update a location
 $('body').on('click', ".locationRow", function () {
+    
 
     //If not a header
     if ($(this).children('th').first().length === 0) {
