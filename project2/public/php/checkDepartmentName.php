@@ -37,18 +37,14 @@ if (mysqli_connect_errno()) {
 // $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
 $id = mysqli_real_escape_string($conn, $_REQUEST['id']);
-$location = mysqli_real_escape_string($conn, $_REQUEST['locationID']);
 $name = mysqli_real_escape_string($conn, $_REQUEST['name']);
 
 
 $queryCheck = $conn->prepare('SELECT COUNT(id) FROM department WHERE name = ? and id <> ?');
+
 $queryCheck->bind_param("si", $name, $id);
-
-
 $queryCheck->execute();
-
 $queryCheck->bind_result($result);
-
 $queryCheck->fetch();
 
 if ($result) {
@@ -59,31 +55,6 @@ if ($result) {
 	mysqli_close($conn);
 	echo json_encode($output);
 	exit;	
-}
-
-mysqli_close($conn);
-
-
-$conn = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
-
-$query = $conn->prepare('UPDATE department SET name = ?, locationID = ? WHERE id = ? ');
-$query->bind_param("ssi", $name, $location, $id);
-
-$query->execute();
-
-if (false === $query) {
-
-	$output['status']['code'] = "400";
-	$output['status']['name'] = "executed";
-	$output['status']['description'] = "query failed";
-	$output['data'] = [];
-
-	mysqli_close($conn);
-
-	echo json_encode($output);
-
-	exit;
-
 }
 
 $output['status']['code'] = "200";

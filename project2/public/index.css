@@ -1,3 +1,8 @@
+html {
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
 a {
     cursor: pointer;
 }
@@ -8,45 +13,87 @@ img {
     cursor: pointer;
 }
 
-table thead tr th {
-    position: sticky;
-    z-index: 90;
-    top: 0;
+button {
+    White-space: nowrap;
 }
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0 !important;
+}
+
+table {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+}
+
+table th {
+    border-bottom: 2px solid rgb(86, 141, 190) !important;
+}
+
+table thead th {
+    position: sticky !important;
+    z-index: 90 !important;
+    top: 0 !important;
+}
+
 
 tr {
     cursor: pointer;
+    border-left: 2px solid white !important;
 }
 
-td {    
+
+
+td {
     padding-left: 1.5rem !important;
+    White-space: nowrap;
 }
 
 tr:hover {
-    background-color: rgb(238, 249, 255);
-    transition: 0.3s ease-in-out;
+    background-color: rgb(244, 244, 244);
+    transition: 0.2s ease-in-out;
+    border-left: 2px solid rgb(86, 141, 190) !important;
 }
 
 th {
-    font-weight: normal;
-    background-color: rgb(86, 141, 190) !important;
+    font-weight: bolder;
+    background-color: white !important;
     padding-left: 1.5rem !important;
+    color: rgb(86, 141, 190) !important;
 }
 
-#pageDepartment, #companyDirectoryDepartments, #companyDirectoryEmployees, #companyDirectoryLocations, #stats, #employeeForm {
+#companyDirectoryDepartments,
+#companyDirectoryStats,
+#companyDirectoryLocations {
     display: none;
 }
 
+#companyDirectoryEmployees,
+#companyDirectoryDepartments,
+#companyDirectoryStats,
+#companyDirectoryLocations {
+    height: 80vh !important;
+    margin-top: 3vh !important;
+}
+
+
+
 #sidePanel {
-    max-width: 20rem;
+    max-width: 18rem;
     position: absolute;
     background-color: rgb(30, 79, 123);
     z-index: 100;
     left: -580px;
 }
 
-#homeNav {
-    cursor: pointer 
+#statsNav {
+    cursor: pointer
 }
 
 #companyDirectory {
@@ -54,23 +101,27 @@ th {
 }
 
 #closeNav {
-    font-size: 2rem !important;
+    font-size: 1.5rem !important;
 }
 
-#employeeListTableContainer::-webkit-scrollbar-thumb,#departmentsListTableContainer::-webkit-scrollbar-thumb, #locationsListTableContainer::-webkit-scrollbar-thumb {
+#employeeListTableContainer::-webkit-scrollbar-thumb,
+#departmentsListTableContainer::-webkit-scrollbar-thumb,
+#locationsListTableContainer::-webkit-scrollbar-thumb {
     background-color: rgb(86, 141, 190);
     opacity: 50%;
 }
 
-#employeeListTableContainer::-webkit-scrollbar, #departmentsListTableContainer::-webkit-scrollbar, #locationsListTableContainer::-webkit-scrollbar  {
+#employeeListTableContainer::-webkit-scrollbar,
+#departmentsListTableContainer::-webkit-scrollbar,
+#locationsListTableContainer::-webkit-scrollbar {
     width: 0.4rem;
 }
 
-#companyDirectoryHome::-webkit-scrollbar  {
-    width: 0rem;    
+#companyDirectoryStats::-webkit-scrollbar {
+    width: 0rem;
 }
 
-.navButton:hover, .navSection:hover {
+.navButton:hover {
     background-color: rgb(255, 255, 255) !important;
     font-weight: bold;
     color: rgb(30, 79, 123) !important;
@@ -82,17 +133,87 @@ th {
 }
 
 
-@media (min-width: 992px) {
-    #sidePanel {
-        position: static !important;
-        left: 0rem;
-    }    
+#searchEmployee, #departmentsFilter {
+    min-width: 10rem
+}
+
+.updateCol,
+.deleteCol {
+    width: 2.5rem !important;
+    text-align: right;
+    font-size: 0.9rem;
+}
+
+.updateCol >span,
+.deleteCol >span{
+    opacity: 30% !important;
+}
+
+.updateCol:hover >span,
+.deleteCol:hover >span{
+    opacity: 100% !important;
 }
 
 
+.employeeRow:hover>.deleteCol,
+.departmentRow:hover>.deleteCol,
+.locationRow:hover>.deleteCol,
+.employeeRow:hover>.updateCol,
+.departmentRow:hover>.updateCol,
+.locationRow:hover>.updateCol {
+    /* opacity: 40% !important; */
+}
+
+.deleteHeader,
+.updateHeader,
+.updateCol,
+.deleteCol {
+    padding-left: 0 !important;
+}
+
+@media (min-width: 1200px) {
+    #sidePanel {
+        position: static !important;
+        left: 0rem;
+    }
+}
 
 @media (max-width: 576px) {
+    #pageTitle {
+        display: none
+    }
+
     #sidePanel {
         min-width: 100vw !important;
     }
+
+    .deleteCol>button {
+        opacity: 100 !important;
+    }
+
+    td {
+        padding-left: 1.5rem !important;
+        White-space: normal;
+    }
+
+    .deleteCol,
+    .updateCol {
+        width: 3rem !important
+    }
+
+    .updateCol {
+        display: none
+    }
+
+    li > button{
+        font-size: 1.5rem !important;
+    }
+
+    #companyDirectoryTitle {
+        font-size: 2rem !important;
+
+    }
+
+
+
 }

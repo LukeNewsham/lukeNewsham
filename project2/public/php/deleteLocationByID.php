@@ -50,17 +50,17 @@
 	$conn = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
 
 
-	$preQuery2 = $conn->prepare('SELECT * FROM department WHERE locationID = ?');
+	$preQuery2 = $conn->prepare('SELECT COUNT(id) FROM department WHERE locationID = ?');
 	$preQuery2->bind_param("i", $id);
 	$preQuery2->execute();
-	$preQuery2->bind_result($resultId, $resultName, $resultLocationID);
+	$preQuery2->bind_result($result);
 	$preQuery2->fetch();
 
-	if (null <> $resultName) {
+	if ($result) {
 		$output['status']['code'] = "400";
 		$output['status']['name'] = "executed";
 		$output['status']['description'] = "Department attached to location";
-		$output['data'] = [$resultId, $resultName, $resultLocationID];
+		$output['data'] = [$result];
 		mysqli_close($conn);
 		echo json_encode($output);
 		exit;	
@@ -96,7 +96,7 @@
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data'] = [$newId, $resultId, $resultName, $resultLocationID];
+	$output['data'] = [];
 	
 	mysqli_close($conn);
 

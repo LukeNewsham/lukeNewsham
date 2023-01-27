@@ -52,17 +52,18 @@
 	
 	$conn = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
 
-	$preQuery2 = $conn->prepare('SELECT * FROM personnel WHERE departmentID = ?');
+	$preQuery2 = $conn->prepare('SELECT COUNT(id) FROM personnel WHERE departmentID = ?');
+	
 	$preQuery2->bind_param("i", $id);
 	$preQuery2->execute();
-	$preQuery2->bind_result($resultId, $resultFirst, $resultLast, $resultJob, $resultEmail, $resultDepartmentID);
+	$preQuery2->bind_result($result);
 	$preQuery2->fetch();
 
-	if (null <> $resultFirst) { 
+	if ($result) { 
 		$output['status']['code'] = "400";
 		$output['status']['name'] = "executed";
-		$output['status']['description'] = "Employee attached to department";
-		$output['data'] = [$resultId, $resultFirst, $resultLast, $resultJob, $resultEmail, $resultDepartmentID];
+		$output['status']['description'] = "Employee(s) attached to department";
+		$output['data'] = [$result];
 		mysqli_close($conn);
 		echo json_encode($output);
 		exit;	

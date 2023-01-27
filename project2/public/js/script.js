@@ -14,9 +14,19 @@ let GLOBAL_employeeAddUpdate = ''
 let GLOBAL_departmentAddUpdate = ''
 let GLOBAL_locationAddUpdate = ''
 
-let employeeForm = document.getElementById('employeeForm')
-let departmentForm = document.getElementById('departmentForm')
-let locationForm = document.getElementById('locationForm')
+let addEmployeeForm = document.getElementById('addEmployeeForm')
+let updateEmployeeForm = document.getElementById('updateEmployeeForm')
+let deleteEmployeeForm = document.getElementById('deleteEmployeeForm')
+
+
+let addDepartmentForm = document.getElementById('addDepartmentForm')
+let updateDepartmentForm = document.getElementById('updateDepartmentForm')
+let deleteDepartmentForm = document.getElementById('deleteDepartmentForm')
+
+let addLocationForm = document.getElementById('addLocationForm')
+let updateLocationForm = document.getElementById('updateLocationForm')
+let deleteLocationForm = document.getElementById('deleteLocationForm')
+
 
 let departmentsXValues = [];
 let departmentsYValues = [];
@@ -89,15 +99,14 @@ function loadDatabase(departmentSort, locationSort) {
                 }
 
                 //Select all lists for departments and reset
-                let selectDepartmentOptions = document.getElementById("departmentOptions")
-                selectDepartmentOptions.innerHTML = ''
+                let updateDepartmentOptions = document.getElementById("updateEmployeeDepartmentOptions")
+                updateDepartmentOptions.innerHTML = ''
+                let addDepartmentOptions = document.getElementById("addEmployeeDepartmentOptions")
+                addDepartmentOptions.innerHTML = ''
                 let select = document.getElementById("departmentList")
                 select.innerHTML = ''
                 let selectDepartmentsFilter = document.getElementById("departmentsFilter")
                 selectDepartmentsFilter.innerHTML = ''
-                let selectDeleteMoveLocationOptions = document.getElementById("depDepartmentsMove")
-                selectDeleteMoveLocationOptions.innerHTML = ''
-
 
                 //Reset values for charts
                 departmentsXValues = []
@@ -138,19 +147,26 @@ function loadDatabase(departmentSort, locationSort) {
                         }
 
                         // Add department option to departments select in from
-                        let option = document.createElement('option')
-                        let optionHtml = document.createTextNode(`${departments[i].name}`)
-                        option.appendChild(optionHtml)
-                        selectDepartmentOptions.appendChild(option)
+                        let updateOption = document.createElement('option')
+                        let updateOptionHtml = document.createTextNode(`${departments[i].name}`)
+                        updateOption.appendChild(updateOptionHtml)
+                        updateDepartmentOptions.appendChild(updateOption)
+
+                        // Add department option to departments select in from
+                        let addOption = document.createElement('option')
+                        let addOptionHtml = document.createTextNode(`${departments[i].name}`)
+                        addOption.appendChild(addOptionHtml)
+                        addDepartmentOptions.appendChild(addOption)
 
                         // Add department row and column data to departments table
                         let row = document.createElement("tr");
                         row.className = 'departmentRow'
                         row.setAttribute('data-bs-toggle', 'modal')
-                        row.setAttribute('data-bs-target', '#modal')
+                        row.setAttribute('data-bs-target', '#updateDepartmentModal')
 
 
                         let idCol = document.createElement("td");
+                        idCol.classList = "visually-hidden"
                         let idColHtml = document.createTextNode(`${departments[i].id}`)
                         idCol.appendChild(idColHtml)
                         row.appendChild(idCol);
@@ -160,25 +176,40 @@ function loadDatabase(departmentSort, locationSort) {
                         let depColHtml = document.createTextNode(`${departments[i].name}`)
                         depCol.appendChild(depColHtml)
                         row.appendChild(depCol);
-                        row.setAttribute('data-dep', `${departments[i].name}`)
 
                         let locationCol = document.createElement("td");
+                        locationCol.className = 'd-none d-md-table-cell'
                         let locationColHtml = document.createTextNode(`${departments[i].location}`)
                         locationCol.appendChild(locationColHtml)
                         row.appendChild(locationCol);
-                        row.setAttribute('data-location', `${departments[i].location}`)
 
                         let employeesCol = document.createElement("td");
                         let employeesColHtml = document.createTextNode(`${employeesInDep.length}`)
                         employeesCol.appendChild(employeesColHtml)
                         row.appendChild(employeesCol);
-                        row.setAttribute('data-employees', `${employeesInDep.length}`)
 
-                        let optionDelMove = document.createElement('option')
-                        let optionDelMoveHtml = document.createTextNode(`${departments[i].name}`)
-                        optionDelMove.appendChild(optionDelMoveHtml)
-                        selectDeleteMoveLocationOptions.appendChild(optionDelMove)
+                        let updateCol = document.createElement("td");
+                        updateCol.classList = 'updateCol'
+                        updateCol.setAttribute('data-bs-toggle', 'modal')
+                        updateCol.setAttribute('data-bs-target', '#updateDepartmentModal')
+                        updateCol.setAttribute('data-id', `${departments[i].id}`)
+                        let updateColSpan = document.createElement("span");
+                        let updateColSpanHtml = document.createTextNode(`✏️`)
+                        updateColSpan.appendChild(updateColSpanHtml)
+                        updateCol.appendChild(updateColSpan)
+                        row.appendChild(updateCol);
 
+                        let deleteCol = document.createElement("td");
+                        deleteCol.classList = 'deleteCol deleteDepartmentRow'
+                        deleteCol.setAttribute('data-bs-toggle', 'modal')
+                        deleteCol.setAttribute('data-bs-target', '#deleteDepartmentModal')
+                        deleteCol.setAttribute('data-id', `${departments[i].id}`)
+                        deleteCol.setAttribute('data-employees', `${employeesInDep.length}`)
+                        let deleteColSpan = document.createElement("span");
+                        let deleteColSpanHtml = document.createTextNode(`╳`)
+                        deleteColSpan.appendChild(deleteColSpanHtml)
+                        deleteCol.appendChild(deleteColSpan)
+                        row.appendChild(deleteCol);
                         select.appendChild(row);
                     }
                 }
@@ -214,11 +245,11 @@ function loadDatabase(departmentSort, locationSort) {
 
                 let colorNum = 20
 
-                let selectLocationOptions = document.getElementById("depLocations")
-                selectLocationOptions.innerHTML = ''
+                let updateLocationOptions = document.getElementById("updateDepartmentLocations")
+                updateLocationOptions.innerHTML = ''
 
-                let selectDeleteMoveLocationOptions = document.getElementById("locLocationsMove")
-                selectDeleteMoveLocationOptions.innerHTML = ''
+                let addLocationOptions = document.getElementById("addDepartmentLocations")
+                addLocationOptions.innerHTML = ''
 
                 let select = document.getElementById("locationsList")
                 select.innerHTML = ''
@@ -245,10 +276,10 @@ function loadDatabase(departmentSort, locationSort) {
                     let row = document.createElement("tr");
                     row.className = 'locationRow'
                     row.setAttribute('data-bs-toggle', 'modal')
-                    row.setAttribute('data-bs-target', '#modal')
-                    row.setAttribute('data-id', `${locations[i].id}`)
+                    row.setAttribute('data-bs-target', '#updateLocationModal')
 
                     let idCol = document.createElement("td");
+                    idCol.classList = "visually-hidden"
                     let idColHtml = document.createTextNode(`${locations[i].id}`)
                     idCol.appendChild(idColHtml)
                     row.appendChild(idCol);
@@ -258,35 +289,54 @@ function loadDatabase(departmentSort, locationSort) {
                     let nameColHtml = document.createTextNode(`${locations[i].name}`)
                     nameCol.appendChild(nameColHtml)
                     row.appendChild(nameCol);
-                    row.setAttribute('data-name', `${locations[i].name}`)
 
                     let departmentsCol = document.createElement("td");
                     let departmentsColHtml = document.createTextNode(`(${departmentsInLoc.length}) ${departmentsInLocNames}`)
                     departmentsCol.appendChild(departmentsColHtml)
                     row.appendChild(departmentsCol);
-                    row.setAttribute('data-departments', `${departmentsInLoc.length}`)
 
                     let employeesCol = document.createElement("td");
                     let employeesColHtml = document.createTextNode(`${employeesInLoc.length}`)
                     employeesCol.appendChild(employeesColHtml)
                     row.appendChild(employeesCol);
-                    row.setAttribute('data-employees', `${employeesInLoc.length}`)
+
+                    let updateCol = document.createElement("td");
+                    updateCol.classList = 'updateCol'
+                    updateCol.setAttribute('data-bs-toggle', 'modal')
+                    updateCol.setAttribute('data-bs-target', '#updateLocationModal')
+                    updateCol.setAttribute('data-id', `${locations[i].id}`)
+                    let updateColSpan = document.createElement("span");
+                    let updateColSpanHtml = document.createTextNode(`✏️`)
+                    updateColSpan.appendChild(updateColSpanHtml)
+                    updateCol.appendChild(updateColSpan)
+                    row.appendChild(updateCol);
+
+                    let deleteCol = document.createElement("td");
+                    deleteCol.classList = 'deleteCol deleteLocationRow'
+                    deleteCol.setAttribute('data-bs-toggle', 'modal')
+                    deleteCol.setAttribute('data-bs-target', '#deleteLocationModal')
+                    deleteCol.setAttribute('data-id', `${locations[i].id}`)
+                    deleteCol.setAttribute('data-departments', `${departmentsInLoc.length}`)
+                    let deleteColSpan = document.createElement("span");
+                    let deleteColSpanHtml = document.createTextNode(`╳`)
+                    deleteColSpan.appendChild(deleteColSpanHtml)
+                    deleteCol.appendChild(deleteColSpan)
+                    row.appendChild(deleteCol);
+
 
                     select.appendChild(row);
 
                     //Add location to location select in department form                    
-                    let option = document.createElement('option')
-                    let optionHtml = document.createTextNode(`${locations[i].name}`)
-                    option.appendChild(optionHtml)
-                    selectLocationOptions.appendChild(option)
+                    let addOption = document.createElement('option')
+                    let addOptionHtml = document.createTextNode(`${locations[i].name}`)
+                    addOption.appendChild(addOptionHtml)
+                    addLocationOptions.appendChild(addOption)
 
-                    //Add location to location select move in delete location form                    
-                    let optionDelMove = document.createElement('option')
-                    let optionDelMoveHtml = document.createTextNode(`${locations[i].name}`)
-                    optionDelMove.appendChild(optionDelMoveHtml)
-                    selectDeleteMoveLocationOptions.appendChild(optionDelMove)
-
-
+                    //Add location to location select in department form                    
+                    let updateOption = document.createElement('option')
+                    let updateOptionHtml = document.createTextNode(`${locations[i].name}`)
+                    updateOption.appendChild(updateOptionHtml)
+                    updateLocationOptions.appendChild(updateOption)
 
                     //Add location name to chart x value array
                     locationsXValues.push(locations[i].name)
@@ -474,67 +524,88 @@ function getEmployees(id, sort, search) {
                     //Add employee row to employee table with column data
                     let row = document.createElement("tr");
                     row.setAttribute('data-bs-toggle', 'modal')
-                    row.setAttribute('data-bs-target', '#modal')
+                    row.setAttribute('data-bs-target', '#updateEmployeeModal')
                     row.className = 'employeeRow'
 
                     let idCol = document.createElement("td");
-                    idCol.className = 'd-none d-md-table-cell'
+                    idCol.className = 'd-none d-md-table-cell visually-hidden'
                     let idColHtml = document.createTextNode(`${employees[i].id}`)
                     idCol.appendChild(idColHtml)
                     row.appendChild(idCol);
                     row.setAttribute('data-id', `${employees[i].id}`)
 
-                    let firstNameCol = document.createElement("td");
-                    let firstNameColHtml = document.createTextNode(`${employees[i].firstName}`)
-                    firstNameCol.appendChild(firstNameColHtml)
-                    if (search && employees[i].firstName.toLowerCase().startsWith(search.toLowerCase())) {
-                        firstNameCol.className = 'highlighted'
-                    }
-                    row.appendChild(firstNameCol);
-                    row.setAttribute('data-firstname', `${employees[i].firstName}`)
 
+                    let name = document.createElement("td");
 
-                    let lastNameCol = document.createElement("td");
-                    let lastNameColHtml = document.createTextNode(`${employees[i].lastName}`)
+                    let lastNameCol = document.createElement("span");
+                    let lastNameColHtml = document.createTextNode(`${employees[i].lastName}, `)
                     if (search && employees[i].lastName.toLowerCase().startsWith(search.toLowerCase())) {
                         lastNameCol.className = 'highlighted'
                     }
                     lastNameCol.appendChild(lastNameColHtml)
-                    row.appendChild(lastNameCol);
-                    row.setAttribute('data-lastname', `${employees[i].lastName}`)
+                    name.appendChild(lastNameCol)
+
+                    let firstNameCol = document.createElement("span");
+                    let firstNameColHtml = document.createTextNode(`${employees[i].firstName}`)
+                    if (search && employees[i].firstName.toLowerCase().startsWith(search.toLowerCase())) {
+                        firstNameCol.className = 'highlighted'
+                    }
+                    firstNameCol.appendChild(firstNameColHtml)
+                    name.appendChild(firstNameCol)
+
+                    row.appendChild(name);
 
                     let depCol = document.createElement("td");
                     depCol.className = 'd-none d-md-table-cell'
                     let depColHtml = document.createTextNode(`${employees[i].department} `)
                     depCol.appendChild(depColHtml)
                     row.appendChild(depCol);
-                    row.setAttribute('data-department', `${employees[i].department}`)
 
                     let locationCol = document.createElement("td");
-                    locationCol.className = 'd-none d-xl-table-cell'
+                    locationCol.className = 'd-none d-xxl-table-cell'
                     let locationColHtml = document.createTextNode(`${employees[i].location} `)
                     locationCol.appendChild(locationColHtml)
                     row.appendChild(locationCol);
-                    row.setAttribute('data-location', `${employees[i].location}`)
 
                     let jobTitleCol = document.createElement("td");
-                    jobTitleCol.className = 'd-none d-xl-table-cell'
+                    jobTitleCol.className = 'd-none d-xxl-table-cell'
                     let jobTitleColHtml = document.createTextNode(`${employees[i].jobTitle} `)
                     jobTitleCol.appendChild(jobTitleColHtml)
                     row.appendChild(jobTitleCol);
-                    row.setAttribute('data-jobtitle', `${employees[i].jobTitle}`)
 
                     let emailCol = document.createElement("td");
                     emailCol.className = 'd-none d-xl-table-cell'
                     let emailColHtml = document.createTextNode(`${employees[i].email} `)
                     emailCol.appendChild(emailColHtml)
                     row.appendChild(emailCol);
-                    row.setAttribute('data-email', `${employees[i].email}`)
+
+                    let updateCol = document.createElement("td");
+                    updateCol.classList = 'updateCol'
+                    updateCol.setAttribute('data-bs-toggle', 'modal')
+                    updateCol.setAttribute('data-bs-target', '#updateEmployeeModal')
+                    updateCol.setAttribute('data-id', `${employees[i].id}`)
+                    let updateColSpan = document.createElement("span");
+                    let updateColSpanHtml = document.createTextNode(`✏️`)
+                    updateColSpan.appendChild(updateColSpanHtml)
+                    updateCol.appendChild(updateColSpan)
+                    row.appendChild(updateCol);
+
+                    let deleteCol = document.createElement("td");
+                    deleteCol.classList = 'deleteCol deleteEmployeeRow'
+                    deleteCol.setAttribute('data-bs-toggle', 'modal')
+                    deleteCol.setAttribute('data-bs-target', '#deleteEmployeeModal')
+                    deleteCol.setAttribute('data-id', `${employees[i].id}`)
+                    let deleteColSpan = document.createElement("span");
+                    let deleteColSpanHtml = document.createTextNode(`╳`)
+                    deleteColSpan.appendChild(deleteColSpanHtml)
+                    deleteCol.appendChild(deleteColSpan)
+                    row.appendChild(deleteCol);
+
+
 
                     select.appendChild(row);
                 }
             }
-
         }
     }).error(function (e) {
         console.log(e)
@@ -562,23 +633,78 @@ function getEmployees(id, sort, search) {
 
 
 
-//Functions to change database ----------------------------------------
+//Functions to change database -----------------------------------------------------------------------------------------------------
+
+//Update or Add employee
+function updateOrAddEmployee(first, last, id, department, jobTitle, email) {
+    let URL = "php/postUpdatedEmployee.php"
+    //If global variable is set to 'add', change URL for when submitting
+    if (GLOBAL_employeeAddUpdate === 'add') {
+        URL = "php/postNewEmployee.php"
+    }
+    //Find department data in global variable from location id
+    let foundDepartment = GLOBAL_departments.find(dep => dep.name === department.value)
+    let departmentID = foundDepartment.id
+    //Post new or updated employee to database
+    $.ajax({
+        url: URL,
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            id: id.value,
+            first: first.value,
+            last: last.value,
+            departmentID: departmentID,
+            email: email.value,
+            jobTitle: jobTitle.value
+        },
+        success: function (result) {
+            if (result.status.code == "200") {
+                //Update employee list only to stay on department page
+                getEmployees(GLOBAL_chosenDepartment)
+                $('#addEmployeeModal, #updateEmployeeModal').modal('hide');
+            } else {
+                $('#errorAddEmployeeEmailTaken').removeClass('d-none').addClass('d-block')
+                addEmployeeForm.classList.remove('was-validated')
+                $('#errorUpdateEmployeeEmailTaken').removeClass('d-none').addClass('d-block')
+                updateEmployeeForm.classList.remove('was-validated')
+            }
+        }
+    }).error(function (e) {
+        console.log(e)
+
+    });
+}
+
+//Delete employee
+function deleteEmployee(id) {
+    $.ajax({
+        url: `php/deleteEmployeeByID.php?id=${id}`,
+        type: 'DELETE',
+        success: function (result) {
+            if (result.status.code == "200") {
+                //Update employee list only to stay on department page
+                getEmployees(GLOBAL_chosenDepartment)
+                $('#deleteEmployeeModal').modal('hide');
+            }
+        }
+    }).error(function (e) {
+        console.log(e)
+    });
+}
+
 
 
 //Update or Add department
 function updateOrAddDepartment(name, depId, location) {
-
     let URL = "php/postUpdatedDepartment.php"
-
     //If global variable is set to 'add', change URL for when submitting
     if (GLOBAL_departmentAddUpdate === 'add') {
         URL = "php/postNewDepartment.php"
     }
-
     //Find location data in global variable from location id
     let foundLocation = GLOBAL_locations.find(loc => loc.name === location.value)
     let foundLocationId = foundLocation.id
-
     //Post new or updated department to database
     $.ajax({
         url: URL,
@@ -594,33 +720,52 @@ function updateOrAddDepartment(name, depId, location) {
 
                 //Reload database with the updated data
                 loadDatabase()
-                $('#modal').modal('hide');
+                $('#addDepartmentModal, #updateDepartmentModal').modal('hide');
             } else {
-                $('#depNameTaken').removeClass('d-none').addClass('d-block')
-                departmentForm.classList.remove('was-validated')
-
+                $('#errorAddDepartmentNameTaken').removeClass('d-none').addClass('d-block')
+                addDepartmentForm.classList.remove('was-validated')
+                $('#errorUpdateDepartmentNameTaken').removeClass('d-none').addClass('d-block')
+                updateDepartmentForm.classList.remove('was-validated')
             }
         }
     }).error(function (e) {
         console.log(e)
     });
-
 }
+
+
 
 
 //Delete department
 function deleteDepartment(id, newId) {
+
+    //Get Employees
     $.ajax({
-        url: `php/deleteDepartmentByID.php?id=${id}&newId=${newId}`,
-        type: 'DELETE',
+        dataType: "json",
+        url: `php/checkDepartmentEmployeeCount.php?id=${id}`,
+        async: false,
         success: function (result) {
             if (result.status.code == "200") {
-                //Reload database with the updated data
-                $('#modal').modal('hide');
-                loadDatabase()
+                $('#deleteDepartment').removeClass('d-none').addClass('d-block')
+                $.ajax({
+                    url: `php/deleteDepartmentByID.php?id=${id}&newId=${newId}`,
+                    type: 'DELETE',
+                    success: function (result) {
+                        if (result.status.code == "200") {
+                            //Reload database with the updated data
+                            $('#deleteDepartmentModal').modal('hide');
+                            loadDatabase()
+                        } else {
+                            $('#errorDeleteDepartment').removeClass('d-none').addClass('d-block')
+                            deleteDepartmentForm.classList.remove('was-validated')
+                        }
+                    }
+                }).error(function (e) {
+                    console.log(e)
+                });
             } else {
-                $('#depGotEmployees').removeClass('d-none').addClass('d-block')
-                departmentForm.classList.remove('was-validated')
+                $('#deleteDepartment').removeClass('d-block').addClass('d-none')
+                $('#errorDeleteDepartment').removeClass('d-none').addClass('d-block')
             }
         }
     }).error(function (e) {
@@ -631,14 +776,11 @@ function deleteDepartment(id, newId) {
 
 //Update or Add location
 function updateOrAddLocation(name, id) {
-
     let URL = "php/postUpdatedLocation.php"
-
     //If global variable is set to 'add', change URL for when submitting
     if (GLOBAL_locationAddUpdate === 'add') {
         URL = "php/postNewLocation.php"
     }
-
     //Post new or updated department to database
     $.ajax({
         url: URL,
@@ -650,36 +792,57 @@ function updateOrAddLocation(name, id) {
         },
         success: function (result) {
             if (result.status.code == "200") {
-
                 //Reload database with the updated data
                 loadDatabase()
-                $('#modal').modal('hide');
+                $('#addLocationModal, #updateLocationModal').modal('hide');
             } else {
-                $('#locNameTaken').removeClass('d-none').addClass('d-block')
-                locationForm.classList.remove('was-validated')
+                $('#errorAddLocationNameTaken').removeClass('d-none').addClass('d-block')
+                addLocationForm.classList.remove('was-validated')
+                $('#errorUpdateLocationNameTaken').removeClass('d-none').addClass('d-block')
+                updateLocationForm.classList.remove('was-validated')
             }
         }
     }).error(function (e) {
         console.log(e)
     });
 }
+
+
+
+
 
 
 //Delete location
 function deleteLocation(id, newId) {
+    $('#errorDeleteLocation').removeClass('d-block').addClass('d-none')
+    //Get Employees
     $.ajax({
-        url: `php/deleteLocationByID.php?id=${id}&newId=${newId}`,
-        type: 'DELETE',
+        dataType: "json",
+        url: `php/checkLocationDepartmentCount.php?id=${id}`,
+        async: false,
         success: function (result) {
             if (result.status.code == "200") {
-                console.log(result.data)
+                $('#deleteLocation').removeClass('d-none').addClass('d-block')
 
-                //Reload database with the updated data
-                loadDatabase()
-                $('#modal').modal('hide');
+                $.ajax({
+                    url: `php/deleteLocationByID.php?id=${id}&newId=${newId}`,
+                    type: 'DELETE',
+                    success: function (result) {
+                        if (result.status.code == "200") {
+                            //Reload database with the updated data
+                            loadDatabase()
+                            $('#deleteLocationModal').modal('hide');
+                        } else {
+                            $('#errorDeleteLocation').removeClass('d-none').addClass('d-block')
+                            deleteLocationForm.classList.remove('was-validated')
+                        }
+                    }
+                }).error(function (e) {
+                    console.log(e)
+                });
             } else {
-                $('#locGotDepartments').removeClass('d-none').addClass('d-block')
-                locationForm.classList.remove('was-validated')
+                $('#deleteLocation').removeClass('d-block').addClass('d-none')
+                $('#errorDeleteLocation').removeClass('d-none').addClass('d-block')
             }
         }
     }).error(function (e) {
@@ -689,512 +852,474 @@ function deleteLocation(id, newId) {
 
 
 
-//Update or Add employee
-function updateOrAddEmployee(first, last, id, department, jobTitle, email) {
 
-    let URL = "php/postUpdatedEmployee.php"
 
-    //If global variable is set to 'add', change URL for when submitting
-    if (GLOBAL_employeeAddUpdate === 'add') {
-        URL = "php/postNewEmployee.php"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Nav Bar Event listeners -----------------------------------------------------------------------------------------------------
+
+
+//Function to change nav bar open close for smaller devices
+let navOpen = false;
+$('body').on('click', "#navToggle", function () {
+    if (!navOpen) {
+        $('#sidePanel').animate({ 'left': '0' })
+        navOpen = true;
+    } else {
+        navOpen = false;
+        $('#sidePanel').animate({ 'left': '-580px' })
     }
-
-    //Find department data in global variable from location id
-    let foundDepartment = GLOBAL_departments.find(dep => dep.name === department.value)
-    let departmentID = foundDepartment.id
-
-    //Post new or updated employee to database
-    $.ajax({
-        url: URL,
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            id: id.value,
-            first: first.value,
-            last: last.value,
-            departmentID: departmentID,
-            email: email.value,
-            jobTitle: jobTitle.value
-        },
-        success: function (result) {
-            console.log(result)
-            if (result.status.code == "200") {
-
-                //Update employee list only to stay on department page
-                getEmployees(GLOBAL_chosenDepartment)
-                $('#modal').modal('hide');
-            } else {
-                $('#emailTakenEmployee').removeClass('d-none').addClass('d-block')
-                employeeForm.classList.remove('was-validated')
-            }
-        }
-    }).error(function (e) {
-        console.log(e)
-
-    });
-}
-
-
-//Delete employee
-function deleteEmployee(id) {
-    $.ajax({
-        url: `php/deleteEmployeeByID.php?id=${id}`,
-        type: 'DELETE',
-        success: function (result) {
-            if (result.status.code == "200") {
-
-                //Update employee list only to stay on department page
-                getEmployees(GLOBAL_chosenDepartment)
-                $('#modal').modal('hide');
-            }
-        }
-    }).error(function (e) {
-        console.log(e)
-    });
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Event listeners ----------------------------------------
+})
+$('body').on('click', "#closeNav", function () {
+    $('#sidePanel').animate({ 'left': '-580px' })
+    navOpen = false;
+})
 
 //Change page data for Home
-$("#homeNav").click(function () {
-    $('#companyDirectoryHome').css('display', 'flex')
+$("#statsNav").click(function () {
+    loadDatabase()
+    $('#companyDirectoryStats').css('display', 'flex')
     $('#companyDirectoryEmployees').css('display', 'none')
     $('#companyDirectoryDepartments').css('display', 'none')
     $('#companyDirectoryLocations').css('display', 'none')
     $('#stats').css('display', 'none')
-    $('#pageSubTitle').html(`Home`)
+    $('#pageSubTitle').html(`Stats`)
     $('#pageDepartment').css('display', 'none')
     $('#pageDepartment').html('- All')
     $('#totalWhat').html('Employees');
-
     if ($('#sidePanel').css("position") === "absolute") {
         navOpen = false;
         $('#sidePanel').animate({ 'left': '-580px' })
-    }
-
-    loadDatabase()
+    }    
 })
 
 //Change page data for Employees
 $("#employeesNav").click(function () {
-
-    $('#companyDirectoryHome').css('display', 'none')
+    loadDatabase()
+    $('#companyDirectoryStats').css('display', 'none')
     $('#companyDirectoryEmployees').css('display', 'block')
     $('#companyDirectoryDepartments').css('display', 'none')
     $('#companyDirectoryLocations').css('display', 'none')
-
     $('#pageTitle').html(`Company Directory`)
     $('#pageSubTitle').html(`Employees`)
     $('#pageDepartment').css('display', 'inline-block')
     $('#totalWhat').html('Employees');
-
     if ($('#sidePanel').css("position") === "absolute") {
         navOpen = false;
         $('#sidePanel').animate({ 'left': '-580px' })
-    }
-
-    // Update chosen department with ID and reload employees
-    loadDatabase()
+    }    
 })
 
 //Change page data for Departments
 $("#departmentsNav").click(function () {
-
     loadDatabase()
-
     let totalDepartments = GLOBAL_departments.length
-
     $('#stat2').css('display', 'none')
     $('#total').html(totalDepartments);
     $('#totalWhat').html('Departments');
     $('#newest').html('');
     $('#newestLast').html('');
-
-    $('#companyDirectoryHome').css('display', 'none')
+    $('#companyDirectoryStats').css('display', 'none')
     $('#companyDirectoryEmployees').css('display', 'none')
     $('#companyDirectoryDepartments').css('display', 'block')
     $('#companyDirectoryLocations').css('display', 'none')
-
     $('#pageTitle').html(`Company Directory`)
     $('#pageSubTitle').html(`Departments`)
     $('#pageDepartment').css('display', 'none')
-
     if ($('#sidePanel').css("position") === "absolute") {
         navOpen = false;
         $('#sidePanel').animate({ 'left': '-580px' })
     }
-
-   
 })
 
 //Change page data for Locations
 $("#locationsNav").click(function () {
-
     loadDatabase()
-
     let totalLocations = GLOBAL_locations.length
-
     $('#stat2').css('display', 'none')
     $('#total').html(totalLocations);
     $('#totalWhat').html('Locations');
     $('#newest').html('');
     $('#newestLast').html('');
-
-    $('#companyDirectoryHome').css('display', 'none')
+    $('#companyDirectoryStats').css('display', 'none')
     $('#companyDirectoryEmployees').css('display', 'none')
     $('#companyDirectoryDepartments').css('display', 'none')
     $('#companyDirectoryLocations').css('display', 'block')
-
     $('#pageTitle').html(`Company Directory`)
     $('#pageSubTitle').html(`Locations`)
     $('#pageDepartment').css('display', 'none')
-
     if ($('#sidePanel').css("position") === "absolute") {
         navOpen = false;
         $('#sidePanel').animate({ 'left': '-580px' })
     }
+})
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Modal Event listeners -----------------------------------------------------------------------------------------------------
+
+
+
+//Add a new employee
+$('#addEmployeeModal').on('shown.bs.modal', function (e) {
+    $('#errorAddEmployeeEmailTaken').removeClass('d-block').addClass('d-none')
+    addEmployeeForm.classList.remove('was-validated')
+    $('#addEmployeeFirstName').focus();
+})
+
+//Add a new department
+$('#addDepartmentModal').on('shown.bs.modal', function (e) {
+    $('#errorAddDepartmentNameTaken').removeClass('d-block').addClass('d-none')
+    addDepartmentForm.classList.remove('was-validated')
+    $('#addDepartmentName').focus();
+
+})
+
+//Add a new location
+$('#addLocationModal').on('shown.bs.modal', function (e) {    
+    $('#errorAddLocationNameTaken').removeClass('d-block').addClass('d-none')
+    addLocationForm.classList.remove('was-validated')
+    $('#addLocationName').focus();
+})
+
+
+//Update employee
+$('body').on('click', ".updateEmployeeRow, .employeeRow", function () {
+    //If not a header
+    if ($(this).children('th').first().length === 0) {
+        let id = $(this).data('id')
+        //Get Employee Data
+        $.ajax({
+            dataType: "json",
+            url: `php/getPersonnelById.php?id=${id}`,
+            async: false,
+            success: function (result) {
+                updateEmployeeForm.elements['updateEmployeeId'].value = id
+                updateEmployeeForm.elements['updateEmployeeFirstName'].value = result.data[1]
+                updateEmployeeForm.elements['updateEmployeeLastName'].value = result.data[2]
+                updateEmployeeForm.elements['updateEmployeeEmail'].value = result.data[3]
+                updateEmployeeForm.elements['updateEmployeeJobTitle'].value = result.data[4]
+                updateEmployeeForm.elements['updateEmployeeDepartmentOptions'].value = result.data[5]
+            }
+        }).error(function (e) {
+            console.log(e)
+        });
+        $('#errorUpdateEmployeeEmailTaken').removeClass('d-block').addClass('d-none')
+        updateEmployeeForm.classList.remove('was-validated')
+    }
+})
+$('#updateEmployeeModal').on('shown.bs.modal', function (e) { 
+    $('#updateEmployeeFirstName').focus();
+})
+
+//Update Department
+$('body').on('click', ".updateDepartmentRow, .departmentRow", function () {
+    //If not a header
+    if ($(this).children('th').first().length === 0) {
+        let id = $(this).data('id')
+        //Get Department Data
+        $.ajax({
+            dataType: "json",
+            url: `php/getDepartmentById.php?id=${id}`,
+            async: false,
+            success: function (result) {
+                updateDepartmentForm.elements['updateDepartmentId'].value = id
+                updateDepartmentForm.elements['updateDepartmentName'].value = result.data[1]
+                updateDepartmentForm.elements['updateDepartmentLocations'].value = result.data[2]
+            }
+        }).error(function (e) {
+            console.log(e)
+        });
+        $('#errorUpdateDepartmentNameTaken').removeClass('d-block').addClass('d-none')
+        updateDepartmentForm.classList.remove('was-validated')
+    }
+})
+$('#updateDepartmentModal').on('shown.bs.modal', function (e) { 
+    $('#updateDepartmentName').focus();
+})
+
+//Update location
+$('body').on('click', ".updateLocationRow, .locationRow", function () {
+    //If not a header
+    if ($(this).children('th').first().length === 0) {
+        let id = $(this).data('id')
+        //Get Location Data
+        $.ajax({
+            dataType: "json",
+            url: `php/getLocationById.php?id=${id}`,
+            async: false,
+            success: function (result) {
+                updateLocationForm.elements['updateLocationId'].value = id
+                updateLocationForm.elements['updateLocationName'].value = result.data[1]
+            }
+        }).error(function (e) {
+            console.log(e)
+        });
+        $('#errorUpdateLocationNameTaken').removeClass('d-block').addClass('d-none')
+        updateLocationForm.classList.remove('was-validated')
+    }
+})
+$('#updateLocationModal').on('shown.bs.modal', function (e) { 
+    $('#updateLocationName').focus();
+})
+
+
+
+
+//Delete Employee
+$('body').on('click', ".deleteEmployeeRow", function () {
+    let id = $(this).data('id')
+    //Get Employee Data
+    $.ajax({
+        dataType: "json",
+        url: `php/getPersonnelByID.php?id=${id}`,
+        async: false,
+        success: function (result) {
+            console.log(`${result.data[1]}`)
+            $('#deleteEmployeeFirstName').html(`${result.data[1]}`)
+            $('#deleteEmployeeLastName').html(`${result.data[2]}`)
+            deleteEmployeeForm.elements['deleteEmployeeId'].value = id
+        }
+    }).error(function (e) {
+        console.log(e)
+    });
+})
+
+
+//Delete Department
+$('body').on('click', ".deleteDepartmentRow", function () {
+    let id = $(this).data('id')
     
+    //Get Employees
+    $.ajax({
+        dataType: "json",
+        url: `php/checkDepartmentEmployeeCount.php?id=${id}`,
+        async: false,
+        success: function (result) {
+            if (result.status.code == "200") {
+                $('#deleteDepartment').removeClass('d-none').addClass('d-block')
+                $('#errorDeleteDepartment').removeClass('d-block').addClass('d-none')
+                $('#deleteDepartmentWarning').removeClass('d-none').addClass('d-block')
+            } else {
+                $('#deleteDepartment').removeClass('d-block').addClass('d-none')
+                $('#errorDeleteDepartment').removeClass('d-none').addClass('d-block')
+                $('#deleteDepartmentWarning').removeClass('d-block').addClass('d-none')
+            }
+        }
+    }).error(function (e) {
+        console.log(e)
+    });
+    //Get Department Data
+    $.ajax({
+        dataType: "json",
+        url: `php/getDepartmentById.php?id=${id}`,
+        async: false,
+        success: function (result) {
+            $('#deleteDepartmentName').html(`${result.data[1]}`)
+            deleteDepartmentForm.elements['deleteDepartmentId'].value = id
+        }
+    }).error(function (e) {
+        console.log(e)
+    });
+})
+
+
+
+//Delete Location
+$('body').on('click', ".deleteLocationRow", function () {
+    let id = $(this).data('id')
+    $('#errorDeleteLocation').removeClass('d-block').addClass('d-none')
+    //Get departments
+    $.ajax({
+        dataType: "json",
+        url: `php/checkLocationDepartmentCount.php?id=${id}`,
+        async: false,
+        success: function (result) {
+            if (result.status.code == "200") {
+                $('#deleteLocation').removeClass('d-none').addClass('d-block')
+                $('#errorDeleteLocation').removeClass('d-block').addClass('d-none')
+                $('#deleteLocationWarning').removeClass('d-none').addClass('d-block')
+            } else {
+                $('#deleteLocation').removeClass('d-block').addClass('d-none')
+                $('#errorDeleteLocation').removeClass('d-none').addClass('d-block')
+                $('#deleteLocationWarning').removeClass('d-block').addClass('d-none')
+            }
+        }
+    }).error(function (e) {
+        console.log(e)
+    });
+    //Get Location Data
+    $.ajax({
+        dataType: "json",
+        url: `php/getLocationById.php?id=${id}`,
+        async: false,
+        success: function (result) {
+            $('#deleteLocationName').html(`${result.data[1]}`)
+            deleteLocationForm.elements['deleteLocationId'].value = id
+        }
+    }).error(function (e) {
+        console.log(e)
+    });
 })
 
 
 
 
 
-//Change form data to add a new employee
-$("#addNewEmployee, #addNewEmployeeSC").click(function () {
-    $('#locationForm').css('display', 'none')
-    $('#employeeForm').css('display', 'block')
-    $('#departmentForm').css('display', 'none')
-    $('#deleteLocationForm').css('display', 'none')
 
-    $('#emailTakenEmployee').removeClass('d-block').addClass('d-none')
-    $('#formTitle').html('Add New Employee');
-    $('#submitEmployee').html('Add');
-    $('#deleteEmployee').css('display', 'none');
-    employeeForm.elements['firstName'].value = ''
-    employeeForm.elements['lastName'].value = ''
-    employeeForm.elements['email'].value = ''
-    employeeForm.elements['jobTitle'].value = ''
-    employeeForm.elements['departmentOptions'].value = `${$('#pageDepartment').html()}`
-    employeeForm.elements['id'].value = GLOBAL_hightestEmployeeID + 1
 
-    employeeForm.classList.remove('was-validated')
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Form submits -----------------------------------------------------------------------------------------------------
+
+
+addEmployeeForm.addEventListener('submit', e => {
     GLOBAL_employeeAddUpdate = 'add'
+    if (!addEmployeeForm.checkValidity()) {
+        e.preventDefault()
+    } else {
+        e.preventDefault()
+        //Send form data to crud function
+        let formData = $('#addEmployeeForm').serializeArray()
+        updateOrAddEmployee(formData[0], formData[1], formData[2], formData[3], formData[4], formData[5])
+    }
+    addEmployeeForm.classList.add('was-validated')
 })
 
 
-//Delete employee from current form data
-$("#deleteEmployee").click(function () {
-    let deletedId = employeeForm.elements['id'].value    
+updateEmployeeForm.addEventListener('submit', e => {
+    GLOBAL_employeeAddUpdate = 'update'
+    if (!updateEmployeeForm.checkValidity()) {
+        e.preventDefault()
+    } else {
+        e.preventDefault()
+        let formData = $('#updateEmployeeForm').serializeArray()
+        updateOrAddEmployee(formData[0], formData[1], formData[2], formData[3], formData[4], formData[5])
+    }
+    updateEmployeeForm.classList.add('was-validated')
+})
+
+
+deleteEmployeeForm.addEventListener('submit', e => {
+    e.preventDefault()
+    let deletedId = deleteEmployeeForm.elements['deleteEmployeeId'].value
     deleteEmployee(deletedId)
 })
 
 
 
-//Change form data to add a new department
-$("#addNewDepartment, #addNewDepartmentSC").click(function () {
-    $('#locationForm').css('display', 'none')
-    $('#employeeForm').css('display', 'none')
-    $('#departmentForm').css('display', 'block')
-    $('#deleteLocationForm').css('display', 'none')
-
-    $('#depDeleteInputs').css('display', 'none')
-    $('#depNameTaken').removeClass('d-block').addClass('d-none')
-    $('#formTitle').html('Add New Department');
-    $('#deleteDepartmentNoEmployees').css('display', 'none');
-    $('#submitDepartment').html('Add');
-    $('#deleteDepartment').css('display', 'none');
-    departmentForm.elements['depName'].value = ''
-    departmentForm.elements['depId'].value = GLOBAL_hightestDepartmentID + 1
-
-    departmentForm.classList.remove('was-validated')
+addDepartmentForm.addEventListener('submit', e => {
     GLOBAL_departmentAddUpdate = 'add'
-})
-
-
-//Delete department from current form data
-$("#deleteDepartment").click(function () {
-    let deletedId = departmentForm.elements['depId'].value
-    let newDepId = departmentForm.elements['depDepartmentsMoveId'].value
-
-    if (newDepId !== '') {
-        deleteDepartment(deletedId, newDepId)
-    } else {
-        $('#noMoveSelectedDep').removeClass('d-none').addClass('d-block')
-    }
-})
-
-//Delete location from current form data
-$("#deleteDepartmentNoEmployees").click(function () {
-    console.log('pressed')
-    let deletedId = departmentForm.elements['depId'].value
-    deleteDepartment(deletedId, 'none')
-})
-
-
-//Change form data to add a new location
-$("#addNewLocation, #addNewLocationSC").click(function () {
-    $('#locationForm').css('display', 'block')
-    $('#employeeForm').css('display', 'none')
-    $('#departmentForm').css('display', 'none')
-    $('#deleteLocationForm').css('display', 'none')
-
-    $('#locDeleteInputs').css('display', 'none')
-    $('#noMoveSelected').removeClass('d-block').addClass('d-none')
-
-    $('#emailTakenLocation').removeClass('d-block').addClass('d-none')
-    $('#formTitle').html('Add New Location');
-    $('#submitLocation').html('Add');
-    $('#deleteLocation').css('display', 'none');
-    $('#deleteLocationNoDepartments').css('display', 'none');
-    locationForm.elements['locName'].value = ''
-    locationForm.elements['locId'].value = GLOBAL_hightestLocationID + 1
-
-    locationForm.classList.remove('was-validated')
-    GLOBAL_locationAddUpdate = 'add'
-})
-
-
-//Delete location from current form data
-$("#deleteLocation").click(function () {
-    let deletedId = locationForm.elements['locId'].value
-    let newLocId = locationForm.elements['locLocationsMoveId'].value
-    if (newLocId !== '') {
-        deleteLocation(deletedId, newLocId)
-    } else {
-        $('#noMoveSelected').removeClass('d-none').addClass('d-block')
-    }
-})
-
-//Delete location from current form data
-$("#deleteLocationNoDepartments").click(function () {
-    let deletedId = locationForm.elements['locId'].value
-    deleteLocation(deletedId, 'none')
-})
-
-
-
-
-
-//Change form data to update an employee
-$('body').on('click', ".employeeRow", function () {
-
-    //If not a header
-    if ($(this).children('th').first().length === 0) {
-
-        let id = $(this).data('id')
-        let firstName = $(this).data('firstname')
-        let lastName = $(this).data('lastname')
-        let jobTitle = $(this).data('jobtitle')
-        let department = $(this).data('department')
-        let email = $(this).data('email')
-
-        $('#emailTakenEmployee').removeClass('d-block').addClass('d-none')
-
-
-        $('#employeeForm').css('display', 'block')
-        $('#locationForm').css('display', 'none')
-        $('#departmentForm').css('display', 'none')
-
-        $('#formTitle').html('Manage Employee');
-        $('#submitEmployee').html('Update');
-        $('#deleteEmployee').css('display', 'inline-block');
-        employeeForm.elements['firstName'].value = firstName
-        employeeForm.elements['lastName'].value = lastName
-        employeeForm.elements['email'].value = email
-        employeeForm.elements['jobTitle'].value = jobTitle
-        employeeForm.elements['id'].value = id
-        employeeForm.elements['departmentOptions'].value = department
-
-        employeeForm.classList.remove('was-validated')
-        GLOBAL_employeeAddUpdate = 'update'
-    }
-})
-
-
-
-//Change form data to update a department
-$('body').on('click', ".departmentRow", function () {
-
-    //If not a header
-    if ($(this).children('th').first().length === 0) {
-
-        let id = $(this).data('id')
-        let location = $(this).data('location')
-        let name = $(this).data('dep')
-        let employees = $(this).data('employees')
-
-        if (employees === 0) {
-            $('#depDeleteInputs').css('display', 'none')
-            $('#deleteDepartmentNoEmployees').css('display', 'inline-block');
-        } else {
-            $('#depDeleteInputs').css('display', 'block')
-            $('#deleteDepartmentNoEmployees').css('display', 'none');
-        }
-
-
-        $("#depDepartmentsMove option").each(function () {
-            if ($(this).val() === name) {
-                $(this).hide()
-            } else {
-                $(this).show()
-            }
-        });
-
-
-        $('#employeeForm').css('display', 'none')
-        $('#locationForm').css('display', 'none')
-        $('#departmentForm').css('display', 'block')
-
-        $('#depNameTaken').removeClass('d-block').addClass('d-none')
-        $('#formTitle').html('Manage Department');
-        $('#submitDepartment').html('Update');
-        $('#deleteDepartment').css('display', 'inline-block');
-        departmentForm.elements['depId'].value = id
-        departmentForm.elements['depLocations'].value = location
-        departmentForm.elements['depName'].value = name
-        departmentForm.elements['depDepartmentsMove'].value = ''
-        departmentForm.elements['depDepartmentsMoveId'].value = ''
-
-        departmentForm.classList.remove('was-validated')
-        GLOBAL_departmentAddUpdate = 'update'
-    }
-})
-
-
-//Change form data to update a location
-$('body').on('click', ".locationRow", function () {
-    
-
-    //If not a header
-    if ($(this).children('th').first().length === 0) {
-
-        let id = $(this).data('id')
-        let location = $(this).data('name')
-        let departments = $(this).data('departments')
-
-        if (departments === 0) {
-            $('#locDeleteInputs').css('display', 'none')
-            $('#deleteLocationNoDepartments').css('display', 'inline-block');
-        } else {
-            $('#locDeleteInputs').css('display', 'block')
-            $('#deleteLocationNoDepartments').css('display', 'none');
-        }
-
-
-        $("#locLocationsMove option").each(function () {
-            if ($(this).val() === location) {
-                $(this).hide()
-            } else {
-                $(this).show()
-            }
-        });
-
-        $('#employeeForm').css('display', 'none')
-        $('#locationForm').css('display', 'block')
-        $('#departmentForm').css('display', 'none')
-
-
-        $('#noMoveSelected').removeClass('d-block').addClass('d-none')
-        $('#locNameTaken').removeClass('d-block').addClass('d-none')
-        $('#formTitle').html('Manage Location');
-        $('#submitLocation').html('Update');
-        $('#deleteLocation').css('display', 'inline-block');
-        locationForm.elements['locId'].value = id
-        locationForm.elements['locName'].value = location
-        locationForm.elements['locLocationsMove'].value = ''
-        locationForm.elements['locLocationsMoveId'].value = ''
-
-        locationForm.classList.remove('was-validated')
-        GLOBAL_locationAddUpdate = 'update'
-    }
-})
-
-
-
-
-
-//When the employee form is submitted
-employeeForm.addEventListener('submit', e => {
-    if (!employeeForm.checkValidity()) {
+    if (!addDepartmentForm.checkValidity()) {
         e.preventDefault()
     } else {
         e.preventDefault()
-
-        //Send form data to crud function
-        let formData = $('#employeeForm').serializeArray()
-        updateOrAddEmployee(formData[0], formData[1], formData[2], formData[3], formData[4], formData[5])
-    }
-    employeeForm.classList.add('was-validated')
-})
-
-
-//When the department form is submitted
-departmentForm.addEventListener('submit', e => {
-    if (!departmentForm.checkValidity()) {
-        e.preventDefault()
-    } else {
-        e.preventDefault()
-
-        //Send form data to crud function
-        let formData = $('#departmentForm').serializeArray()
+        let formData = $('#addDepartmentForm').serializeArray()
         updateOrAddDepartment(formData[0], formData[1], formData[2])
     }
-    departmentForm.classList.add('was-validated')
+    addDepartmentForm.classList.add('was-validated')
 })
 
-//When the location form is submitted
-locationForm.addEventListener('submit', e => {
 
-    let formData = $('#locationForm').serializeArray()
-    console.log(formData)
-
-
-    if (!locationForm.checkValidity()) {
+updateDepartmentForm.addEventListener('submit', e => {
+    GLOBAL_departmentAddUpdate = 'update'
+    if (!updateDepartmentForm.checkValidity()) {
         e.preventDefault()
     } else {
         e.preventDefault()
+        let formData = $('#updateDepartmentForm').serializeArray()
+        updateOrAddDepartment(formData[0], formData[1], formData[2])
+    }
+    updateDepartmentForm.classList.add('was-validated')
+})
 
-        //Send form data to crud function
+deleteDepartmentForm.addEventListener('submit', e => {
+    e.preventDefault()
+    let deletedId = deleteDepartmentForm.elements['deleteDepartmentId'].value
+    deleteDepartment(deletedId)
+})
+
+
+addLocationForm.addEventListener('submit', e => {
+    GLOBAL_locationAddUpdate = 'add'
+    if (!addLocationForm.checkValidity()) {
+        e.preventDefault()
+    } else {
+        e.preventDefault()
+        let formData = $('#addLocationForm').serializeArray()
         updateOrAddLocation(formData[0], formData[1])
     }
-    locationForm.classList.add('was-validated')
+    addLocationForm.classList.add('was-validated')
+})
+
+updateLocationForm.addEventListener('submit', e => {
+    GLOBAL_locationAddUpdate = 'update'
+    if (!updateLocationForm.checkValidity()) {
+        e.preventDefault()
+    } else {
+        e.preventDefault()       
+        let formData = $('#updateLocationForm').serializeArray()
+        updateOrAddLocation(formData[0], formData[1])
+    }
+    updateLocationForm.classList.add('was-validated')
+})
+
+deleteLocationForm.addEventListener('submit', e => {
+    e.preventDefault()
+    let deletedId = deleteLocationForm.elements['deleteLocationId'].value
+    deleteLocation(deletedId)
 })
 
 
@@ -1202,6 +1327,180 @@ locationForm.addEventListener('submit', e => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+//Input event listeners -----------------------------------------------------------------------------------------------------
+
+//Function to add email error while typing if taken
+$("#addEmployeeEmail").keyup(function () {
+    let email = $("#addEmployeeEmail")[0].value
+    let id = $("#addEmployeeId")[0].value
+    addEmployeeForm.classList.remove('was-validated')
+    $('#addEmployeeEmail').removeClass('is-invalid')
+    $.ajax({
+        url: 'php/checkEmail.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            id: id,
+            email: email
+        },
+        success: function (result) {
+            if (result.status.code == "200") {
+                $('#errorAddEmployeeEmailTaken').removeClass('d-block').addClass('d-none')
+            } else {
+                $('#errorAddEmployeeEmailTaken').removeClass('d-none').addClass('d-block')
+                $('#addEmployeeEmail').addClass('is-invalid')
+            }
+        }
+    }).error(function (e) {
+        console.log(e)
+    });
+})
+
+//Function to update email error while typing if taken
+$("#updateEmployeeEmail").keyup(function () {
+    let email = $("#updateEmployeeEmail")[0].value
+    let id = $("#updateEmployeeId")[0].value
+    addEmployeeForm.classList.remove('was-validated')
+    $('#updateEmployeeEmail').removeClass('is-invalid')
+    $.ajax({
+        url: 'php/checkEmail.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            id: id,
+            email: email
+        },
+        success: function (result) {
+            if (result.status.code == "200") {
+                $('#errorUpdateEmployeeEmailTaken').removeClass('d-block').addClass('d-none')
+            } else {
+                $('#errorUpdateEmployeeEmailTaken').removeClass('d-none').addClass('d-block')
+                $('#updateEmployeeEmail').addClass('is-invalid')
+            }
+        }
+    }).error(function (e) {
+        console.log(e)
+    });
+})
+
+//Function to add name error while typing if taken
+$("#addDepartmentName").keyup(function () {
+    let name = $("#addDepartmentName")[0].value
+    let id = $("#addDepartmentId")[0].value
+    addEmployeeForm.classList.remove('was-validated')
+    $('#addDepartmentName').removeClass('is-invalid')
+    $.ajax({
+        url: 'php/checkDepartmentName.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            id: id,
+            name: name
+        },
+        success: function (result) {
+            if (result.status.code == "200") {
+                $('#errorAddDepartmentNameTaken').removeClass('d-block').addClass('d-none')
+            } else {
+                $('#errorAddDepartmentNameTaken').removeClass('d-none').addClass('d-block')
+                $('#addDepartmentName').addClass('is-invalid')
+            }
+        }
+    }).error(function (e) {
+        console.log(e)
+    });
+})
+
+//Function to add name error while typing if taken
+$("#updateDepartmentName").keyup(function () {
+    let name = $("#updateDepartmentName")[0].value
+    let id = $("#updateDepartmentId")[0].value
+    updateEmployeeForm.classList.remove('was-validated')
+    $('#updateDepartmentName').removeClass('is-invalid')
+    $.ajax({
+        url: 'php/checkDepartmentName.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            id: id,
+            name: name
+        },
+        success: function (result) {
+            if (result.status.code == "200") {
+                $('#errorUpdateDepartmentNameTaken').removeClass('d-block').addClass('d-none')
+            } else {
+                $('#errorUpdateDepartmentNameTaken').removeClass('d-none').addClass('d-block')
+                $('#updateDepartmentName').addClass('is-invalid')
+            }
+        }
+    }).error(function (e) {
+        console.log(e)
+    });
+})
+
+
+//Function to add name error while typing if taken
+$("#addLocationName").keyup(function () {
+    let name = $("#addLocationName")[0].value
+    let id = $("#addLocationId")[0].value
+    addEmployeeForm.classList.remove('was-validated')
+    $('#addLocationName').removeClass('is-invalid')
+    $.ajax({
+        url: 'php/checkLocationName.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            id: id,
+            name: name
+        },
+        success: function (result) {
+            if (result.status.code == "200") {
+                $('#errorAddLocationNameTaken').removeClass('d-block').addClass('d-none')
+            } else {
+                $('#errorAddLocationNameTaken').removeClass('d-none').addClass('d-block')
+                $('#addLocationName').addClass('is-invalid')
+            }
+        }
+    }).error(function (e) {
+        console.log(e)
+    });
+})
+
+//Function to add name error while typing if taken
+$("#updateLocationName").keyup(function () {
+    let name = $("#updateLocationName")[0].value
+    let id = $("#updateLocationId")[0].value
+    updateEmployeeForm.classList.remove('was-validated')
+    $('#updateLocationName').removeClass('is-invalid')
+    $.ajax({
+        url: 'php/checkLocationName.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            id: id,
+            name: name
+        },
+        success: function (result) {
+            if (result.status.code == "200") {
+                $('#errorUpdateLocationNameTaken').removeClass('d-block').addClass('d-none')
+            } else {
+                $('#errorUpdateLocationNameTaken').removeClass('d-none').addClass('d-block')
+                $('#updateLocationName').addClass('is-invalid')
+            }
+        }
+    }).error(function (e) {
+        console.log(e)
+    });
+})
 
 
 
@@ -1210,7 +1509,6 @@ $("#locName").keyup(function () {
     let name = $("#locName")[0].value
     let id = $("#locId")[0].value
     let foundLocation = GLOBAL_locations.find(loc => loc.id === id)
-
     $("#locLocationsMove option").each(function () {
         if ($(this).val() === name) {
             $(this).hide()
@@ -1218,7 +1516,6 @@ $("#locName").keyup(function () {
             $(this).show()
         }
     });
-
     let int = parseInt(foundLocation.id)
     $("#locNameId")[0].value = int
 })
@@ -1229,7 +1526,6 @@ $("#depName").keyup(function () {
     let name = $("#depName")[0].value
     let id = $("#depId")[0].value
     let foundLocation = GLOBAL_departments.find(dep => dep.id === id)
-
     $("#depDepartmentsMove option").each(function () {
         if ($(this).val() === name) {
             $(this).hide()
@@ -1237,7 +1533,6 @@ $("#depName").keyup(function () {
             $(this).show()
         }
     });
-
     let int = parseInt(foundLocation.id)
     $("#depNameId")[0].value = int
 })
@@ -1253,7 +1548,6 @@ $("#searchEmployee").keyup(function () {
 //Function for selecting location to move departments to
 $("#locLocationsMove").change(function () {
     let name = $("#locLocationsMove")[0].value
-
     let foundLocation = GLOBAL_locations.find(loc => loc.name === name)
     let int = parseInt(foundLocation.id)
     $("#locLocationsMoveId")[0].value = int
@@ -1263,7 +1557,6 @@ $("#locLocationsMove").change(function () {
 $("#depDepartmentsMove").change(function () {
     let name = $("#depDepartmentsMove")[0].value
     let foundDepartment = GLOBAL_departments.find(dep => dep.name === name)
-    console.log(foundDepartment)
     $("#depDepartmentsMoveId")[0].value = foundDepartment.id
 })
 
@@ -1271,38 +1564,45 @@ $("#depDepartmentsMove").change(function () {
 //Function to apply department filter
 $("#departmentsFilter").change(function () {
     let name = $("#departmentsFilter")[0].value
-
     if (name === 'All') {
         GLOBAL_chosenDepartment = 0
         $('#pageDepartment').html(`- All`)
         $('#addDepartmentType').html(`All`)
         $('#totalWhat').html(`All Employees`);
-
     } else {
         department = GLOBAL_departments.find(dep => dep.name === name)
         GLOBAL_chosenDepartment = department.id
         $('#pageDepartment').html(`- ${department.name}`)
         $('#addDepartmentType').html(`${department.name}`)
     }
-
     getEmployees(GLOBAL_chosenDepartment)
 })
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Table event listeners -----------------------------------------------------------------------------------------------------
+
 //Sort table data
 $("th").click(function () {
-
     $("th span").html('')
     $("th").css('font-weight', 'normal')
-
     let column = $(this).data('column')
     let order = $(this).data('order')
     let id = $(this).attr('id')
-
-
     if ($(this).data('table') === 'employees') {
         $(`#${id}`).css('font-weight', '700')
-        console.log('employees')
         if (order === 'desc') {
             $(`#${id} span`).html(' ⇧')
             $(this).data('order', 'asc')
@@ -1313,10 +1613,8 @@ $("th").click(function () {
             getEmployees(GLOBAL_chosenDepartment, { column, order })
         }
     }
-
     if ($(this).data('table') === 'departments') {
         $(`#${id}`).css('font-weight', '700')
-        console.log('departments')
         if (order === 'desc') {
             $(`#${id} span`).html(' ⇧')
             $(this).data('order', 'asc')
@@ -1327,10 +1625,8 @@ $("th").click(function () {
             loadDatabase({ column, order }, false)
         }
     }
-
     if ($(this).data('table') === 'locations') {
         $(`#${id}`).css('font-weight', '700')
-        console.log('locations')
         if (order === 'desc') {
             $(`#${id} span`).html(' ⇧')
             $(this).data('order', 'asc')
@@ -1344,20 +1640,3 @@ $("th").click(function () {
 })
 
 
-
-//Function to change nav bar open close for smaller devices
-let navOpen = false;
-$('body').on('click', "#navToggle", function () {
-    console.log(navOpen)
-    if (!navOpen) {
-        $('#sidePanel').animate({ 'left': '0' })
-        navOpen = true;
-    } else {
-        navOpen = false;
-        $('#sidePanel').animate({ 'left': '-580px' })
-    }
-})
-$('body').on('click', "#closeNav", function () {
-    $('#sidePanel').animate({ 'left': '-580px' })
-    navOpen = false;
-})

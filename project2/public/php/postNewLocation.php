@@ -40,20 +40,21 @@ if (mysqli_connect_errno()) {
 
 $name = mysqli_real_escape_string($conn, $_REQUEST['name']);
 
-$queryCheck = $conn->prepare('SELECT * FROM location WHERE name = ? ');
+$queryCheck = $conn->prepare('SELECT COUNT(id) FROM location WHERE name = ?');
+
 $queryCheck->bind_param("s", $name);
 
 $queryCheck->execute();
 
-$queryCheck->bind_result($resultId, $resultName);
+$queryCheck->bind_result($result);
 
 $queryCheck->fetch();
 
-if (null <> $resultName) {
+if ($result) {
 	$output['status']['code'] = "400";
 	$output['status']['name'] = "executed";
 	$output['status']['description'] = "Location Name taken";
-	$output['data'] = [$resultId, $resultName];
+	$output['data'] = [$result];
 	mysqli_close($conn);
 	echo json_encode($output);
 	exit;	

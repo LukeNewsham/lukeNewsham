@@ -36,31 +36,29 @@ if (mysqli_connect_errno()) {
 // SQL statement accepts parameters and so is prepared to avoid SQL injection.
 // $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
-$id = mysqli_real_escape_string($conn, $_REQUEST['id']);
 $firstName = mysqli_real_escape_string($conn, $_REQUEST['first']);
 $lastName = mysqli_real_escape_string($conn, $_REQUEST['last']);
 $department = mysqli_real_escape_string($conn, $_REQUEST['departmentID']);
 $email = mysqli_real_escape_string($conn, $_REQUEST['email']);
 $jobTitle = mysqli_real_escape_string($conn, $_REQUEST['jobTitle']);
 
-$queryCheck = $conn->prepare('SELECT * FROM personnel WHERE email = ? ');
+$queryCheck = $conn->prepare('SELECT COUNT(id) FROM personnel WHERE email = ?');
 $queryCheck->bind_param("s", $email);
-
 
 $queryCheck->execute();
 
-$queryCheck->bind_result($resultId, $resultFirst, $resultSecond, $resultJob, $resultEmail, $resultDepartmentId);
+$queryCheck->bind_result($result);
 
 $queryCheck->fetch();
 
-if (null <> $resultEmail ) {
-		$output['status']['code'] = "400";
-		$output['status']['name'] = "executed";
-		$output['status']['description'] = "Email taken";
-		$output['data'] = [$resultId, $id];
-		mysqli_close($conn);
-		echo json_encode($output);
-		exit;		
+if ($result) {
+	$output['status']['code'] = "400";
+	$output['status']['name'] = "executed";
+	$output['status']['description'] = "Email taken";
+	$output['data'] = [$result];
+	mysqli_close($conn);
+	echo json_encode($output);
+	exit;
 }
 
 mysqli_close($conn);
@@ -95,7 +93,7 @@ $output['status']['code'] = "200";
 $output['status']['name'] = "ok";
 $output['status']['description'] = "success";
 $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-$output['data'] = [$resultId, $resultFirst, $resultSecond, $resultJob, $resultEmail, $resultDepartmentId];
+$output['data'] = [];
 
 mysqli_close($conn);
 

@@ -41,22 +41,21 @@ $location = mysqli_real_escape_string($conn, $_REQUEST['locationID']);
 $name = mysqli_real_escape_string($conn, $_REQUEST['name']);
 
 
-
-$queryCheck = $conn->prepare('SELECT * FROM department WHERE name = ? ');
+$queryCheck = $conn->prepare('SELECT COUNT(id) FROM department WHERE name = ?');
 $queryCheck->bind_param("s", $name);
 
 
 $queryCheck->execute();
 
-$queryCheck->bind_result($resultId, $resultName, $resultLocationID);
+$queryCheck->bind_result($result);
 
 $queryCheck->fetch();
 
-if (null <> $resultName) {
+if ($result) {
 	$output['status']['code'] = "400";
 	$output['status']['name'] = "executed";
 	$output['status']['description'] = "Department Name taken";
-	$output['data'] = [$resultId, $resultName, $resultLocationID];
+	$output['data'] = [$result];
 	mysqli_close($conn);
 	echo json_encode($output);
 	exit;	
