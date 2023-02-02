@@ -6,11 +6,29 @@ export default{
         {
             name:'title',
             title:'Title',
-            type:'string'
+            type:'string',
+            
         },
         {
             name:'description',
             title:'Description',
+            type:'string'
+        },
+        {
+            name:'qualifications',
+            title:'Qualifications',
+            type:'array',
+            of: [
+                {
+                    name: 'qualification',
+                    title: 'Qualification',
+                    type: 'string'
+                }
+            ]
+        },
+        {
+            name:'disclaimer',
+            title:'Disclaimer',
             type:'string'
         },
         {

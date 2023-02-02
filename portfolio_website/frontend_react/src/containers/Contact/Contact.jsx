@@ -8,39 +8,23 @@ import './Contact.scss'
 
 const Contact = () => {
 
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
+  // const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [isFormSubmitted, setIsFormSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const { name, email, message } = formData
-
-  const handleChangeInput = (e) => {
-    const { name, value } = e.target
-
-    setFormData({ ...formData, [name]: value })
-  }
 
   const handleSubmit = () => {
     setLoading(true);
 
-    const contact = {
-      _type: 'contact',
-      name: name,
-      email: email,
-      message: message
-    }
-
-    client.create(contact)
-      .then(() => {
-        setLoading(false);
-        setIsFormSubmitted(true)
-      })
-
+    setInterval(function () {
+      setLoading(false);
+      setIsFormSubmitted(true)
+    }, 10000)
   }
 
   return (
-    <>
-      <h2> Lets chat </h2>
+    <div className='contact-form flex'>
+      <h2> Lets Connect </h2>
 
       <div className='contact-cards'>
 
@@ -58,29 +42,32 @@ const Contact = () => {
         </div>
       </div>
 
+      <h3> Or use the contact form </h3>
+
 
       {!isFormSubmitted ?
-        <div className='contact-form flex'>
+        <form  method='post' action='https://lukenewshamportfolio.me/php/SMTPMailer.php'>
           <div className='flex'>
-            <input type='text' placeholder='Your Name' name='name' value={name} onChange={handleChangeInput}>
+            <input type='text' placeholder='Your Name' name='name' required>
             </input>
           </div>
           <div className='flex'>
-            <input type='email' placeholder='Your Email' name='email' value={email} onChange={handleChangeInput}>
+            <input type='email' placeholder='Your Email' name='email' required>
             </input>
           </div>
           <div className='flex'>
             <textarea
               className=''
               placeholder='Your Message'
-              value={message}
               name='message'
-              onChange={handleChangeInput} />
+              required>
+            </textarea>
           </div>
-          <button type='button' className='' onClick={handleSubmit}>
+          <button type='submit' className='' onClick={handleSubmit}>
             {loading ? 'Sending...' : 'Send Message'}
           </button>
-        </div>
+        </form>
+
         :
         <div>
           <h3> Thank you for getting in touch! </h3>
@@ -88,8 +75,8 @@ const Contact = () => {
       }
 
 
-    </>
+    </div>
   )
 }
 
-export default AppWrap(Contact, 'contact')
+export default AppWrap(Contact, 'contact', 'graybg')

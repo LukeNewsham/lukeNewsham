@@ -6,6 +6,7 @@ h2 {
     text-transform: capitalize;
     margin-top: 7rem;
 
+
     span {
         color: var(--secondary-color);
     }
@@ -16,11 +17,17 @@ h2 {
 
     @media screen and (max-width: 450px) {
         font-size: 2rem;
+        margin-top: 3rem;
     }
 }
 
+h3 {
+    color: var(--gray-color);
+    margin-top: 1rem;
+}
+
 p {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     text-align: left;
     color: var(--gray-color);
     line-height: 1.5;
@@ -30,6 +37,11 @@ p {
     }
 }
 
+#paralaxWrapper {
+    height: 100vh;
+    overflow-y: auto;
+}
+
 .icon {
     height: 100%;
 }
@@ -37,6 +49,14 @@ p {
 .app {
     background-color: var(--primary-color);
     font-family: var(--font-base);
+
+    #paralax {
+        height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        perspective: 10px;
+
+    }
 }
 
 .container {
@@ -48,8 +68,20 @@ p {
     scroll-behavior: smooth;
     align-items: center;
 
-    
+
 }
+
+
+
+.codeBackground {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    object-fit: cover;
+    transform: translateZ(-10px) scale(2);
+    z-index: -10;
+}
+
 
 .flex {
     display: flex;
@@ -60,19 +92,19 @@ p {
 .wrapper {
     flex: 1;
     width: 100%;
-    flex-direction: column;  
+    flex-direction: column;
 
 
     @media screen and (max-width: 450px) {
-        padding: 4rem 1rem 2rem;
+        padding: 2rem 1rem;
     }
 }
 
-.wave {
-    position: absolute;
-    bottom: -7rem;
-    z-index: 2;
-}
+// .wave {
+//     position: absolute;
+//     bottom: -7rem;
+//     z-index: 2;
+// }
 
 
 .bold-text {
@@ -195,4 +227,3 @@ p {
         padding: 2rem;
     }
 }
-

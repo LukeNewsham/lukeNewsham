@@ -3,9 +3,9 @@ import { AiFillEye, AiFillGithub } from 'react-icons/ai'
 import { animate, motion, useTransform } from 'framer-motion'
 import { urlFor, client } from '../../client'
 import AppWrap from '../../wrapper/AppWrap'
-import './Work.scss'
+import './Projects.scss'
 
-const Work = () => {
+const Projects = () => {
 
   const [activeFilter, setActiveFilter] = useState('All')
   const [animateCard, setAnimateCard] = useState({ y: 0, opacity: 1 })
@@ -39,7 +39,7 @@ const Work = () => {
 
   return (
     <>
-      <h2> Capstone
+      <h2> Full Stack
         <span> Projects </span>
         < br />
       </h2>
@@ -71,7 +71,9 @@ const Work = () => {
           {filterWork.map((work, index) => (
             <div className='work-item flex' key={index}>
               <div className='work-img flex'>
-                {/* <img src={urlFor(work.imgUrl)} alt={work.name} /> */}
+                {work.imgUrl ? <img src={urlFor(work.imgUrl)} alt={work.name} />
+                  : ''}
+
                 <motion.div
                   whileHover={{ opacity: [0, 1] }}
                   transition={{ duration: 0.25, ease: 'easeInOut', staggerChildren: 0.5 }}
@@ -108,11 +110,17 @@ const Work = () => {
               </div>
 
               <div className='work-content flex'>
+                
+                <div className='work-title flex'>
+                  <p> {work.title} </p>
+                </div>
+
+                <p class='used'> {work.used ? work.used : 'No Data'}</p>
 
                 <p style={{ marginTop: 10 }}> {work.description} </p>
-                <div className = 'flex'>
+                <div className='flex'>
 
-                {/* {
+                  {/* {
                   work.tags.map((item) => (
                     <p className = 'work-tag'> {item} </p>
                   ))
@@ -121,9 +129,7 @@ const Work = () => {
                 </div>
 
 
-                <div className='work-title flex'>
-                  <p> {work.title} </p>
-                </div>
+
 
               </div>
 
@@ -139,4 +145,4 @@ const Work = () => {
   )
 }
 
-export default AppWrap(Work, 'work')
+export default AppWrap(Projects, 'projects', 'graybg')

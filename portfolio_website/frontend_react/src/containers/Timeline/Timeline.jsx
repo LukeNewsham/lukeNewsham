@@ -8,6 +8,8 @@ import './Timeline.scss'
 import { GiSchoolBag } from 'react-icons/gi'
 import { IoMdSchool } from 'react-icons/io'
 import { MdOutlineWork } from 'react-icons/md'
+import images from '../../constants/images'
+
 const Timeline = () => {
 
   const [timeline, setTimeline] = useState([])
@@ -24,8 +26,6 @@ const Timeline = () => {
   timelineSorted.sort((a, b) => {
     return a.id - b.id;
   });
-
-  console.log(timelineSorted)
 
   return (
     <>
@@ -59,10 +59,19 @@ const Timeline = () => {
               <h3 className='vertical-timeline-element-title'> {item.title} </h3>
               <h5 className='vertical-timeline-element-subtitle'> {item.location} </h5>
               <p id='description'> {item.description} </p>
-              {item.qualifications ? item.qualifications.map(item => (
-                <p>- {item} </p>
-              )) : ''
-              }
+              <ul>
+                {item.qualifications ? item.qualifications.map(item => (
+                  <li className='qual'>  <img src={images.qualIcon} /> <p> {item} </p> </li>
+
+                )) : ''
+                }
+                {item.achievements ? item.achievements.map(item => (
+                  <li className='ach'> <p> {item} </p> </li>
+
+                )) : ''
+                }
+              </ul>
+
             </VerticalTimelineElement>
 
           })}

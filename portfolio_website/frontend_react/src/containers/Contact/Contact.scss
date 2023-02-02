@@ -5,9 +5,10 @@
 }
 
 .contact-cards {
-    width: 60%;
     display: flex;
-    justify-content: space-evenly;
+    width: 60%;
+    align-items: center;
+    justify-content: space-around;
     align-items: center;
     flex-wrap: wrap-reverse;
     margin: 4rem 2rem 2rem;
@@ -18,12 +19,12 @@
 
 }
 
-
 .contact-card {
     min-width: 290px;
+    max-width: 18rem;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     margin: 1rem 0;
     padding: 1rem;
@@ -42,6 +43,7 @@
         font-weight: 500;
         text-decoration: none;
         color: black;
+        margin: 0 0.5rem;
     }
 
     &:hover {
@@ -57,6 +59,12 @@
     width: 60%;
     flex-direction: column;
     margin: 1rem 2rem;
+    max-width: 40rem;
+
+    form {
+        width: 100%;
+        text-align: center;
+    }
 
     div {
         width: 100%;

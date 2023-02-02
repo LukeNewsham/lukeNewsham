@@ -6,7 +6,7 @@
   --secondary-color: #313bac;
   --black-color: #030303;
   --lightGray-color: #f6f6f6;
-  --gray-color: #6b7688;
+  --gray-color: #444444;
   --brown-color: #46364a;
   --white-color: #ffffff;
 }
@@ -21,6 +21,12 @@
 
 .graybg {
   background-color: var(--lightGray-color);
+}
+
+.codebg {
+  background-image: url("./assets/background.png");
+  background-size: cover;
+  background-position: none;
 }
 
 * {

@@ -36,6 +36,18 @@ export default {
             ]
         },
         {
+            name: 'achievements',
+            title: 'Achievements',
+            type: 'array',
+            of: [
+                {
+                    name: 'achievement',
+                    title: 'Achievement',
+                    type: 'string'
+                }
+            ]
+        },
+        {
             name: 'date',
             title: 'Date',
             type: 'string'
