@@ -32,10 +32,18 @@ Database Integrity
 
 ## AJAX Requests
 
+### GET REQUESTS
+
 #### GET All Employees
 
 ```http
   GET /php/getAll.php
+```
+
+#### GET Employee by ID
+
+```http
+  GET /php/getPersonnelById.php?id=${id}
 ```
 
 #### GET All Departments
@@ -44,17 +52,47 @@ Database Integrity
   GET /php/getAllDepartments.php
 ```
 
+#### GET Department by ID
+
+```http
+  GET /php/getDepartmentById.php?id=${id}
+```
+
+
 #### GET All Locations
 
 ```http
   GET /php/getAllLocations.php
 ```
 
+#### GET Location by ID
+
+```http
+  GET /php/getLocationById.php?id=${id}
+```
+
+
 #### GET All Employees from a Department
 
 ```http
   GET /php/getAllFromDepartment.php?id=${id}
 ```
+
+#### Check Departments attached to Location
+
+```http
+  GET /php/checkLocationDepartmentCount.php
+```
+
+#### Check Employees attached to department
+
+```http
+  GET /php/checkDepartmentEmployeeCount.php
+```
+
+
+
+### POST REQUESTS
 
 #### POST New Employee
 
@@ -86,11 +124,7 @@ Database Integrity
 | `email` | `string` | **Required**. Employee Email |
 | `jobTitle` | `string` | Employee Job Title |
 
-#### DELETE Employee
 
-```http
-  DELETE php/deleteEmployeeByID.php?id=${id}
-```
 
 #### POST New Department
 
@@ -117,25 +151,51 @@ Database Integrity
 | `location` | `string` | **Required**. Department Location ID |
 
 
-
-
-
-
-
-
-
-
-#### Check Employees attached to department
+#### POST New Location
 
 ```http
-  GET /php/checkDepartmentEmployeeCount.php
+  POST /php/postNewLocation.php
 ```
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `api_key` | `string` | **Required**. Your API key |
+| `id` | `string` | **Required**. Location ID |
+| `name` | `string` | **Required**. Location Name |
+
+#### POST Updated Location
+
+```http
+  POST /php/postUpdatedLocation.php
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `id` | `string` | **Required**. Location ID |
+| `name` | `string` | **Required**. Location Name |
 
 
+
+### DELETE REQUESTS
+
+#### DELETE Employee
+
+```http
+  DELETE php/deleteEmployeeByID.php?id=${id}
+```
+
+
+#### DELETE Department
+
+```http
+  DELETE php/deleteDeparmentByID.php?id=${id}
+```
+
+
+#### DELETE Location
+
+```http
+  DELETE php/deleteLocationByID.php?id=${id}
+```
 
 ## Demo
 
