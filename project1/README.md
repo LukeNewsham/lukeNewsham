@@ -51,8 +51,6 @@ Global Search (Modal)
 - (Tab 2 - ISS Location) Allows the user to start and stop showing the location of the ISS on the map
 
 
-
-
 ## Run Locally
 
 To run this project locally, a local php server is required. The instructions below are for XAMPP.
@@ -93,6 +91,30 @@ Go to the frontend
 ```
 
 
+## Screenshots and Demo
+
+#### Shows user location and automatically chooses user country on load
+![Gazetteer Screenshot 1](https://user-images.githubusercontent.com/95356508/218561314-d99d8c1d-f91b-4439-bf50-72c3c408c3f0.png)
+
+#### The amount of city labels change at different zoom levels
+![Gazetteer Screenshot 2](https://user-images.githubusercontent.com/95356508/218561318-71aa3a50-f780-4f00-b92e-d0e4de838b82.png)
+
+#### Pressing on a city changes the chosen city. Able to change the weather data on the city labels
+![Gazetteer Screenshot 3](https://user-images.githubusercontent.com/95356508/218561328-4cb9e79c-b5cf-4a9f-87db-cfd33ece98d8.png)
+![Gazetteer Screenshot 4](https://user-images.githubusercontent.com/95356508/218561340-631ae206-e7ed-424c-b849-4ad44cd0be53.png)
+
+#### Pressing the search icon againts a POI in the modal locates the POI on the map
+![Gazetteer Screenshot 5](https://user-images.githubusercontent.com/95356508/218561352-a6fcaf82-c086-4e36-b99f-3bcd1f3d7ccf.png)
+
+#### The expand button allows the modal to expand
+![Gazetteer Screenshot 6](https://user-images.githubusercontent.com/95356508/218561368-339c3c17-ae7e-48ec-9b14-4ee45d51cf04.png)
+![Gazetteer Screenshot 7](https://user-images.githubusercontent.com/95356508/218561379-b1b58828-f23a-428a-8fdc-a2b5b1c68f3a.png)
+
+#### Global chorepleth map for live temperature data
+![Gazetteer Screenshot 8](https://user-images.githubusercontent.com/95356508/218561394-8c1d0a8f-fa7b-46bf-873a-60383bfc99e7.png)
+
+#### Locates the ISS and tracks movement
+![Gazetteer Screenshot 9](https://user-images.githubusercontent.com/95356508/218561404-874b5b34-d2a7-4745-9c0a-acb38c4ccd4f.png)
 
 ## API Reference
 
