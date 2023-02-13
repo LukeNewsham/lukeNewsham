@@ -28,7 +28,30 @@ Database Integrity
 - Unable to give a department a name that has already been taken
 - Unable to give a location a name that has already been  taken.
 
+## Screenshots and DEMO
 
+
+
+#### Employees Page
+![AD Employees SS](https://user-images.githubusercontent.com/95356508/218555579-8e994b70-f8c0-411e-9e39-6078de0671bf.png)
+
+#### Searching Employees
+![AD Employees Search SS](https://user-images.githubusercontent.com/95356508/218555626-86df823e-9e51-48c8-90dd-5f87549d8856.png)
+
+#### Adding an Employee
+![AD Employees  Add SS](https://user-images.githubusercontent.com/95356508/218555960-02218be1-2768-4312-b6e0-48b803a64d33.png)
+
+#### Departments Page
+![AD Departments SS](https://user-images.githubusercontent.com/95356508/218555647-7299785b-75be-46be-88ee-b8a8d7d2e43e.png)
+
+#### Editing a Department
+![AD Edit Department SS](https://user-images.githubusercontent.com/95356508/218556314-c303ac9f-9554-4104-b22b-996af752d958.png)
+
+#### Locations Page
+![AD Locations SS](https://user-images.githubusercontent.com/95356508/218555637-56962d58-ba65-41ef-b5d3-218578f558c8.png)
+
+#### Stats Page
+![AD Stats SS](https://user-images.githubusercontent.com/95356508/218555655-db9124fd-ec3c-4ff9-8b37-cc03d849909a.png)
 
 ## AJAX Requests
 
@@ -197,8 +220,5 @@ Database Integrity
   DELETE php/deleteLocationByID.php?id=${id}
 ```
 
-## Demo
-
-Insert gif or link to demo
 
 
