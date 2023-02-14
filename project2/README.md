@@ -1,15 +1,15 @@
 
 # Admin Dashboard
 
-An application which allows users to 'create, read, update and delete' data from a company directory MySql database. The data includes employees, deparments and office locations.
+An application which allows users to 'create, read, update and delete' data from a company directory MySql database. The data includes employees, departments and office locations.
 
-This project was created as 'Project 2' for IT Career Switch. I was given a pre made database, and asked to create a user friendly application which would allow a user to create, read, update and delete data while protecting the integrety of the database.
+This project was created as 'Project 2' for IT Career Switch. I was given a pre-made database and asked to create a user-friendly application which would allow a user to create, read, update and delete data while protecting the integrity of the database.
 
-This project took around 4 weeks and allowed me to solidify my full stack knowledge in a real life project.
+This project took around 4 weeks and allowed me to solidify my full stack knowledge in a real-life project.
 
 ## Tech Stack
 
-**Client:** HTML, Css, Bootstrap, jQuery
+**Client:** HTML, CSS, Bootstrap, jQuery
 
 **Server:** Php
 
@@ -31,7 +31,7 @@ Database Integrity
 - Unable to delete a location if there is an employee attached
 - Unable to give an employee an email that has already been taken
 - Unable to give a department a name that has already been taken
-- Unable to give a location a name that has already been  taken.
+- Unable to give a location a name that has already been taken.
 
 ## Screenshots and DEMO
 
@@ -106,13 +106,13 @@ https://clipchamp.com/watch/loZLUF9BjcO
   GET /php/getAllFromDepartment.php?id=${id}
 ```
 
-#### Check Departments attached to Location
+#### Check Departments attached to a location
 
 ```http
   GET /php/checkLocationDepartmentCount.php
 ```
 
-#### Check Employees attached to department
+#### Check Employees attached to a department
 
 ```http
   GET /php/checkDepartmentEmployeeCount.php
