@@ -30,7 +30,7 @@ Database Integrity
 
 ## Screenshots and DEMO
 
-
+https://clipchamp.com/watch/loZLUF9BjcO
 
 #### Employees Page
 ![AD Employees SS](https://user-images.githubusercontent.com/95356508/218555579-8e994b70-f8c0-411e-9e39-6078de0671bf.png)
