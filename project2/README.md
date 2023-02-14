@@ -2,6 +2,11 @@
 # Admin Dashboard
 
 An application which allows users to 'create, read, update and delete' data from a company directory MySql database. The data includes employees, deparments and office locations.
+
+This project was created as 'Project 2' for IT Career Switch. I was given a pre made database, and asked to create a user friendly application which would allow a user to create, read, update and delete data while protecting the integrety of the database.
+
+This project took around 4 weeks and allowed me to solidify my full stack knowledge in a real life project.
+
 ## Tech Stack
 
 **Client:** HTML, Css, Bootstrap, jQuery
