@@ -188,10 +188,3 @@ Go to the frontend
 ```
 
 
-
-
-
-## Demo
-
-Insert gif or link to demo
-
