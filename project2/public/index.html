@@ -16,6 +16,30 @@
   <!--------------------------------- SITE CONTAINER --------------------------------->
   <div class="container-fluid" id="wrapper">
 
+    <!--------------------------------- ALERT MODAL --------------------------------->
+
+    <div id='alertModal' class="modal">
+      <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content justify-content-center">
+          <div class="modal-header text-center w-100">
+            <h3 class="w-100"> Welcome! </h3>
+            <div class='btn-close' data-bs-dismiss="modal" data-bs-modal="#alertModal">
+            </div>
+          </div>
+          <div class="modal-body w-100 text-center">
+              <p> Welcome to the Admin Dashboard Live Demo! </p> <br> 
+              <p> To prevent the database being reset, please leave the database how you found it by doing the following: </p> <br> 
+              <p> - Do not edit or delete any existing data, only your own. </p>
+              <p> - If you create new data, please delete it before closing. </p> <br> 
+              <p> Thank You 😊 </p>
+          </div>
+          <div class="modal-footer mt-4">
+            <div class='btn btn-outline-secondary' data-bs-dismiss="modal" data-bs-modal="#alertModal"> Close
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
     <!--------------------------------- ADD EMPLOYEE MODAL --------------------------------->
@@ -78,7 +102,8 @@
               <label for="lastName" class='form-label mt-3'> Name </label>
               <input type="text" name='lastName' id="updateEmployeeLastName" class="form-control"
                 placeholder="Last Name" required>
-              <input type="number" name="updateEmployeeId" id="updateEmployeeId" class="form-control visually-hidden" readonly>
+              <input type="number" name="updateEmployeeId" id="updateEmployeeId" class="form-control visually-hidden"
+                readonly>
               <label for="updateEmployeeDepartmentOptions" class="form-label mt-3"> Department </label>
               <select name="updateEmployeeDepartmentOptions" id="updateEmployeeDepartmentOptions" class="form-select"
                 required>
@@ -111,7 +136,8 @@
         <div class="modal-content justify-content-center">
           <form id="deleteEmployeeForm" class="p-4" novalidate>
             <div class="modal-header">
-              <h3 class="text-danger"> Delete '<span id="deleteEmployeeFirstName"> Name </span>  <span id="deleteEmployeeLastName"> Name </span>' </h3>
+              <h3 class="text-danger"> Delete '<span id="deleteEmployeeFirstName"> Name </span> <span
+                  id="deleteEmployeeLastName"> Name </span>' </h3>
               <div class='btn-close' data-bs-dismiss="modal" data-bs-modal="#deleteEmployeeModal">
               </div>
             </div>
@@ -229,7 +255,7 @@
                 <p> Employee(s) are in Department. Please relocate to delete. </p>
               </div>
               <input type="number" name='deleteDepartmentId' id="deleteDepartmentId"
-                class="form-control  visually-hidden" readonly>              
+                class="form-control  visually-hidden" readonly>
             </div>
             <div class="modal-footer">
               <button class="btn btn-danger" id="deleteDepartment"> Delete </button>
@@ -336,12 +362,12 @@
             <div class="modal-body d-flex justify-content-center">
               <div id="deleteLocationWarning" class="m-3 text-danger">
                 <p> Are you sure? This can not be reversed. </p>
-              </div>   
+              </div>
               <div id="errorDeleteLocation" class="d-none m-3 text-danger text-center">
                 <p> Department(s) use this location. Please relocate to delete. </p>
-              </div>           
+              </div>
               <input type="number" name='deleteLocationId' id="deleteLocationId" class="form-control  visually-hidden"
-                readonly>              
+                readonly>
             </div>
             <div class="modal-footer">
               <button class="btn btn-danger" id="deleteLocation"> Delete </button>
@@ -452,7 +478,7 @@
             <div class=" row d-flex justify-content-between w-100 m-0 p-0 mb-3 ">
               <div class="col p-0 m-0">
                 <button id='addNewEmployee' class="btn btn-success shadow-sm m-2" data-bs-toggle='modal'
-                  data-bs-target='#addEmployeeModal'>
+                  data-bs-target='#alertModal'>
                   Add Employee
                 </button>
               </div>

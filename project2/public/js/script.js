@@ -1,5 +1,14 @@
 // GLOBAL VARIABLES -----------------------------------------
 
+
+
+$(window).load(function() {
+    $('#alertModal').modal('show');
+});
+
+
+
+
 let GLOBAL_departments = []
 let GLOBAL_locations = []
 let GLOBAL_employees = []
@@ -912,7 +921,7 @@ $("#statsNav").click(function () {
     if ($('#sidePanel').css("position") === "absolute") {
         navOpen = false;
         $('#sidePanel').animate({ 'left': '-580px' })
-    }    
+    }
 })
 
 //Change page data for Employees
@@ -929,7 +938,7 @@ $("#employeesNav").click(function () {
     if ($('#sidePanel').css("position") === "absolute") {
         navOpen = false;
         $('#sidePanel').animate({ 'left': '-580px' })
-    }    
+    }
 })
 
 //Change page data for Departments
@@ -1017,7 +1026,7 @@ $('#addDepartmentModal').on('shown.bs.modal', function (e) {
 })
 
 //Add a new location
-$('#addLocationModal').on('shown.bs.modal', function (e) {    
+$('#addLocationModal').on('shown.bs.modal', function (e) {
     $('#errorAddLocationNameTaken').removeClass('d-block').addClass('d-none')
     addLocationForm.classList.remove('was-validated')
     $('#addLocationName').focus();
@@ -1032,7 +1041,7 @@ $('body').on('click', ".updateEmployeeRow, .employeeRow", function () {
         //Get Employee Data
         $.ajax({
             dataType: "json",
-            url: `php/getPersonnelById.php?id=${id}`,
+            url: `php/getPersonnelByID.php?id=${id}`,
             async: false,
             success: function (result) {
                 updateEmployeeForm.elements['updateEmployeeId'].value = id
@@ -1049,7 +1058,7 @@ $('body').on('click', ".updateEmployeeRow, .employeeRow", function () {
         updateEmployeeForm.classList.remove('was-validated')
     }
 })
-$('#updateEmployeeModal').on('shown.bs.modal', function (e) { 
+$('#updateEmployeeModal').on('shown.bs.modal', function (e) {
     $('#updateEmployeeFirstName').focus();
 })
 
@@ -1061,7 +1070,7 @@ $('body').on('click', ".updateDepartmentRow, .departmentRow", function () {
         //Get Department Data
         $.ajax({
             dataType: "json",
-            url: `php/getDepartmentById.php?id=${id}`,
+            url: `php/getDepartmentByID.php?id=${id}`,
             async: false,
             success: function (result) {
                 updateDepartmentForm.elements['updateDepartmentId'].value = id
@@ -1075,7 +1084,7 @@ $('body').on('click', ".updateDepartmentRow, .departmentRow", function () {
         updateDepartmentForm.classList.remove('was-validated')
     }
 })
-$('#updateDepartmentModal').on('shown.bs.modal', function (e) { 
+$('#updateDepartmentModal').on('shown.bs.modal', function (e) {
     $('#updateDepartmentName').focus();
 })
 
@@ -1087,7 +1096,7 @@ $('body').on('click', ".updateLocationRow, .locationRow", function () {
         //Get Location Data
         $.ajax({
             dataType: "json",
-            url: `php/getLocationById.php?id=${id}`,
+            url: `php/getLocationByID.php?id=${id}`,
             async: false,
             success: function (result) {
                 updateLocationForm.elements['updateLocationId'].value = id
@@ -1100,7 +1109,7 @@ $('body').on('click', ".updateLocationRow, .locationRow", function () {
         updateLocationForm.classList.remove('was-validated')
     }
 })
-$('#updateLocationModal').on('shown.bs.modal', function (e) { 
+$('#updateLocationModal').on('shown.bs.modal', function (e) {
     $('#updateLocationName').focus();
 })
 
@@ -1130,7 +1139,7 @@ $('body').on('click', ".deleteEmployeeRow", function () {
 //Delete Department
 $('body').on('click', ".deleteDepartmentRow", function () {
     let id = $(this).data('id')
-    
+
     //Get Employees
     $.ajax({
         dataType: "json",
@@ -1153,7 +1162,7 @@ $('body').on('click', ".deleteDepartmentRow", function () {
     //Get Department Data
     $.ajax({
         dataType: "json",
-        url: `php/getDepartmentById.php?id=${id}`,
+        url: `php/getDepartmentByID.php?id=${id}`,
         async: false,
         success: function (result) {
             $('#deleteDepartmentName').html(`${result.data[1]}`)
@@ -1192,7 +1201,7 @@ $('body').on('click', ".deleteLocationRow", function () {
     //Get Location Data
     $.ajax({
         dataType: "json",
-        url: `php/getLocationById.php?id=${id}`,
+        url: `php/getLocationByID.php?id=${id}`,
         async: false,
         success: function (result) {
             $('#deleteLocationName').html(`${result.data[1]}`)
@@ -1309,7 +1318,7 @@ updateLocationForm.addEventListener('submit', e => {
     if (!updateLocationForm.checkValidity()) {
         e.preventDefault()
     } else {
-        e.preventDefault()       
+        e.preventDefault()
         let formData = $('#updateLocationForm').serializeArray()
         updateOrAddLocation(formData[0], formData[1])
     }
@@ -1638,5 +1647,4 @@ $("th").click(function () {
         }
     }
 })
-
 
