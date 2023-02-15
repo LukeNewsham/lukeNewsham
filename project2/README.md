@@ -3,9 +3,8 @@
 
 An application which allows users to 'create, read, update and delete' data from a company directory MySql database. The data includes employees, departments and office locations.
 
-This project was created as 'Project 2' for IT Career Switch. I was given a pre-made database and asked to create a user-friendly application which would allow a user to create, read, update and delete data while protecting the integrity of the database.
+This project was created for project 2 from IT Career Switch.  A more rigorous reply to this specification was required as a user requirements document was needed to be prepared which, when signed off, triggers the release of SQL allowing to develop a “mobile first” application to maintain a company personnel database (MySQL). Sign-off is only achieved upon the student supplying an independently witnessed document providing confirmation of the system’s ability to perform error-free.
 
-This project took around 4 weeks and allowed me to solidify my full stack knowledge in a real-life project.
 
 ## Tech Stack
 
@@ -19,16 +18,16 @@ This project took around 4 weeks and allowed me to solidify my full stack knowle
 ## Features
 
 User Interaction
-- Navigate to the Employees, Departments or Locations pages with the side navigation panel
-- Add data for a new employee, department and location by pressing the add button on their respective pages, which opens a modal to input new data
-- Edit data for an employee, department and location by pressing the row edit button or pressing on the row itself which opens a modal to edit the data
-- Delete an employee, department and location by pressing the row edit button
+- Can navigate to the Employees, Departments or Locations pages with the side navigation panel
+- Can add data for a new employee, department or location by pressing the add button on their respective pages, which opens a modal to input new data
+- Can edit data for an employee, department or location by pressing the row edit button or pressing on the row itself which opens a modal to edit the data
+- Can delete an employee, department or location by pressing the row edit button
 - Fully responsive design for all screen sizes
 
 
 Database Integrity 
 - Unable to delete a department if there is an employee attached.
-- Unable to delete a location if there is an employee attached
+- Unable to delete a location if there is an department attached
 - Unable to give an employee an email that has already been taken
 - Unable to give a department a name that has already been taken
 - Unable to give a location a name that has already been taken.
