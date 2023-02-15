@@ -68,6 +68,9 @@ https://clipchamp.com/watch/m1zGTKub7No
 #### Pressing the search icon against a POI in the modal locates the POI on the map
 ![Gazetteer Screenshot 5](https://user-images.githubusercontent.com/95356508/218561352-a6fcaf82-c086-4e36-b99f-3bcd1f3d7ccf.png)
 
+#### Able to search other counrties by using a central retical and the search shortcut button
+![Gazetteer Screenshot 14](https://user-images.githubusercontent.com/95356508/218992624-e02bbbe5-2b4d-4d1b-bf93-6cf8193ff4ed.png)
+
 #### The expand button allows the modal to expand
 ![Gazetteer Screenshot 6](https://user-images.githubusercontent.com/95356508/218561368-339c3c17-ae7e-48ec-9b14-4ee45d51cf04.png)
 ![Gazetteer Screenshot 7](https://user-images.githubusercontent.com/95356508/218561379-b1b58828-f23a-428a-8fdc-a2b5b1c68f3a.png)
@@ -77,6 +80,9 @@ https://clipchamp.com/watch/m1zGTKub7No
 
 #### Locates the ISS and tracks movement
 ![Gazetteer Screenshot 9](https://user-images.githubusercontent.com/95356508/218561404-874b5b34-d2a7-4745-9c0a-acb38c4ccd4f.png)
+
+#### Fully responsive for all screen sizes
+![Mobile Screenshots](https://user-images.githubusercontent.com/95356508/218991999-5e227d4e-f57e-4f06-9dfe-48174dca0e19.png)
 
 
 ## Run Locally
