@@ -89,41 +89,18 @@ https://clipchamp.com/watch/m1zGTKub7No
 
 To run this project locally, a local php server is required. The instructions below are for XAMPP.
 
-First, move the entire project folder to http
+First, move the entire project folder to htdocs.
 
-Then with the command line:
-
-Go to the project directory
-
-Go to the backend
+Go to the project directory and then with the command line:
 
 ```bash
-  cd backend
+  cd backend/npm install
 ```
 
 ```bash
-  npm install  
+  cd ../frontend/npm install
 ```
-
-```bash
-  npm run start  
-```
-
-
-Go to the frontend
-
-```bash
-  cd ../frontend
-```
-
-```bash
-  npm install  
-```
-
-```bash
-  npm run start  
-```
-
+Finally, open with localhost. 
 
 ## API Reference
 
