@@ -12,13 +12,35 @@
     justify-content: center;
     align-items: stretch;
     flex-wrap: wrap;
-    margin-top: 2rem;
+    margin: 2rem 0;
     max-width: 80vw;
 
-    .arrow {
+    @media screen and (max-width: 1000px) {
+        flex-direction: column;
+        min-width: auto;
+        align-items: center;
+    }
+
+    .arrowRight {
         height: 100%;
         display: flex;
         align-items: center;
+
+        @media screen and (max-width: 1000px) {
+            display: none;    
+        }
+    }
+
+    .arrowDown {
+        height: 100%;
+        display: none;
+        align-items: center;
+        justify-content: center;
+
+        @media screen and (max-width: 1000px) {
+            display: flex;
+    
+        }
     }
 }
 
@@ -35,6 +57,13 @@
     padding: 2rem;
     background-color: white;
     box-shadow: 0 0 21px -7px rgb(195, 195, 195);
+
+    @media screen and (max-width: 1000px) {
+        min-width: auto;
+        margin: 2rem 0;
+        width: 100%;
+
+    }
 
     h3 {
         text-align: center;

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { AiFillEye, AiFillGithub } from 'react-icons/ai'
+import { BsPlayFill } from 'react-icons/bs'
+import { FaRegEye } from 'react-icons/fa'
+import { FiInfo } from 'react-icons/fi'
 import { animate, motion, useTransform } from 'framer-motion'
 import { urlFor, client } from '../../client'
 import AppWrap from '../../wrapper/AppWrap'
@@ -45,7 +48,7 @@ const Projects = () => {
       </h2>
 
       <div className='work-filter'>
-        {['All', 'Postgres SQL', 'Express JS', 'React JS', 'Node Js', 'Sass', 'Sanity', 'Bootstrap'].map((item, index) => (
+        {['All', 'PostgreSQL', 'Express', 'React', 'Redux', 'Node', 'Leaflet', 'Sass', 'Sanity', 'Bootstrap', 'JQuery', 'Php'].map((item, index) => (
 
           <div
             key={index}
@@ -69,7 +72,7 @@ const Projects = () => {
       >
         <div className='works'>
           {filterWork.map((work, index) => (
-            <div className='work-item flex' key={index}>
+            <a className='work-item flex' key={index} href={work.projectLink}>
               <div className='work-img flex'>
                 {work.imgUrl ? <img src={urlFor(work.imgUrl)} alt={work.name} />
                   : ''}
@@ -79,30 +82,45 @@ const Projects = () => {
                   transition={{ duration: 0.25, ease: 'easeInOut', staggerChildren: 0.5 }}
                   className='work-hover flex'
                 >
-                  <a href={work.projectLink} target='_blank' rel='norelfer'>
+                  {work.projectLink ?
+                    <a href={work.projectLink} target='_blank'>
+                      <motion.div
+                        whileInView={{ scale: [0, 1] }}
+                        whileHover={{ scale: [1, 0.9] }}
+                        transition={{ duration: 0.25 }}
+                        className='flex'
+                      >
+                        <FaRegEye />
+                      </motion.div>
+                    </a>
+                    :
+                    ''
+                  }
+
+                  {work.demoLink ?
+                    <a href={work.demoLink} target='_blank' >
+                      <motion.div
+                        whileInView={{ scale: [0, 1] }}
+                        whileHover={{ scale: [1, 0.9] }}
+                        transition={{ duration: 0.25 }}
+                        className='flex'
+                      >
+                        <BsPlayFill />
+                      </motion.div>
+                    </a>
+                    :
+                    ''
+                  }
+
+                  <a href={work.codeLink} target='_blank'>
                     <motion.div
                       whileInView={{ scale: [0, 1] }}
                       whileHover={{ scale: [1, 0.9] }}
                       transition={{ duration: 0.25 }}
                       className='flex'
                     >
-                      <AiFillEye />
-
+                      <FiInfo />
                     </motion.div>
-
-                  </a>
-
-                  <a href={work.codeLink} target='_blank' rel='norelfer'>
-                    <motion.div
-                      whileInView={{ scale: [0, 1] }}
-                      whileHover={{ scale: [1, 0.9] }}
-                      transition={{ duration: 0.25 }}
-                      className='flex'
-                    >
-                      <AiFillGithub />
-
-                    </motion.div>
-
                   </a>
 
                 </motion.div>
@@ -110,7 +128,7 @@ const Projects = () => {
               </div>
 
               <div className='work-content flex'>
-                
+
                 <div className='work-title flex'>
                   <p> {work.title} </p>
                 </div>
@@ -118,22 +136,57 @@ const Projects = () => {
                 <p class='used'> {work.used ? work.used : 'No Data'}</p>
 
                 <p style={{ marginTop: 10 }}> {work.description} </p>
-                <div className='flex'>
 
-                  {/* {
-                  work.tags.map((item) => (
-                    <p className = 'work-tag'> {item} </p>
-                  ))
-                } */}
+                <div class='linksMobile'>
+                  {work.projectLink ?
+                    <a href={work.projectLink} target='_blank'>
+                      <motion.div
+                        whileInView={{ scale: [0, 1] }}
+                        whileHover={{ scale: [1, 0.9] }}
+                        transition={{ duration: 0.25 }}
+                        className='flex'
+                      >
+                        <FaRegEye />
+                      </motion.div>
+                    </a>
+                    :
+                    ''
+                  }
 
+                  {work.demoLink ?
+                    <a href={work.demoLink} target='_blank' >
+                      <motion.div
+                        whileInView={{ scale: [0, 1] }}
+                        whileHover={{ scale: [1, 0.9] }}
+                        transition={{ duration: 0.25 }}
+                        className='flex'
+                      >
+                        <BsPlayFill />
+                      </motion.div>
+                    </a>
+                    :
+                    ''
+                  }
+
+                  <a href={work.codeLink} target='_blank'>
+                    <motion.div
+                      whileInView={{ scale: [0, 1] }}
+                      whileHover={{ scale: [1, 0.9] }}
+                      transition={{ duration: 0.25 }}
+                      className='flex'
+                    >
+                      <FiInfo />
+                    </motion.div>
+                  </a>
                 </div>
+
 
 
 
 
               </div>
 
-            </div>
+            </a>
           ))}
         </div>
 

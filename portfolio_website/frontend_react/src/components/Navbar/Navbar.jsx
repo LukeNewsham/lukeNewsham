@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import images from '../../constants/images'
 import { HiMenuAlt4, HiX } from 'react-icons/hi'
+import { AiFillLinkedin, AiFillGithub } from 'react-icons/ai'
 import { motion } from 'framer-motion'
 
 import './Navbar.scss'
 
-const Navbar = ({navbarBackground}) => {
+const Navbar = ({ navbarBackground }) => {
   const [toggle, setToggle] = useState(false)
 
   return (
@@ -24,15 +25,26 @@ const Navbar = ({navbarBackground}) => {
           ))}
         </ul>
 
-        <div className='letsConnectBtnNav'> <a className='letsConnectBtn' href={`#contact`}> Lets Connect  </a>
+
+        <div className='connectButtons'>
+          <a class='socialBtn' href={`https://www.linkedin.com/in/lukenewsham/`} target="_blank">
+            <AiFillLinkedin />
+          </a>
+          <a class='socialBtn' href={`https://github.com/LukeNewsham`} target="_blank">
+            <AiFillGithub />
+          </a>
+          <a className='letsConnectBtn' href={`#contact`}> Let's Connect  </a>
         </div>
 
         <div className='navbar-menu'>
           <HiMenuAlt4 onClick={() => setToggle(true)} />
           {toggle && (
-            <motion.div whileInView={{ x: [300, 0] }} transition={{ duration: 0.85, ease: 'easeOut' }}>
+            <motion.div class='navBar-menu-side' whileInView={{ x: [300, 0], opacity: [0, 1] }} transition={{ duration: 0.5, ease: 'easeOut' }}>
               <HiX onClick={() => setToggle(false)} />
+
+
               <ul>
+
                 {['hello', 'about', 'skills', 'projects', 'timeline', 'contact'].map((item) => (
                   <li key={item}>
 
@@ -40,6 +52,14 @@ const Navbar = ({navbarBackground}) => {
 
                   </li>
                 ))}
+                <li>
+                  <a class='socialBtn' href={`https://www.linkedin.com/in/lukenewsham/`} target="_blank">
+                    <AiFillLinkedin />
+                  </a>
+                  <a class='socialBtn' href={`https://github.com/LukeNewsham`} target="_blank">
+                    <AiFillGithub />
+                  </a>
+                </li>
               </ul>
             </motion.div>
           )}

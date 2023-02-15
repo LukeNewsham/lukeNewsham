@@ -25,6 +25,11 @@ export default {
       type: 'string',
     },
     {
+      name: 'demoLink',
+      title: 'Demo Link',
+      type: 'string',
+    },
+    {
       name: 'imgUrl',
       title: 'ImageUrl',
       type: 'image',

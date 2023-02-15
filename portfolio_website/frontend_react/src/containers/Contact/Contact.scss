@@ -55,6 +55,7 @@
     }
 }
 
+
 .contact-form {
     width: 60%;
     flex-direction: column;
@@ -70,6 +71,7 @@
         width: 100%;
         margin: 0.75rem 0;
         cursor: pointer;
+        text-align: center;
 
         transition: all 0.3s ease-in-out;
 
@@ -79,7 +81,7 @@
             padding: 1rem;
             border: none;
             border-radius: 1rem;
-            background-color: white;            
+            background-color: white;
             outline: none;
         }
 
@@ -114,6 +116,50 @@
             width: 100%;
             margin: 1rem 0;
         }
-        
+
+    }
+
+
+
+    .connectButtons {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: solid 1px rgb(181, 181, 181);
+
+        .linkedIn:hover {
+            color: rgb(45, 119, 171);
+            transition: 0.2s ease-in-out;
+        }
+
+        .github:hover {
+            color: rgb(19, 19, 19);
+            transition: 0.2s ease-in-out;
+        }
+
+        .socialBtn {
+            margin: 1rem;
+            // background-color: var(--secondary-color);
+            height: 3em;
+            width: 3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 100%;
+            color: grey;
+            border: solid 2px transparent;
+
+            
+
+            svg {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+
     }
 }

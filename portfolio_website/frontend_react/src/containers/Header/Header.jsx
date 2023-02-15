@@ -35,7 +35,7 @@ const Header = () => {
           </div>
 
           <div className='letsConnectHeader'>
-            <a className='letsConnectBtn' href={`#contact`}> Lets Connect </a>
+            <a className='letsConnectBtn' href={`#contact`}> Let's Connect </a>
           </div>
 
         </div>

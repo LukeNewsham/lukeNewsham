@@ -29,7 +29,9 @@ const Timeline = () => {
 
   return (
     <>
-      <h2> Timeline </h2>
+      <h2> Curriculum Vitae <span> Timeline </span> </h2>
+
+      <a className='cvButton' href={'https://lukenewshamportfolio.me/Luke Newsham CV.pdf'} target='_blank'> CV Document </a>
       <div className='timeline-container'>
         <VerticalTimeline>
 

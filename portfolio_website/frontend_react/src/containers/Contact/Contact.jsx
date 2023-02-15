@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { animate, motion, useTransform } from 'framer-motion'
+import { AiFillLinkedin, AiFillGithub } from 'react-icons/ai'
 import { urlFor, client } from '../../client'
 import AppWrap from '../../wrapper/AppWrap'
 import { HiOutlineMail, HiOutlineDeviceMobile } from 'react-icons/hi'
+import $ from 'jquery';
+
 
 import './Contact.scss'
 
@@ -13,19 +16,39 @@ const Contact = () => {
   const [loading, setLoading] = useState(false)
 
 
+
+
   const handleSubmit = () => {
+
     setLoading(true);
 
-    setInterval(function () {
-      setLoading(false);
-      setIsFormSubmitted(true)
-    }, 10000)
+    let formData = $('#contactForm').serializeArray()
+    console.log(formData[0].value, formData[1].value, formData[2].value)
+
+    $.ajax({
+      url: 'https://lukenewshamportfolio.me/php/SMTPMailer.php',
+      // url: 'http://localhost/portfolio_website/SMTPMailer.php',
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        name: formData[0].value,
+        email: formData[1].value,
+        message: formData[2].value,
+      },
+      success: function (result) {
+        console.log(result)
+        if (result.status.code == "200") {
+          setLoading(false);
+          setIsFormSubmitted(true)
+        }
+      }
+    })
   }
 
   return (
     <div className='contact-form flex'>
-      <h2> Lets Connect </h2>
-
+      <h2> Let's <span> Connect </span> </h2>
+      {/* 
       <div className='contact-cards'>
 
         <div className='contact-card'>
@@ -40,13 +63,20 @@ const Contact = () => {
             07548839424
           </a>
         </div>
-      </div>
+      </div> */}
 
-      <h3> Or use the contact form </h3>
+      <div className='connectButtons'>
+        <a className='socialBtn linkedIn' href={`https://www.linkedin.com/in/lukenewsham/`} target="_blank">
+          <AiFillLinkedin />
+        </a>
+        <a className='socialBtn github' href={`https://github.com/LukeNewsham`} target="_blank">
+          <AiFillGithub />
+        </a>
+      </div>
 
 
       {!isFormSubmitted ?
-        <form  method='post' action='https://lukenewshamportfolio.me/php/SMTPMailer.php'>
+        <form method='post' id='contactForm' >
           <div className='flex'>
             <input type='text' placeholder='Your Name' name='name' required>
             </input>
@@ -63,7 +93,7 @@ const Contact = () => {
               required>
             </textarea>
           </div>
-          <button type='submit' className='' onClick={handleSubmit}>
+          <button type='button' className='' onClick={handleSubmit}>
             {loading ? 'Sending...' : 'Send Message'}
           </button>
         </form>

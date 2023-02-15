@@ -26,6 +26,26 @@
 
 }
 
+.cvButton {
+    padding: 1rem;
+    border: solid 2px var(--secondary-color);
+    border-radius: 0.4rem;
+    background-color: transparent;
+    color: var(--secondary-color);
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 3rem;
+
+    &:hover {
+        background-color: var(--secondary-color);
+        color: white;
+        transition: 0.1s ease-in-out;
+    }
+
+}
+
 .timelineText {
     box-shadow: 0 0 15px #8080804a;
 

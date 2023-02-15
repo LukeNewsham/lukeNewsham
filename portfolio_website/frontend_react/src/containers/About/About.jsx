@@ -58,7 +58,15 @@ const About = () => {
               <div>
                 {(abouts.length - 1) !== index
                   ?
-                  <h1 className='arrow'> ⇨ </h1>
+                  <h1 className='arrowRight'> ⇨ </h1>
+                  :
+                  ''}
+              </div>
+
+              <div>
+                {(abouts.length - 1) !== index
+                  ?
+                  <h1 className='arrowDown'> ⇩ </h1>
                   :
                   ''}
               </div>
