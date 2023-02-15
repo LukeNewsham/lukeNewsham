@@ -5,9 +5,9 @@
 
 A single-page, fully responsive, search application which allows users to explore countries for weather, general information and points of interest. 
 
-Was given as a brief for 'project 1' from IT Career Switch. The app was researched and made by myself with the occasional help from my tutor if found myself stuck at a wall.
+This project was created for project 1 from IT Career Switch. The specification was to reply to a website specification for a map-based app to provide information on countries – with a focus on a “mobile-first” development. Preferably using a framework, to then develop HTML, CSS and JavaScript with JQuery modules that use PHP server-based components to source data from third-party APIs (Geonames, OpenWeather). The solution is assessed on its delivery to specification, functionality, and usability.
 
-The project took around 5 weeks and allowed me to gain invaluable experience from the unique challenges faced.
+
 
 
 ## Tech Stack
@@ -22,19 +22,19 @@ The project took around 5 weeks and allowed me to gain invaluable experience fro
 There are two main 'modes' within the app, Country Search and Global Search. The main, and most developed, is Country Search.
 
 Country Search (Map)
-- Displays users location after requesting access
-- Search for a country with the select dropdown search bar
-- Search for a country by moving the screen and hovering the central reticle over a country
-- Show country cities for the chosen country
+- Displays the users location after requesting access
+- Can search for a country with the select dropdown search bar
+- Can search for a country by moving the screen and hovering the central reticle over a country
+- Shows country cities for the chosen country
 - The number of cities shown varies depending on the zoom level, for a clean user experience
-- Toggle what weather data is displaying on the city labels, ranging from general weather conditions to humidity
-- Select a city by pressing on a city label, to change points of interest and data found in the country search modal
-- Use the shortcut buttons found on the side to quickly change the points of interest shown on the map.
-- Use the shortcut buttons to quickly navigate to the users location, navigate to chosen city or toggle all borders
+- Can toggle what weather data is displaying on the city labels, ranging from general weather conditions to humidity
+- Can select a city by pressing on a city label, to change points of interest and data found in the country search modal
+- There are shortcut buttons found on the side to quickly change the points of interest shown on the map.
+- Can use shortcut buttons to quickly navigate to the user's location, navigate to chosen city or toggle all borders
 
 Country Search (Modal)
 - Includes an expand and collapse button which changes the size of the modal depending on the screen size
-- Display the country flag and data such as population and currency
+- Displays the country flag and data such as population and currency
 - Displays chosen country city, which can be changed with a dropdown select search box
 - (Tab 1 - More) Displays all chosen city weather data, along with a general description and images for the city
 - (Tab 2 - points of Interest) Includes a select dropdown option box which changes the category of POI on the map and within the modal 
@@ -68,7 +68,7 @@ https://clipchamp.com/watch/m1zGTKub7No
 #### Pressing the search icon against a POI in the modal locates the POI on the map
 ![Gazetteer Screenshot 5](https://user-images.githubusercontent.com/95356508/218561352-a6fcaf82-c086-4e36-b99f-3bcd1f3d7ccf.png)
 
-#### Able to search other counrties by using a central retical and the search shortcut button
+#### Able to search other countries by using a central reticle and the search shortcut button
 ![Gazetteer Screenshot 14](https://user-images.githubusercontent.com/95356508/218992624-e02bbbe5-2b4d-4d1b-bf93-6cf8193ff4ed.png)
 
 #### The expand button allows the modal to expand
