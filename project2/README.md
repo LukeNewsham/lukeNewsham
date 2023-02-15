@@ -58,6 +58,9 @@ https://clipchamp.com/watch/loZLUF9BjcO
 #### Stats Page
 ![AD Stats SS](https://user-images.githubusercontent.com/95356508/218555655-db9124fd-ec3c-4ff9-8b37-cc03d849909a.png)
 
+#### Fully responsive for all screen sizes
+![AD Mobile Screenshots](https://user-images.githubusercontent.com/95356508/218993811-d88d3a3a-aad0-48de-842a-ecce3d7198d3.png)
+
 ## AJAX Requests
 
 ### GET REQUESTS
