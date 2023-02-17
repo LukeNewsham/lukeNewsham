@@ -9,7 +9,6 @@ This project was created for project 1 from IT Career Switch. The specification 
 
 
 
-
 ## Tech Stack
 
 **Client:** HMTL - Css - leaflet.js - jQuery
@@ -51,9 +50,11 @@ Global Search (Modal)
 - (Tab 2 - ISS Location) Allows the user to start and stop showing the location of the ISS on the map
 
 
-## Screenshots and Demo
+## Screenshots, Live Demo and Demo Video
 
-https://clipchamp.com/watch/m1zGTKub7No
+Live: https://lukenewshamportfolio.me/project1/
+
+Video: https://clipchamp.com/watch/m1zGTKub7No
 
 #### Shows user location and automatically chooses user country on load
 ![Gazetteer Screenshot 1](https://user-images.githubusercontent.com/95356508/218561314-d99d8c1d-f91b-4439-bf50-72c3c408c3f0.png)
