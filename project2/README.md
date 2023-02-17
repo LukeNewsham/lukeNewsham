@@ -32,9 +32,11 @@ Database Integrity
 - Unable to give a department a name that has already been taken
 - Unable to give a location a name that has already been taken.
 
-## Screenshots and DEMO
+## Screenshots, Live Demo and Demo Video
 
-https://clipchamp.com/watch/loZLUF9BjcO
+Live: https://lukenewshamportfolio.me/project2/
+
+Video: https://clipchamp.com/watch/loZLUF9BjcO
 
 #### Employees Page
 ![AD Employees SS](https://user-images.githubusercontent.com/95356508/218555579-8e994b70-f8c0-411e-9e39-6078de0671bf.png)
